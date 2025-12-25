@@ -1,19 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/terminal.css' %}">
+{% endblock %}
 
 {% block body %}
-<style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        overflow: hidden;
-    }
-    #terminal {
-        height: calc(100vh - 60px);
-        width: 100%;
-        background-color: #1e1e1e;
-    }
-</style>
-
 <div id="terminal"></div>
 
 <script>
@@ -92,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } 
                 }));
             }
-        }, 100);
+        }, 250);
     });
 });
 </script>
