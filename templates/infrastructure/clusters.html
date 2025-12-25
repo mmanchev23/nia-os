@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <input
+        type="search" 
+        name="q" 
+        placeholder="Search clusters ..." 
+        hx-get="{% url 'clusters' %}" 
+        hx-trigger="keyup changed delay:500ms" 
+        hx-target="#table"
+    >
+
+    <button
+        hx-get="{% url 'cluster_create' %}" 
+        hx-target="#cluster-dialog"
+    >
+        Add New Cluster
+    </button>
+
+    <div id="messages-area">
+        {% partialdef messages %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endpartialdef %}
+    </div>
+
+    <div id="table">
+        {% partialdef cluster-table inline %}
+            {% with swap_oob=True %}
+                <div id="messages-area" hx-swap-oob="true">
+                    {% partial messages %}
+                </div>
+            {% endwith %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Nodes</th>
+                        <th>Summary</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cluster in clusters %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'cluster' cluster.id %}">
+                                {{ cluster.name }}
+                            </a>
+                        </td>
+                        <td>{{ cluster.node_count }}</td>
+                        <td>{{ cluster.summary|default:"-" }}</td>
+                        <td>
+                            <button
+                                hx-get="{% url 'cluster_update' cluster.id %}" 
+                                hx-target="#cluster-dialog"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                hx-delete="{% url 'cluster_delete' cluster.id %}" 
+                                hx-confirm="Delete this cluster?"
+                                hx-target="#table"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>No clusters found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div>
+                {% if clusters.has_previous %}
+                    <a
+                        href="#" 
+                        hx-get="?page={{ clusters.previous_page_number }}&q={{ query }}" 
+                        hx-target="#table"
+                    >
+                        Previous
+                    </a>
+                {% endif %}
+                <span>{{ clusters.number }} of {{ clusters.paginator.num_pages }}</span>
+                {% if clusters.has_next %}
+                    <a
+                        href="#" 
+                        hx-get="?page={{ clusters.next_page_number }}&q={{ query }}" 
+                        hx-target="#table"
+                    >
+                        Next
+                    </a>
+                {% endif %}
+            </div>
+        {% endpartialdef %}
+    </div>
+
+    <dialog id="cluster-dialog"></dialog>
+
+    {% partialdef cluster-form %}
+        <form method="post" hx-post="{{ url }}" hx-target="#table">
+            <h3>{{ title }}</h3>
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div>
+                <button type="submit">Save</button>
+                <button type="button" onclick="document.getElementById('cluster-dialog').close()">Cancel</button>
+            </div>
+        </form>
+    {% endpartialdef %}
+    <script>
+        const dialog = document.getElementById("cluster-dialog");
+        
+        dialog.addEventListener("htmx:afterSwap", (evt) => {
+            dialog.showModal();
+        });
+
+        document.body.addEventListener("closeModal", (evt) => {
+            dialog.close();
+        });
+    </script>
+{% endblock %}

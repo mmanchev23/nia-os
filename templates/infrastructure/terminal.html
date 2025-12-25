@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block body %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    #terminal {
+        height: calc(100vh - 60px);
+        width: 100%;
+        background-color: #1e1e1e;
+    }
+</style>
+
+<div id="terminal"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const term = new Terminal({
+        cursorBlink: true,
+        fontSize: 14,
+        fontFamily: "Menlo, Monaco, \"Courier New\", monospace",
+        theme: {
+            background: "#1e1e1e",
+            foreground: "#d4d4d4",
+        }
+    });
+
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+
+    const terminalDiv = document.getElementById("terminal");
+    term.open(terminalDiv);
+
+    fitAddon.fit();
+
+    const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+    const socketUrl = protocol + window.location.host + `/ws/infrastructure/nodes/{{ node.id }}/terminal/`;
+    const socket = new WebSocket(socketUrl);
+
+    term.onData(data => {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ "data": data }));
+        }
+    });
+
+    socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.output) {
+            term.write(msg.output);
+        }
+    };
+
+    socket.onopen = () => {
+        term.write(`\r\n\x1b[32m[NIA-OS] Connection established.\x1b[0m\r\n`);
+        term.focus();
+
+        socket.send(JSON.stringify({ 
+            "resize": {
+                "cols": term.cols,
+                "rows": term.rows
+            } 
+        }));
+    };
+
+    socket.onclose = () => {
+        term.options.cursorBlink = false;
+        term.write(`\r\n\x1b[33m[NIA-OS] Session ended. Redirecting to cluster details...\x1b[0m\r\n`);
+
+        setTimeout(() => {
+            window.location.href = "{% url 'cluster' node.cluster.id %}"; 
+        }, 2500);
+    };
+
+    socket.onerror = (e) => {
+        term.write(`\r\n\x1b[31m[NIA-OS] Connection Error.\x1b[0m\r\n`);
+    };
+
+    let resizeTimeout;
+
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            fitAddon.fit();
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({ 
+                    "resize": {
+                        "cols": term.cols,
+                        "rows": term.rows
+                    } 
+                }));
+            }
+        }, 100);
+    });
+});
+</script>
+{% endblock %}

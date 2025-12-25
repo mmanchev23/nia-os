@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div>
+    <a href="{% url 'clusters' %}">&larr; Back to Clusters</a>
+    <h1>{{ cluster.name }}</h1>
+    <p>{{ cluster.summary|default:"No description provided." }}</p>
+</div>
+
+<div>
+    <h3>Nodes ({{ cluster.nodes.count }})</h3>
+    <input
+        type="search" 
+        name="q" 
+        placeholder="Search nodes ..." 
+        hx-get="{% url 'cluster' cluster.id %}" 
+        hx-trigger="keyup changed delay:500ms" 
+        hx-target="#table"
+    >
+    <button
+        hx-get="{% url 'node_create' %}?cluster_id={{ cluster.id }}" 
+        hx-target="#node-dialog"
+    >
+        Add New Node
+    </button>
+</div>
+
+<div id="messages-area">
+    {% partialdef messages %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endpartialdef %}
+</div>
+
+<div id="table">
+    {% partialdef node-table inline %}
+        {% with swap_oob=True %}
+            <div id="messages-area" hx-swap-oob="true">
+                {% partial messages %}
+            </div>
+        {% endwith %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Hostname</th>
+                    <th>IP Address</th>
+                    <th>Port</th>
+                    <th>User</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for node in nodes %}
+                <tr>
+                    <td>
+                        <a href="{% url 'terminal' node.id %}">
+                            {{ node.hostname }}
+                        </a>
+                    </td>
+                    <td>{{ node.ip_address }}</td>
+                    <td>{{ node.port }}</td>
+                    <td>{{ node.username }}</td>
+                    <td>
+                        <button
+                            hx-get="{% url 'node_update' node.id %}"
+                            hx-target="#node-dialog"
+                        >
+                            Edit
+                        </button>
+                        
+                        <button
+                            hx-delete="{% url 'node_delete' node.id %}"
+                            hx-confirm="Are you sure you want to delete {{ node.hostname }}?"
+                            hx-target="#table"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">
+                        No nodes found in this cluster. 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            {% if nodes.has_previous %}
+                <a
+                    href="#" 
+                    hx-get="?page={{ nodes.previous_page_number }}&q={{ query }}" 
+                    hx-target="#table"
+                >
+                    Previous
+                </a>
+            {% endif %}
+            
+            <span>
+                {{ nodes.number }} of {{ nodes.paginator.num_pages }}
+            </span>
+            
+            {% if nodes.has_next %}
+                <a
+                    href="#" 
+                    hx-get="?page={{ nodes.next_page_number }}&q={{ query }}" 
+                    hx-target="#table"
+                >
+                    Next
+                </a>
+            {% endif %}
+        </div>
+    {% endpartialdef %}
+</div>
+
+<dialog id="node-dialog"></dialog>
+
+{% partialdef node-form %}
+    <form method="post" hx-post="{{ url }}" hx-target="#table">
+        <h3>{{ title }}</h3>
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div>
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('node-dialog').close()">Cancel</button>
+        </div>
+    </form>
+{% endpartialdef %}
+
+<script>
+    const dialog = document.getElementById("node-dialog");
+    
+    dialog.addEventListener("htmx:afterSwap", (evt) => {
+        dialog.showModal();
+    });
+
+    document.body.addEventListener("closeModal", (evt) => {
+        dialog.close();
+    });
+</script>
+{% endblock %}

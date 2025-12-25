@@ -36,6 +36,11 @@ class Cluster(BaseModel):
     class Meta:
         verbose_name = _("Cluster")
         verbose_name_plural = _("Clusters")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "user"], name="unique_cluster_name_per_user"
+            )
+        ]
 
 
 class Node(BaseModel):
@@ -88,4 +93,12 @@ class Node(BaseModel):
     class Meta:
         verbose_name = _("Node")
         verbose_name_plural = _("Nodes")
-        unique_together = ["cluster", "hostname"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["hostname", "cluster"], name="unique_node_hostname_per_cluster"
+            ),
+            models.UniqueConstraint(
+                fields=["ip_address", "cluster"],
+                name="unique_node_ip_address_per_cluster",
+            ),
+        ]
