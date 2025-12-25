@@ -13,6 +13,7 @@ from config.middlewares.htmx import HttpRequest
 
 from .dtos import ClusterDTO, NodeDTO
 from .forms import ClusterForm, NodeForm
+from .models import Cluster, Node
 from .services import ClusterService, NodeService
 
 
@@ -75,7 +76,13 @@ def cluster_create(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def cluster(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
-    cluster = ClusterService.get(cluster_id, request.user)
+    try:
+        cluster = ClusterService.get(cluster_id, request.user)
+    except Cluster.DoesNotExist:
+        messages.error(request, "Cluster not found.")
+        clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
+        context = {"clusters": Paginator(clusters, 10).page(1)}
+        return render(request, "infrastructure/clusters.html#cluster-table", context)
 
     nodes = NodeService.list(request.user, cluster)
 
@@ -100,7 +107,15 @@ def cluster(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
 
 @login_required
 def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
-    cluster = ClusterService.get(cluster_id, request.user)
+    try:
+        cluster = ClusterService.get(cluster_id, request.user)
+    except Cluster.DoesNotExist:
+        messages.error(request, "Cluster not found.")
+        clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
+        context = {"clusters": Paginator(clusters, 10).page(1)}
+        response = render(request, "infrastructure/clusters.html#cluster-table", context)
+        response["HX-Trigger"] = "closeModal"
+        return response
 
     if request.method == "POST":
         form = ClusterForm(request.POST, instance=cluster)
@@ -183,8 +198,11 @@ def node_create(request: HttpRequest) -> HttpResponse:
         initial = {}
         cluster_id = request.GET.get("cluster_id")
         if cluster_id:
-            cluster_obj = ClusterService.get(cluster_id, request.user)
-            initial["cluster"] = cluster_obj
+            try:
+                cluster_obj = ClusterService.get(cluster_id, request.user)
+                initial["cluster"] = cluster_obj
+            except Cluster.DoesNotExist:
+                pass
 
         form = NodeForm(request.user, initial=initial)
 
@@ -194,7 +212,11 @@ def node_create(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
-    node = NodeService.get(node_id, request.user)
+    try:
+        node = NodeService.get(node_id, request.user)
+    except Node.DoesNotExist:
+        messages.error(request, "Node not found.")
+        return HttpResponse(status=404)
 
     if request.method == "POST":
         form = NodeForm(request.user, request.POST, instance=node)
@@ -236,7 +258,12 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
 @login_required
 @require_http_methods(["DELETE"])
 def node_delete(request: HttpRequest, node_id: UUID) -> HttpResponse:
-    node = NodeService.get(node_id, request.user)
+    try:
+        node = NodeService.get(node_id, request.user)
+    except Node.DoesNotExist:
+        messages.error(request, "Node not found.")
+        return HttpResponse(status=404)
+
     cluster = node.cluster
 
     NodeService.delete(node_id, request.user)
@@ -250,5 +277,10 @@ def node_delete(request: HttpRequest, node_id: UUID) -> HttpResponse:
 
 @login_required
 def terminal(request: HttpRequest, node_id: UUID) -> HttpResponse:
-    node = NodeService.get(node_id, request.user)
+    try:
+        node = NodeService.get(node_id, request.user)
+    except Node.DoesNotExist:
+        messages.error(request, "Node not found.")
+        return HttpResponse(status=404)
+
     return render(request, "infrastructure/terminal.html", {"node": node})

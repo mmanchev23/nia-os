@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 from encrypted_fields import fields
@@ -84,6 +85,7 @@ class Node(BaseModel):
         default=22,
         null=False,
         blank=False,
+        validators=[MinValueValidator(1), MaxValueValidator(65535)],
         verbose_name=_("Port"),
     )
 

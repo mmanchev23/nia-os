@@ -44,7 +44,7 @@ class ClusterService:
         deleted, _ = Cluster.objects.filter(id=cluster_id, user=user).delete()
 
         if deleted == 0:
-            raise Cluster.DoesNotExist("Cluster not found")
+            raise Cluster.DoesNotExist()
 
 
 class NodeService:
@@ -98,4 +98,4 @@ class NodeService:
         deleted, _ = Node.objects.filter(id=node_id, cluster__user=user).delete()
 
         if deleted == 0:
-            raise Node.DoesNotExist("Node not found")
+            raise Node.DoesNotExist()

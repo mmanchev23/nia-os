@@ -1,10 +1,13 @@
 import json
 import asyncio
 import asyncssh
+import logging
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .models import Node
+
+logger = logging.getLogger(__name__)
 
 
 class NodeTerminalConsumer(AsyncWebsocketConsumer):
@@ -17,7 +20,11 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             return
 
         try:
-            self.node = await Node.objects.aget(id=self.node_id)
+            self.node = await Node.objects.select_related('cluster__user').aget(id=self.node_id)
+            # Verify that the authenticated user owns the cluster containing this node
+            if self.node.cluster.user != self.user:
+                await self.close()
+                return
         except Node.DoesNotExist:
             await self.close()
             return
@@ -40,6 +47,7 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             try:
                 await self.ssh_task
             except asyncio.CancelledError:
+                # Task cancellation is expected during websocket disconnect; no further action needed.
                 pass
 
         if self.ssh_conn:
@@ -60,17 +68,20 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             if self.ssh_channel:
                 try:
                     self.ssh_channel.set_terminal_size(self.term_cols, self.term_rows)
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.error(f"Failed to resize terminal: {e}")
 
         if input_data and self.ssh_channel:
             try:
                 self.ssh_channel.write(input_data)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Failed to write to SSH channel: {e}")
 
     async def start_ssh_session(self) -> None:
         try:
+            # Security note: known_hosts=None disables host key verification.
+            # This is a security trade-off that makes the connection vulnerable to MITM attacks.
+            # Consider implementing proper host key management for production use.
             self.ssh_conn = await asyncssh.connect(
                 self.node.ip_address,
                 port=self.node.port,
@@ -99,9 +110,10 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             await self.close()
 
         except Exception as e:
+            logger.error(f"SSH connection error for node {self.node.hostname}: {e}")
             await self.send(
                 text_data=json.dumps(
-                    {"output": f"\r\n\x1b[31mSSH Error: {str(e)}\x1b[0m\r\n"}
+                    {"output": "\r\n\x1b[31mSSH Error: Connection failed.\x1b[0m\r\n"}
                 )
             )
             await self.close()

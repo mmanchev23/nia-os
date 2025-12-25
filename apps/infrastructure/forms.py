@@ -14,7 +14,7 @@ class NodeForm(forms.ModelForm):
         model = Node
         fields = ["cluster", "hostname", "ip_address", "username", "password", "port"]
         widgets = {
-            "password": forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+            "password": forms.PasswordInput(attrs={"autocomplete": "current-password"}),
         }
 
     def __init__(self, user, *args, **kwargs) -> None:

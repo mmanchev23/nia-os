@@ -31,7 +31,7 @@ class NodeAdmin(admin.ModelAdmin):
         "hostname",
         "ip_address",
         "cluster",
-        "cluster__user",
+        "cluster_user",
         "created",
         "updated",
     ]
@@ -47,3 +47,9 @@ class NodeAdmin(admin.ModelAdmin):
     ]
     search_help_text = _("Search by node hostname and ip address or cluster details.")
     autocomplete_fields = ["cluster"]
+
+    def cluster_user(self, obj):
+        return obj.cluster.user
+
+    cluster_user.short_description = _("User")
+    cluster_user.admin_order_field = "cluster__user"
