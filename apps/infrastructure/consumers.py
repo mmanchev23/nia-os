@@ -20,8 +20,7 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             return
 
         try:
-            self.node = await Node.objects.select_related('cluster__user').aget(id=self.node_id)
-            # Verify that the authenticated user owns the cluster containing this node
+            self.node = await Node.objects.select_related("cluster__user").aget(id=self.node_id)
             if self.node.cluster.user != self.user:
                 await self.close()
                 return
@@ -47,7 +46,6 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             try:
                 await self.ssh_task
             except asyncio.CancelledError:
-                # Task cancellation is expected during websocket disconnect; no further action needed.
                 pass
 
         if self.ssh_conn:
@@ -79,9 +77,6 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
 
     async def start_ssh_session(self) -> None:
         try:
-            # Security note: known_hosts=None disables host key verification.
-            # This is a security trade-off that makes the connection vulnerable to MITM attacks.
-            # Consider implementing proper host key management for production use.
             self.ssh_conn = await asyncssh.connect(
                 self.node.ip_address,
                 port=self.node.port,

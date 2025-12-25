@@ -142,11 +142,4 @@ SITE_ID = 1
 
 
 # Third-party app settings
-# NOTE:
-# This wildcard import is intentional: `config.plugins.fernet` is a settings
-# fragment that defines additional Django settings related to Fernet-based
-# encryption (for example, FERNET_* configuration values) which are expected
-# to be added directly into this module's namespace.
-# When modifying `config.plugins.fernet`, keep this comment in sync with the
-# settings it is expected to provide.
 from config.plugins.fernet import *  # noqa
