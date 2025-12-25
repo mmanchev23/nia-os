@@ -1,0 +1,28 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+      - test
+      - dev
+  pull_request:
+    branches:
+      - master
+      - test
+      - dev
+
+jobs:
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.14-alpine
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install ruff
+        run: pip install ruff --quiet
+      - name: Run ruff lint
+        run: ruff check .
+      - name: Run ruff format check
+        run: ruff format --check .

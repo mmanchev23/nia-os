@@ -1,0 +1,15 @@
+[project]
+name = "nia-os"
+version = "1.0.0"
+description = "Network Infrastructure Automation & Orchestration System"
+requires-python = ">=3.14"
+readme = "readme.md"
+license = "license.md"
+dependencies = [
+    "asyncssh>=2.22.0",
+    "channels[daphne,types]>=4.3.2",
+    "django>=6.0",
+    "django-environ>=0.12.0",
+    "django-fernet-encrypted-fields>=0.3.1",
+    "django-htmx>=1.27.0",
+]
