@@ -29,12 +29,14 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 THIRD_PARTY_APPS = [
     "daphne",
     "django_htmx",
+    "django_q",
 ]
 
 LOCAL_APPS = [
     "apps.authentication",
     "apps.core",
     "apps.infrastructure",
+    "apps.automation",
 ]
 
 INSTALLED_APPS = [
@@ -143,3 +145,4 @@ SITE_ID = 1
 
 # Third-party app settings
 from config.plugins.fernet import *  # noqa
+from config.plugins.q2 import *  # noqa

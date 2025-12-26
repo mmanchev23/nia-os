@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div>
+    <a href="{% url 'job_list' %}">&larr; Back to Jobs</a>
+    <h1>Job: {{ job.name }}</h1>
+    
+    <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <strong>Command:</strong>
+        <pre>{{ job.command }}</pre>
+        
+        <p>
+            <strong>Target:</strong> 
+            {% if job.node %}Node: {{ job.node.hostname }}{% else %}Cluster: {{ job.cluster.name }}{% endif %}
+            |
+            <strong>Schedule:</strong> 
+            {% if job.schedule %}{{ job.schedule.schedule_type }} (Next: {{ job.schedule.next_run }}){% else %}Run Once{% endif %}
+        </p>
+    </div>
+</div>
+
+<h3>Execution History</h3>
+
+<div id="history-table">
+    {% partialdef history-table inline %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Node</th>
+                    <th>Status</th>
+                    <th>Output</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exec in executions %}
+                <tr>
+                    <td>{{ exec.started_at|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ exec.node.hostname }}</td>
+                    <td>
+                        {% if exec.status == "SUCCESS" %}
+                            <span style="color: green;">✔ Success</span>
+                        {% elif exec.status == "FAILED" %}
+                            <span style="color: red;">✖ Failed</span>
+                        {% else %}
+                            <span style="color: orange;">⏳ Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if exec.exit_code != 0 %}
+                            <details>
+                                <summary>Error (Code {{ exec.exit_code }})</summary>
+                                <pre style="color: red;">{{ exec.stderr }}</pre>
+                            </details>
+                        {% else %}
+                            <details>
+                                <summary>Show Output</summary>
+                                <pre>{{ exec.stdout }}</pre>
+                            </details>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if exec.finished_at %}
+                            {{ exec.finished_at|timeuntil:exec.started_at }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No execution history yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            {% if executions.has_previous %}
+                <a href="#" hx-get="?page={{ executions.previous_page_number }}" hx-target="#history-table">Previous</a>
+            {% endif %}
+            <span>Page {{ executions.number }}</span>
+            {% if executions.has_next %}
+                <a href="#" hx-get="?page={{ executions.next_page_number }}" hx-target="#history-table">Next</a>
+            {% endif %}
+        </div>
+    {% endpartialdef %}
+</div>
+{% endblock %}

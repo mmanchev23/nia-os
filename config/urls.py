@@ -23,4 +23,5 @@ urlpatterns = [
     path("admin-panel/", admin.site.urls),
     path("", include("apps.core.urls")),
     path("infrastructure/", include("apps.infrastructure.urls")),
+    path("automation/", include("apps.automation.urls")),
 ]
