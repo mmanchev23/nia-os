@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Automation</h1>
+    <p>Schedule commands to run on your infrastructure.</p>
+
+    <div style="margin-bottom: 20px;">
+        <button
+            hx-get="{% url 'job_create' %}" 
+            hx-target="#job-dialog"
+        >
+            Schedule New Job
+        </button>
+    </div>
+
+    <div id="messages-area">
+        {% partialdef messages %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endpartialdef %}
+    </div>
+
+    <div id="table">
+        {% partialdef job-table inline %}
+            {% with swap_oob=True %}
+                <div id="messages-area" hx-swap-oob="true">
+                    {% partial messages %}
+                </div>
+            {% endwith %}
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Target</th>
+                        <th>Frequency</th>
+                        <th>Last Run</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'job_detail' job.id %}">
+                                <strong>{{ job.name }}</strong>
+                            </a>
+                        </td>
+                        <td>
+                            {% if job.node %}
+                                Node: {{ job.node.hostname }}
+                            {% else %}
+                                Cluster: {{ job.cluster.name }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if job.schedule %}
+                                {{ job.schedule.schedule_type }}
+                            {% else %}
+                                One-off
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ job.schedule.last_run|default:"-" }}
+                        </td>
+                        <td>
+                            <button
+                                hx-get="{% url 'job_update' job.id %}" 
+                                hx-target="#job-dialog"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                hx-delete="{% url 'job_delete' job.id %}" 
+                                hx-confirm="Delete this job and cancel future runs?"
+                                hx-target="#table"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No scheduled jobs found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div>
+                {% if jobs.has_previous %}
+                    <a href="#" hx-get="?page={{ jobs.previous_page_number }}" hx-target="#table">Previous</a>
+                {% endif %}
+                <span>{{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+                {% if jobs.has_next %}
+                    <a href="#" hx-get="?page={{ jobs.next_page_number }}" hx-target="#table">Next</a>
+                {% endif %}
+            </div>
+        {% endpartialdef %}
+    </div>
+
+    <dialog id="job-dialog"></dialog>
+
+    {% partialdef job-form %}
+        <form method="post" hx-post="{{ url }}" hx-target="#job-dialog">
+            <h3>{{ title }}</h3>
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+
+            <div>
+                <button type="submit">Schedule</button>
+                <button type="button" onclick="document.getElementById('job-dialog').close()">Cancel</button>
+            </div>
+        </form>
+    {% endpartialdef %}
+
+    <script>
+        const dialog = document.getElementById("job-dialog");
+        dialog.addEventListener("htmx:afterSwap", () => dialog.showModal());
+        document.body.addEventListener("closeModal", () => dialog.close());
+    </script>
+{% endblock %}
