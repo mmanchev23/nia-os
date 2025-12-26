@@ -30,6 +30,10 @@ THIRD_PARTY_APPS = [
     "daphne",
     "django_htmx",
     "django_q",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 LOCAL_APPS = [
@@ -60,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -144,5 +149,7 @@ SITE_ID = 1
 
 
 # Third-party app settings
+from config.plugins.allauth import *  # noqa
+from config.plugins.email import *  # noqa
 from config.plugins.fernet import *  # noqa
 from config.plugins.q2 import *  # noqa
