@@ -41,6 +41,7 @@ LOCAL_APPS = [
     "apps.core",
     "apps.infrastructure",
     "apps.automation",
+    "apps.monitoring",
 ]
 
 INSTALLED_APPS = [
