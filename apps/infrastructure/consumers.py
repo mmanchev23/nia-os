@@ -20,7 +20,9 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
             return
 
         try:
-            self.node = await Node.objects.select_related("cluster__user").aget(id=self.node_id)
+            self.node = await Node.objects.select_related("cluster__user").aget(
+                id=self.node_id
+            )
             if self.node.cluster.user != self.user:
                 await self.close()
                 return

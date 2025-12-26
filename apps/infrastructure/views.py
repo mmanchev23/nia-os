@@ -113,7 +113,9 @@ def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
         messages.error(request, "Cluster not found.")
         clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
         context = {"clusters": Paginator(clusters, 10).page(1)}
-        response = render(request, "infrastructure/clusters.html#cluster-table", context)
+        response = render(
+            request, "infrastructure/clusters.html#cluster-table", context
+        )
         response["HX-Trigger"] = "closeModal"
         return response
 
