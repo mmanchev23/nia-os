@@ -34,6 +34,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.authentication",
     "apps.core",
+    "apps.infrastructure",
 ]
 
 INSTALLED_APPS = [
@@ -138,3 +139,7 @@ AUTH_USER_MODEL = "authentication.User"
 # https://docs.djangoproject.com/en/6.0/ref/contrib/sites/
 
 SITE_ID = 1
+
+
+# Third-party app settings
+from config.plugins.fernet import *  # noqa
