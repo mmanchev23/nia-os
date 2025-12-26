@@ -63,6 +63,7 @@ def cluster_create(request: HttpRequest) -> HttpResponse:
                 response = render(
                     request, "infrastructure/clusters.html#cluster-table", context
                 )
+                response["HX-Retarget"] = "#table"
                 response["HX-Trigger"] = "closeModal"
                 return response
             except ValidationError as e:
@@ -141,6 +142,7 @@ def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
                 response = render(
                     request, "infrastructure/clusters.html#cluster-table", context
                 )
+                response["HX-Retarget"] = "#table"
                 response["HX-Trigger"] = "closeModal"
                 return response
             except ValidationError as e:
@@ -192,6 +194,7 @@ def node_create(request: HttpRequest) -> HttpResponse:
                 response = render(
                     request, "infrastructure/cluster.html#node-table", context
                 )
+                response["HX-Retarget"] = "#table"
                 response["HX-Trigger"] = "closeModal"
                 return response
             except ValidationError as e:
@@ -246,6 +249,7 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
                 response = render(
                     request, "infrastructure/cluster.html#node-table", context
                 )
+                response["HX-Retarget"] = "#table"
                 response["HX-Trigger"] = "closeModal"
                 return response
             except ValidationError as e:

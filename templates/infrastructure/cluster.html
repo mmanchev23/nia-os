@@ -124,7 +124,7 @@
 <dialog id="node-dialog"></dialog>
 
 {% partialdef node-form %}
-    <form method="post" hx-post="{{ url }}" hx-target="#table">
+    <form method="post" hx-post="{{ url }}" hx-target="#node-dialog">
         <h3>{{ title }}</h3>
         {% csrf_token %}
 

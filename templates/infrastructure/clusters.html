@@ -106,7 +106,7 @@
     <dialog id="cluster-dialog"></dialog>
 
     {% partialdef cluster-form %}
-        <form method="post" hx-post="{{ url }}" hx-target="#table">
+        <form method="post" hx-post="{{ url }}" hx-target="#cluster-dialog">
             <h3>{{ title }}</h3>
             {% csrf_token %}
 
