@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.google",
     "django_tailwind_cli",
     "lucide",
+    "widget_tweaks",
 ]
 
 LOCAL_APPS = [

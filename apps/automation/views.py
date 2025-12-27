@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
-from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 
 from config.middlewares.htmx import HttpRequest
@@ -17,7 +16,7 @@ from .services import JobService
 
 
 @login_required
-def job_list(request: HttpRequest) -> HttpResponse:
+def jobs(request: HttpRequest) -> HttpResponse:
     jobs = JobService.list(request.user)
 
     paginator = Paginator(jobs, 10)
@@ -134,19 +133,25 @@ def job_update(request: HttpRequest, job_id: UUID) -> HttpResponse:
 
 
 @login_required
-@require_http_methods(["DELETE"])
 def job_delete(request: HttpRequest, job_id: UUID) -> HttpResponse:
-    JobService.delete(job_id, request.user)
-    messages.success(request, "Job deleted!")
+    job = get_object_or_404(ScheduledJob, id=job_id, user=request.user)
 
-    jobs = JobService.list(request.user)
-    context = {"jobs": Paginator(jobs, 10).page(1)}
+    if request.method == "DELETE":
+        job.delete()
+        messages.success(request, f"Job '{job.name}' deleted!")
 
-    return render(request, "automation/jobs.html#job-table", context)
+        jobs = ScheduledJob.objects.filter(user=request.user).order_by("-created")
+        context = {"jobs": Paginator(jobs, 10).page(1)}
+
+        response = render(request, "automation/jobs.html#job-table", context)
+        response["HX-Trigger"] = "closeModal"
+        return response
+
+    return render(request, "automation/jobs.html#job-delete-form", {"job": job})
 
 
 @login_required
-def job_detail(request: HttpRequest, job_id: UUID) -> HttpResponse:
+def job(request: HttpRequest, job_id: UUID) -> HttpResponse:
     job = get_object_or_404(ScheduledJob, id=job_id, user=request.user)
 
     executions = job.executions.all().select_related("node").order_by("-started_at")
@@ -157,6 +162,6 @@ def job_detail(request: HttpRequest, job_id: UUID) -> HttpResponse:
     context = {"job": job, "executions": page_object}
 
     if request.htmx:
-        return render(request, "automation/job_detail.html#history-table", context)
+        return render(request, "automation/job.html#history-table", context)
 
-    return render(request, "automation/job_detail.html", context)
+    return render(request, "automation/job.html", context)

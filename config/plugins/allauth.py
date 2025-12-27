@@ -8,7 +8,7 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_URL = "/account/login/"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/dashboard"
 
 ACCOUNT_FORMS = {"signup": "apps.authentication.forms.SignupForm"}
 
