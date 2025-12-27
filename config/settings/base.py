@@ -34,6 +34,9 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "django_tailwind_cli",
+    "lucide",
+    "widget_tweaks",
 ]
 
 LOCAL_APPS = [
@@ -41,6 +44,7 @@ LOCAL_APPS = [
     "apps.core",
     "apps.infrastructure",
     "apps.automation",
+    "apps.monitoring",
 ]
 
 INSTALLED_APPS = [
@@ -79,6 +83,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+            ],
+            "builtins": [
+                "lucide.templatetags.lucide",
             ],
         },
     },
@@ -153,3 +160,4 @@ from config.plugins.allauth import *  # noqa
 from config.plugins.email import *  # noqa
 from config.plugins.fernet import *  # noqa
 from config.plugins.q2 import *  # noqa
+from config.plugins.tailwind import *  # noqa

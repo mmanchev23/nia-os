@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static lucide %} 
+
+{% block body %}
+<div class="p-6 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight">
+                Welcome, <span class="text-[#42A5F5]">{{ request.user.first_name|default:request.user.username }}</span>
+            </h1>
+            <p class="text-base-content/60">System overview and real-time infrastructure metrics.</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.location.reload()" class="btn btn-ghost btn-sm gap-2">
+                {% lucide "refresh-cw" class="w-4 h-4" %} Refresh
+            </button>
+        </div>
+    </div>
+
+    <div
+        id="stats-container" 
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        hx-get="{% url 'dashboard' %}"
+        hx-trigger="every 5s"
+        hx-swap="innerHTML"
+    >
+        {% partialdef stats_content inline %}
+            <div class="stats shadow bg-base-100 border border-base-200 overflow-visible">
+                <div class="stat">
+                    <div class="stat-figure text-success">
+                        <div class="radial-progress bg-base-200 border-4 border-base-200 text-xs font-bold" style="--value:{{ stats.health|default:0 }}; --size:3rem;">
+                            {{ stats.health|default:0 }}%
+                        </div>
+                    </div>
+                    <div class="stat-title">System Health</div>
+                    <div class="stat-value text-success">{{ stats.health }}%</div>
+                    <div class="stat-desc">Operational Score</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-base-100 border border-base-200">
+                <div class="stat">
+                    <div class="stat-figure text-[#42A5F5]">
+                        {% lucide "boxes" class="w-8 h-8 opacity-80" %}
+                    </div>
+                    <div class="stat-title">Total Clusters</div>
+                    <div class="stat-value">{{ stats.clusters }}</div>
+                    <div class="stat-desc">Active Groups</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-base-100 border border-base-200">
+                <div class="stat">
+                    <div class="stat-figure text-warning">
+                        {% lucide "server" class="w-8 h-8 opacity-80" %}
+                    </div>
+                    <div class="stat-title">Compute Nodes</div>
+                    <div class="stat-value">{{ stats.nodes }}</div>
+                    <div class="stat-desc">{{ stats.online }} Online / {{ stats.nodes }} Total</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-base-100 border border-base-200">
+                <div class="stat">
+                    <div class="stat-figure text-secondary">
+                        {% lucide "calendar-clock" class="w-8 h-8 opacity-80" %}
+                    </div>
+                    <div class="stat-title">Scheduled Jobs</div>
+                    <div class="stat-value">{{ stats.jobs }}</div>
+                    <div class="stat-desc">Automation Tasks</div>
+                </div>
+            </div>
+        {% endpartialdef %}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="card bg-base-100 shadow border border-base-200">
+            <div class="card-body p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold flex items-center gap-2">
+                        {% lucide "activity" class="w-4 h-4 text-[#42A5F5]" %} CPU Usage
+                    </h3>
+                    <span id="cpu-live-badge" class="badge badge-xs badge-success animate-pulse">Live</span>
+                </div>
+                <div class="relative h-48 w-full">
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow border border-base-200">
+            <div class="card-body p-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold flex items-center gap-2">
+                        {% lucide "layers" class="w-4 h-4 text-green-600" %} Memory Usage
+                    </h3>
+                    <span id="mem-live-badge" class="badge badge-xs badge-success animate-pulse">Live</span>
+                </div>
+                <div class="relative h-48 w-full">
+                    <canvas id="memoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow border border-base-200">
+            <div class="card-body p-4 flex flex-col items-center justify-center">
+                <h3 class="font-bold flex items-center gap-2 mb-2 self-start w-full">
+                    {% lucide "chart-pie" class="w-4 h-4 text-warning" %} Node Status
+                </h3>
+                <div class="relative h-40 w-40">
+                    <canvas id="deviceStatusChart"></canvas>
+                </div>
+                <div class="flex gap-4 mt-4 text-xs font-mono">
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-success"></div> Online</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-error"></div> Offline</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card bg-base-100 shadow border border-base-200">
+            <div class="card-body p-0">
+                <div class="p-4 border-b border-base-200 flex justify-between items-center">
+                    <h3 class="font-bold flex items-center gap-2">
+                        {% lucide "server" class="w-4 h-4 opacity-50" %} Recent Nodes
+                    </h3>
+                    <a href="{% url 'clusters' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">View All</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Hostname</th>
+                                <th>IP Address</th>
+                                <th>Status</th>
+                                <th class="text-right">Last Seen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for node in recent_nodes %}
+                            <tr class="hover">
+                                <td class="font-medium">{{ node.hostname }}</td>
+                                <td class="font-mono text-xs opacity-70">{{ node.ip_address }}</td>
+                                <td>
+                                    {% if node.status == "ONLINE" %}
+                                        <div class="badge badge-success badge-xs gap-1 text-white">Online</div>
+                                    {% elif node.status == "OFFLINE" %}
+                                        <div class="badge badge-error badge-xs gap-1 text-white">Offline</div>
+                                    {% else %}
+                                        <div class="badge badge-neutral badge-xs gap-1">Unknown</div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-right text-xs opacity-60">{{ node.last_seen|timesince }} ago</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center py-8 opacity-50">No nodes found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow border border-base-200">
+            <div class="card-body p-0">
+                <div class="p-4 border-b border-base-200 flex justify-between items-center">
+                    <h3 class="font-bold flex items-center gap-2">
+                        {% lucide "calendar-clock" class="w-4 h-4 opacity-50" %} Scheduled Jobs
+                    </h3>
+                    <a href="{% url 'jobs' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">Manage</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th>Job Name</th><th>Schedule</th><th>Target</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for job in recent_jobs %}
+                            <tr class="hover">
+                                <td class="font-medium">{{ job.name }}</td>
+                                <td>
+                                    {% if job.schedule.schedule_type == 'O' %}
+                                        <span class="badge badge-ghost badge-xs">Once</span>
+                                    {% elif job.schedule.schedule_type == 'I' %}
+                                        <span class="badge badge-info badge-xs text-white">Every {{ job.schedule.minutes }}m</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-xs opacity-70">
+                                    {% if job.cluster %}Cluster: {{ job.cluster.name }}{% else %}Node: {{ job.node.hostname }}{% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center py-8 opacity-50">No jobs scheduled.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const statusData = JSON.parse('{{ status_chart_data|safe }}');
+    const historyData = JSON.parse('{{ initial_chart_data|safe }}');
+
+    const statusCtx = document.getElementById("deviceStatusChart").getContext("2d");
+    const statusChart = new Chart(statusCtx, {
+        type: "doughnut",
+        data: {
+            labels: ["Online", "Offline", "Unknown"],
+            datasets: [{
+                data: [statusData.online, statusData.offline, statusData.unknown],
+                backgroundColor: ["#36D399", "#F87272", "#D1D5DB"],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            cutout: '75%'
+        }
+    });
+
+    const createLineChart = (ctx, label, color, bgColor, data, labels) => {
+        return new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: color,
+                    backgroundColor: bgColor,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 0 }, 
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { beginAtZero: true, max: 100, display: false }
+                }
+            }
+        });
+    };
+
+    const cpuCtx = document.getElementById("cpuChart").getContext("2d");
+    const memCtx = document.getElementById("memoryChart").getContext("2d");
+    
+    let cpuGrad = cpuCtx.createLinearGradient(0, 0, 0, 200);
+    cpuGrad.addColorStop(0, "rgba(66, 165, 245, 0.4)");
+    cpuGrad.addColorStop(1, "rgba(66, 165, 245, 0)");
+
+    let memGrad = memCtx.createLinearGradient(0, 0, 0, 200);
+    memGrad.addColorStop(0, "rgba(22, 163, 74, 0.4)");
+    memGrad.addColorStop(1, "rgba(22, 163, 74, 0)");
+
+    const cpuChart = createLineChart(cpuCtx, "CPU %", "#42A5F5", cpuGrad, historyData.cpu, historyData.labels);
+    const memChart = createLineChart(memCtx, "RAM %", "#16A34A", memGrad, historyData.memory, historyData.labels);
+
+    function fetchMetrics() {
+        fetch("{% url 'dashboard_metrics_json' %}")
+            .then(response => response.json())
+            .then(data => {
+                statusChart.data.datasets[0].data = [data.status.online, data.status.offline, data.status.unknown];
+                statusChart.update();
+
+                const now = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+                [cpuChart, memChart].forEach((chart, idx) => {
+                    const newValue = idx === 0 ? data.telemetry.cpu : data.telemetry.memory;
+
+                    if (chart.data.labels.length > 12) {
+                        chart.data.labels.shift();
+                        chart.data.datasets[0].data.shift();
+                    }
+
+                    chart.data.labels.push(now);
+                    chart.data.datasets[0].data.push(newValue);
+                    chart.update('none');
+                });
+            })
+            .catch(err => console.error("Polling error:", err));
+    }
+
+    setInterval(fetchMetrics, 5000);
+});
+</script>
+{% endblock %}

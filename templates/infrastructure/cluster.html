@@ -1,151 +1,270 @@
 {% extends "base.html" %}
+{% load static lucide %} 
 
 {% block body %}
-<div>
-    <a href="{% url 'clusters' %}">&larr; Back to Clusters</a>
-    <h1>{{ cluster.name }}</h1>
-    <p>{{ cluster.summary|default:"No description provided." }}</p>
-</div>
+<div class="p-6 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
 
-<div>
-    <h3>Nodes ({{ cluster.nodes.count }})</h3>
-    <input
-        type="search" 
-        name="q" 
-        placeholder="Search nodes ..." 
-        hx-get="{% url 'cluster' cluster.id %}" 
-        hx-trigger="keyup changed delay:500ms" 
-        hx-target="#table"
-    >
-    <button
-        hx-get="{% url 'node_create' %}?cluster_id={{ cluster.id }}" 
-        hx-target="#node-dialog"
-    >
-        Add New Node
-    </button>
-</div>
+    <div class="flex flex-col gap-2">
+        <a href="{% url 'clusters' %}" class="btn btn-ghost btn-sm w-fit gap-2 pl-0 text-base-content/60 hover:text-base-content">
+            {% lucide "arrow-left" class="w-4 h-4" %}
+            Back to Clusters
+        </a>
 
-<div id="messages-area">
-    {% partialdef messages %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endpartialdef %}
-</div>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight flex items-center gap-3">
+                    <div class="p-2 bg-[#42A5F5]/10 rounded-lg">
+                        {% lucide "server" class="w-8 h-8 text-[#42A5F5]" %}
+                    </div>
+                    {{ cluster.name }}
+                </h1>
+                <p class="text-base-content/60 mt-1 max-w-2xl">
+                    {{ cluster.summary|default:"No description provided." }}
+                </p>
+            </div>
 
-<div id="table">
-    {% partialdef node-table inline %}
-        {% with swap_oob=True %}
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <label class="input input-bordered flex items-center gap-2 w-full md:w-64">
+                    <input type="search" 
+                           name="q" 
+                           class="grow" 
+                           placeholder="Search nodes..." 
+                           hx-get="{% url 'cluster' cluster.id %}" 
+                           hx-trigger="keyup changed delay:500ms" 
+                           hx-target="#table"
+                           value="{{ request.GET.q }}">
+                    {% lucide "search" class="w-4 h-4 opacity-70" %}
+                </label>
+
+                <button class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white gap-2 shadow-md hover:shadow-lg transition-all"
+                        hx-get="{% url 'node_create' %}?cluster_id={{ cluster.id }}" 
+                        hx-target="#node-dialog">
+                    {% lucide "circle-plus" class="w-4 h-4" %}
+                    Add Node
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="messages-area">
+        {% partialdef messages %}
+            {% if messages %}
+                <div class="toast toast-top toast-end z-50">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-info{% endif %} shadow-lg text-white animate-in slide-in-from-right fade-in duration-300">
+                            {% lucide "info" class="w-4 h-4" %}
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const toasts = document.querySelectorAll('.toast .alert');
+                        toasts.forEach(t => t.remove());
+                    }, 3000);
+                </script>
+            {% endif %}
+        {% endpartialdef %}
+    </div>
+
+    <div id="table" class="card bg-base-100 shadow-xl border border-base-200">
+        {% partialdef node-table inline %}
+            
+            {% with swap_oob=True %}
             <div id="messages-area" hx-swap-oob="true">
                 {% partial messages %}
             </div>
-        {% endwith %}
+            {% endwith %}
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Hostname</th>
-                    <th>IP Address</th>
-                    <th>Port</th>
-                    <th>User</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for node in nodes %}
-                <tr>
-                    <td>
-                        <a href="{% url 'terminal' node.id %}">
-                            {{ node.hostname }}
-                        </a>
-                    </td>
-                    <td>{{ node.ip_address }}</td>
-                    <td>{{ node.port }}</td>
-                    <td>{{ node.username }}</td>
-                    <td>
-                        <button
-                            hx-get="{% url 'node_update' node.id %}"
-                            hx-target="#node-dialog"
-                        >
-                            Edit
-                        </button>
-                        
-                        <button
-                            hx-delete="{% url 'node_delete' node.id %}"
-                            hx-confirm="Are you sure you want to delete {{ node.hostname }}?"
-                            hx-target="#table"
-                        >
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td>
-                        No nodes found in this cluster. 
-                    </td>
-                </tr>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead class="bg-base-200/50">
+                        <tr>
+                            <th class="w-1/3">Hostname</th>
+                            <th>IP Address</th>
+                            <th>Port</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for node in nodes %}
+                        <tr class="hover group transition-colors">
+                            <td>
+                                <a href="{% url 'node' node.id %}" class="font-bold hover:text-[#42A5F5] flex items-center gap-3">
+                                    <div class="avatar placeholder">
+                                        <div class="bg-neutral-focus text-neutral-content rounded-lg w-8 h-8 flex items-center justify-center bg-base-300 border border-base-300">
+                                            {% lucide "monitor" class="w-4 h-4 opacity-50" %}
+                                        </div>
+                                    </div>
+                                    {{ node.hostname }}
+                                </a>
+                            </td>
+                            <td class="font-mono text-xs opacity-80">{{ node.ip_address }}</td>
+                            <td class="font-mono text-xs opacity-60">{{ node.port }}</td>
+                            <td class="text-xs opacity-70">{{ node.username }}</td>
+                            <td>
+                                {% if node.status == "ONLINE" %}
+                                    <div class="badge badge-success badge-xs gap-1 text-white">Online</div>
+                                {% elif node.status == "OFFLINE" %}
+                                    <div class="badge badge-error badge-xs gap-1 text-white">Offline</div>
+                                {% else %}
+                                    <div class="badge badge-ghost badge-xs gap-1">Unknown</div>
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                <div class="join">
+                                    <a href="{% url 'node' node.id %}" class="btn btn-sm btn-ghost join-item tooltip" data-tip="Details">
+                                        {% lucide "eye" class="w-4 h-4 opacity-70" %}
+                                    </a>
+                                    <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Edit"
+                                            hx-get="{% url 'node_update' node.id %}"
+                                            hx-target="#node-dialog">
+                                        {% lucide "pencil" class="w-4 h-4 text-warning" %}
+                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Delete"
+                                            hx-get="{% url 'node_delete' node.id %}"
+                                            hx-target="#node-dialog">
+                                        {% lucide "trash-2" class="w-4 h-4 text-error" %}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">
+                                <div class="flex flex-col items-center justify-center py-12 text-base-content/50 gap-4">
+                                    {% lucide "search-x" class="w-12 h-12 opacity-20" %}
+                                    <p>No nodes found in this cluster.</p>
+                                    {% if request.GET.q %}
+                                        <button class="btn btn-sm btn-outline" 
+                                                hx-get="{% url 'cluster' cluster.id %}" 
+                                                hx-target="#table">
+                                            Clear Search
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if nodes.paginator.num_pages > 1 %}
+            <div class="p-4 border-t border-base-200 flex justify-center">
+                <div class="join">
+                    {% if nodes.has_previous %}
+                        <button class="join-item btn btn-sm" 
+                                hx-get="?page={{ nodes.previous_page_number }}&q={{ query }}" 
+                                hx-target="#table">«</button>
+                    {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">«</button>
+                    {% endif %}
+                    
+                    <button class="join-item btn btn-sm btn-active">
+                        Page {{ nodes.number }} of {{ nodes.paginator.num_pages }}
+                    </button>
+                    
+                    {% if nodes.has_next %}
+                        <button class="join-item btn btn-sm" 
+                                hx-get="?page={{ nodes.next_page_number }}&q={{ query }}" 
+                                hx-target="#table">»</button>
+                    {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">»</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+        {% endpartialdef %}
+    </div>
+
+    <dialog id="node-dialog" class="modal bg-black/50 backdrop-blur-sm">
+        </dialog>
+
+    {% partialdef node-form %}
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
+            
+            <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
+                {% if '/create/' in request.path %}
+                    {% lucide "circle-plus" class="w-5 h-5 text-[#42A5F5]" %} Add Node
+                {% else %}
+                    {% lucide "pencil" class="w-5 h-5 text-warning" %} Edit Node
+                {% endif %}
+            </h3>
+
+            <form method="post" hx-post="{{ url }}" hx-target="#node-dialog" class="space-y-4">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-medium">{{ field.label }}</span>
+                    </label>
+                    
+                    <div class="[&>input]:input [&>input]:input-bordered [&>input]:w-full [&>select]:select [&>select]:select-bordered [&>select]:w-full">
+                        {{ field }}
+                    </div>
+                    
+                    {% if field.help_text %}
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">{{ field.help_text }}</span>
+                    </label>
+                    {% endif %}
+                    
+                    {% if field.errors %}
+                        <span class="text-error text-xs mt-1">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
 
-        <div>
-            {% if nodes.has_previous %}
-                <a
-                    href="#" 
-                    hx-get="?page={{ nodes.previous_page_number }}&q={{ query }}" 
-                    hx-target="#table"
-                >
-                    Previous
-                </a>
-            {% endif %}
-            
-            <span>
-                {{ nodes.number }} of {{ nodes.paginator.num_pages }}
-            </span>
-            
-            {% if nodes.has_next %}
-                <a
-                    href="#" 
-                    hx-get="?page={{ nodes.next_page_number }}&q={{ query }}" 
-                    hx-target="#table"
-                >
-                    Next
-                </a>
-            {% endif %}
+                <div class="modal-action mt-8">
+                    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white">Save</button>
+                </div>
+            </form>
         </div>
     {% endpartialdef %}
-</div>
-
-<dialog id="node-dialog"></dialog>
-
-{% partialdef node-form %}
-    <form method="post" hx-post="{{ url }}" hx-target="#node-dialog">
-        <h3>{{ title }}</h3>
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <div>
-            <button type="submit">Save</button>
-            <button type="button" onclick="document.getElementById('node-dialog').close()">Cancel</button>
-        </div>
-    </form>
-{% endpartialdef %}
-
-<script>
-    const dialog = document.getElementById("node-dialog");
     
-    dialog.addEventListener("htmx:afterSwap", (evt) => {
-        dialog.showModal();
-    });
+    {% partialdef node-delete-form %}
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
+            <h3 class="font-bold text-lg text-error flex items-center gap-2">
+                {% lucide "triangle-alert" class="w-6 h-6" %} Delete Node?
+            </h3>
+            <div class="py-4">
+                <p>Are you sure you want to delete <strong class="text-base-content">{{ node.hostname }}</strong>?</p>
+                <p class="text-sm opacity-60 mt-2">All telemetry data associated with this node will also be removed.</p>
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                <button hx-delete="{% url 'node_delete' node.id %}" 
+                        hx-target="#table" 
+                        class="btn btn-error text-white">Delete</button>
+            </div>
+        </div>
+    {% endpartialdef %}
 
-    document.body.addEventListener("closeModal", (evt) => {
-        dialog.close();
-    });
-</script>
+    <script>
+        const dialog = document.getElementById("node-dialog");
+
+        dialog.addEventListener("htmx:afterSwap", (evt) => {
+            if (evt.target === dialog) {
+                dialog.showModal();
+            }
+        });
+
+        function closeModal() {
+            dialog.close();
+        }
+
+        document.body.addEventListener("closeModal", () => {
+            dialog.close();
+        });
+    </script>
+</div>
 {% endblock %}

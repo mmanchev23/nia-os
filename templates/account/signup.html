@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load socialaccount static lucide widget_tweaks %}
+
+{% block body %}
+<div class="relative min-h-screen flex items-center justify-center bg-base-200 overflow-hidden px-4 py-10">
+    
+    <div class="absolute inset-0 z-0 opacity-[0.03]" 
+         style="background-image: radial-gradient(#42A5F5 1px, transparent 1px); background-size: 30px 30px;">
+    </div>
+    
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s"></div>
+
+    <div class="relative z-10 w-full max-w-sm">
+        
+        <div class="text-center mb-8">
+            <a href="{% url 'index' %}" class="inline-flex items-center justify-center mb-4 relative group">
+                <div class="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/30 transition-all"></div>
+                <img src="{% static 'images/favicon.svg' %}" alt="NIA-OS" class="h-16 w-16 relative z-10 drop-shadow-lg">
+            </a>
+            <h1 class="text-3xl font-bold tracking-tight">Create account</h1>
+            <p class="text-base-content/60 mt-2">Join NIA-OS to manage your infrastructure.</p>
+        </div>
+
+        <div class="card bg-base-100/80 backdrop-blur-xl border border-base-200 shadow-2xl overflow-hidden">
+            <div class="card-body p-8 gap-0">
+
+                <a href="{% provider_login_url 'google' %}" 
+                   class="btn btn-outline border-base-300 hover:bg-base-200 hover:border-base-300 text-base-content no-animation w-full gap-3 font-normal mb-6 group relative overflow-hidden">
+                    <img src="{% static 'images/google.svg' %}" alt="Google" class="w-5 h-5 group-hover:scale-110 transition-transform">
+                    <span>Sign up with Google</span>
+                </a>
+
+                <div class="divider text-xs opacity-50 uppercase font-mono tracking-widest my-0">Or register with email</div>
+
+                <form class="space-y-4 mt-6" method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-error text-sm py-2 rounded-lg">
+                            {% lucide "triangle-alert" class="w-4 h-4" %}
+                            <span>{{ form.non_field_errors.0 }}</span>
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="form-control w-full">
+                            
+                            <label class="label pb-1">
+                                <span class="label-text font-medium">{{ field.label }}</span>
+                            </label>
+
+                            <div class="relative">
+                                {% render_field field class="input input-bordered w-full bg-base-200/50 focus:bg-base-100 transition-colors pl-10" placeholder=field.label %}
+                                
+                                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/30 pointer-events-none">
+                                    {% if 'email' in field.name %}
+                                        {% lucide "mail" class="w-4 h-4" %}
+                                    {% elif 'password' in field.name %}
+                                        {% lucide "lock" class="w-4 h-4" %}
+                                    {% else %}
+                                        {% lucide "user" class="w-4 h-4" %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            {% if field.errors %}
+                                <label class="label py-0 mt-1">
+                                    <span class="label-text-alt text-error flex items-center gap-1">
+                                        {% lucide "circle-alert" class="w-3 h-3" %} {{ field.errors.0 }}
+                                    </span>
+                                </label>
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <label class="label py-0 mt-1">
+                                    <span class="label-text-alt text-base-content/50 text-xs">{{ field.help_text|safe }}</span>
+                                </label>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full shadow-lg shadow-blue-500/20 mt-4">
+                        Create Account
+                        {% lucide "user-plus" class="w-4 h-4" %}
+                    </button>
+                </form>
+
+            </div>
+            
+            <div class="bg-base-200/50 p-4 text-center text-sm text-base-content/70 border-t border-base-200">
+                Already have an account? 
+                <a href="{% url 'account_login' %}" class="link link-hover text-[#42A5F5] font-semibold ml-1">Sign in</a>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 opacity-40 text-xs font-mono">
+            &copy; {% now "Y" %} NIA-OS. Secure Infrastructure.
+        </div>
+
+    </div>
+</div>
+{% endblock %}

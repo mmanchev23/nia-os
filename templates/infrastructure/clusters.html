@@ -1,132 +1,241 @@
 {% extends "base.html" %}
+{% load static lucide %} 
 
 {% block body %}
-    <input
-        type="search" 
-        name="q" 
-        placeholder="Search clusters ..." 
-        hx-get="{% url 'clusters' %}" 
-        hx-trigger="keyup changed delay:500ms" 
-        hx-target="#table"
-    >
+<div class="p-6 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
 
-    <button
-        hx-get="{% url 'cluster_create' %}" 
-        hx-target="#cluster-dialog"
-    >
-        Add New Cluster
-    </button>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight flex items-center gap-3">
+                <div class="p-2 bg-[#42A5F5]/10 rounded-lg">
+                    {% lucide "boxes" class="w-8 h-8 text-[#42A5F5]" %}
+                </div>
+                Resource Clusters
+            </h1>
+            <p class="text-base-content/60 mt-1">Manage your infrastructure groups and compute resources.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <label class="input input-bordered flex items-center gap-2 w-full md:w-64">
+                <input type="search" 
+                       name="q" 
+                       class="grow" 
+                       placeholder="Search clusters..." 
+                       hx-get="{% url 'clusters' %}" 
+                       hx-trigger="keyup changed delay:500ms" 
+                       hx-target="#table"
+                       value="{{ request.GET.q }}">
+                {% lucide "search" class="w-4 h-4 opacity-70" %}
+            </label>
+
+            <button class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white gap-2 shadow-md hover:shadow-lg transition-all"
+                    hx-get="{% url 'cluster_create' %}" 
+                    hx-target="#cluster-dialog">
+                {% lucide "circle-plus" class="w-4 h-4" %}
+                Add Cluster
+            </button>
+        </div>
+    </div>
 
     <div id="messages-area">
         {% partialdef messages %}
             {% if messages %}
-                <ul>
+                <div class="toast toast-top toast-end z-50">
                     {% for message in messages %}
-                        <li>{{ message }}</li>
+                        <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-info{% endif %} shadow-lg text-white animate-in slide-in-from-right fade-in duration-300">
+                            {% lucide "info" class="w-4 h-4" %}
+                            <span>{{ message }}</span>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
+                <script>
+                    setTimeout(() => {
+                        const toasts = document.querySelectorAll('.toast .alert');
+                        toasts.forEach(t => t.remove());
+                    }, 3000);
+                </script>
             {% endif %}
         {% endpartialdef %}
     </div>
 
-    <div id="table">
+    <div id="table" class="card bg-base-100 shadow-xl border border-base-200">
         {% partialdef cluster-table inline %}
+            
             {% with swap_oob=True %}
-                <div id="messages-area" hx-swap-oob="true">
-                    {% partial messages %}
-                </div>
-            {% endwith %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Nodes</th>
-                        <th>Summary</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cluster in clusters %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'cluster' cluster.id %}">
-                                {{ cluster.name }}
-                            </a>
-                        </td>
-                        <td>{{ cluster.node_count }}</td>
-                        <td>{{ cluster.summary|default:"-" }}</td>
-                        <td>
-                            <button
-                                hx-get="{% url 'cluster_update' cluster.id %}" 
-                                hx-target="#cluster-dialog"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                hx-delete="{% url 'cluster_delete' cluster.id %}" 
-                                hx-confirm="Delete this cluster?"
-                                hx-target="#table"
-                            >
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>No clusters found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <div>
-                {% if clusters.has_previous %}
-                    <a
-                        href="#" 
-                        hx-get="?page={{ clusters.previous_page_number }}&q={{ query }}" 
-                        hx-target="#table"
-                    >
-                        Previous
-                    </a>
-                {% endif %}
-                <span>{{ clusters.number }} of {{ clusters.paginator.num_pages }}</span>
-                {% if clusters.has_next %}
-                    <a
-                        href="#" 
-                        hx-get="?page={{ clusters.next_page_number }}&q={{ query }}" 
-                        hx-target="#table"
-                    >
-                        Next
-                    </a>
-                {% endif %}
+            <div id="messages-area" hx-swap-oob="true">
+                {% partial messages %}
             </div>
+            {% endwith %}
+
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead class="bg-base-200/50">
+                        <tr>
+                            <th class="w-1/3">Cluster Name</th>
+                            <th>Nodes</th>
+                            <th>Summary</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cluster in clusters %}
+                        <tr class="hover group transition-colors">
+                            <td>
+                                <a href="{% url 'cluster' cluster.id %}" class="font-bold hover:text-[#42A5F5] flex items-center gap-3">
+                                    <div class="avatar placeholder">
+                                        <div class="bg-neutral-focus text-neutral-content rounded-full w-8 h-8 flex items-center justify-center bg-base-300">
+                                            <span class="text-xs">{{ cluster.name|slice:":2"|upper }}</span>
+                                        </div>
+                                    </div>
+                                    {{ cluster.name }}
+                                </a>
+                            </td>
+                            <td>
+                                <div class="badge badge-ghost gap-2">
+                                    {% lucide "server" class="w-3 h-3" %}
+                                    {{ cluster.node_count }}
+                                </div>
+                            </td>
+                            <td class="text-base-content/60 truncate max-w-xs">
+                                {{ cluster.summary|default:"-" }}
+                            </td>
+                            <td class="text-right">
+                                <div class="join">
+                                    <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Edit"
+                                            hx-get="{% url 'cluster_update' cluster.id %}" 
+                                            hx-target="#cluster-dialog">
+                                        {% lucide "pencil" class="w-4 h-4 text-warning" %}
+                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Delete"
+                                            hx-get="{% url 'cluster_delete' cluster.id %}" 
+                                            hx-target="#cluster-dialog">
+                                        {% lucide "trash-2" class="w-4 h-4 text-error" %}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">
+                                <div class="flex flex-col items-center justify-center py-12 text-base-content/50 gap-4">
+                                    {% lucide "search-x" class="w-12 h-12 opacity-20" %}
+                                    <p>No clusters found.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if clusters.paginator.num_pages > 1 %}
+            <div class="p-4 border-t border-base-200 flex justify-center">
+                <div class="join">
+                    {% if clusters.has_previous %}
+                        <button class="join-item btn btn-sm" 
+                                hx-get="?page={{ clusters.previous_page_number }}&q={{ query }}" 
+                                hx-target="#table">«</button>
+                    {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">«</button>
+                    {% endif %}
+                    
+                    <button class="join-item btn btn-sm btn-active">
+                        Page {{ clusters.number }} of {{ clusters.paginator.num_pages }}
+                    </button>
+                    
+                    {% if clusters.has_next %}
+                        <button class="join-item btn btn-sm" 
+                                hx-get="?page={{ clusters.next_page_number }}&q={{ query }}" 
+                                hx-target="#table">»</button>
+                    {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">»</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
         {% endpartialdef %}
     </div>
 
-    <dialog id="cluster-dialog"></dialog>
+    <dialog id="cluster-dialog" class="modal bg-black/50 backdrop-blur-sm"></dialog>
 
     {% partialdef cluster-form %}
-        <form method="post" hx-post="{{ url }}" hx-target="#cluster-dialog">
-            <h3>{{ title }}</h3>
-            {% csrf_token %}
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
+            
+            <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
+                {% if '/create/' in request.path %}
+                    {% lucide "circle-plus" class="w-5 h-5 text-[#42A5F5]" %} New Cluster
+                {% else %}
+                    {% lucide "pencil" class="w-5 h-5 text-warning" %} Edit Cluster
+                {% endif %}
+            </h3>
 
-            {{ form.as_p }}
+            <form method="post" hx-post="{{ url }}" hx-target="#cluster-dialog" class="space-y-4">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-medium">{{ field.label }}</span>
+                    </label>
+                    
+                    <div class="[&>input]:input [&>input]:input-bordered [&>input]:w-full [&>textarea]:textarea [&>textarea]:textarea-bordered [&>textarea]:w-full">
+                        {{ field }}
+                    </div>
+                    
+                    {% if field.errors %}
+                        <span class="text-error text-xs mt-1">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
 
-            <div>
-                <button type="submit">Save</button>
-                <button type="button" onclick="document.getElementById('cluster-dialog').close()">Cancel</button>
-            </div>
-        </form>
+                <div class="modal-action mt-8">
+                    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white">Save</button>
+                </div>
+            </form>
+        </div>
     {% endpartialdef %}
+    
+    {% partialdef cluster-delete-form %}
+        <div class="modal-box relative">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
+            <h3 class="font-bold text-lg text-error flex items-center gap-2">
+                {% lucide "triangle-alert" class="w-6 h-6" %} Delete Cluster?
+            </h3>
+            <div class="py-4">
+                <p>Are you sure you want to delete <strong class="text-base-content">{{ cluster.name }}</strong>?</p>
+                <p class="text-sm opacity-60 mt-2">This action cannot be undone.</p>
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                <button hx-delete="{% url 'cluster_delete' cluster.id %}" 
+                        hx-target="#table" 
+                        class="btn btn-error text-white">Delete</button>
+            </div>
+        </div>
+    {% endpartialdef %}
+
     <script>
         const dialog = document.getElementById("cluster-dialog");
-        
+
+        // Open modal when HTMX puts content inside
         dialog.addEventListener("htmx:afterSwap", (evt) => {
-            dialog.showModal();
+            if (evt.target === dialog) {
+                dialog.showModal();
+            }
         });
 
-        document.body.addEventListener("closeModal", (evt) => {
+        function closeModal() {
+            dialog.close();
+        }
+
+        // Listen for server trigger to close modal
+        document.body.addEventListener("closeModal", () => {
             dialog.close();
         });
     </script>
+</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static lucide %}
+{% load static lucide %} 
 
 {% block body %}
 <div class="p-6 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -8,11 +8,11 @@
         <div>
             <h1 class="text-3xl font-bold tracking-tight flex items-center gap-3">
                 <div class="p-2 bg-[#42A5F5]/10 rounded-lg">
-                    {% lucide "calendar-clock" class="w-8 h-8 text-[#42A5F5]" %}
+                    {% lucide "server" class="w-8 h-8 text-[#42A5F5]" %}
                 </div>
-                Automation Jobs
+                Compute Nodes
             </h1>
-            <p class="text-base-content/60 mt-1">Schedule and manage automated commands across your infrastructure.</p>
+            <p class="text-base-content/60 mt-1">Global view of all registered infrastructure nodes.</p>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -20,8 +20,8 @@
                 <input type="search" 
                        name="q" 
                        class="grow" 
-                       placeholder="Search jobs..." 
-                       hx-get="{% url 'jobs' %}" 
+                       placeholder="Search nodes..." 
+                       hx-get="{% url 'nodes' %}" 
                        hx-trigger="keyup changed delay:500ms" 
                        hx-target="#table"
                        value="{{ request.GET.q }}">
@@ -29,10 +29,10 @@
             </label>
 
             <button class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white gap-2 shadow-md hover:shadow-lg transition-all"
-                    hx-get="{% url 'job_create' %}" 
-                    hx-target="#job-dialog">
+                    hx-get="{% url 'node_create' %}" 
+                    hx-target="#node-dialog">
                 {% lucide "circle-plus" class="w-4 h-4" %}
-                Schedule Job
+                Add Node
             </button>
         </div>
     </div>
@@ -59,7 +59,7 @@
     </div>
 
     <div id="table" class="card bg-base-100 shadow-xl border border-base-200">
-        {% partialdef job-table inline %}
+        {% partialdef node-table inline %}
             
             {% with swap_oob=True %}
             <div id="messages-area" hx-swap-oob="true">
@@ -71,69 +71,57 @@
                 <table class="table table-zebra w-full">
                     <thead class="bg-base-200/50">
                         <tr>
-                            <th class="w-1/3">Job Name</th>
-                            <th>Target</th>
-                            <th>Frequency</th>
-                            <th>Last Run</th>
+                            <th>Hostname</th>
+                            <th>IP Address</th>
+                            <th>Cluster</th>
+                            <th>Status</th>
                             <th class="text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for job in jobs %}
+                        {% for node in nodes %}
                         <tr class="hover group transition-colors">
                             <td>
-                                <a href="{% url 'job' job.id %}" class="font-bold hover:text-[#42A5F5] flex items-center gap-3">
+                                <a href="{% url 'node' node.id %}" class="font-bold hover:text-[#42A5F5] flex items-center gap-3">
                                     <div class="avatar placeholder">
                                         <div class="bg-neutral-focus text-neutral-content rounded-lg w-8 h-8 flex items-center justify-center bg-base-300 border border-base-300">
-                                            {% lucide "terminal" class="w-4 h-4 opacity-50" %}
+                                            {% lucide "monitor" class="w-4 h-4 opacity-50" %}
                                         </div>
                                     </div>
-                                    {{ job.name }}
+                                    {{ node.hostname }}
+                                </a>
+                            </td>
+                            <td class="font-mono text-xs opacity-80">{{ node.ip_address }}</td>
+                            <td>
+                                <a href="{% url 'cluster' node.cluster.id %}" class="badge badge-ghost gap-2 hover:bg-base-300 no-underline">
+                                    {% lucide "boxes" class="w-3 h-3 opacity-50" %}
+                                    {{ node.cluster.name }}
                                 </a>
                             </td>
                             <td>
-                                {% if job.node %}
-                                    <div class="badge badge-ghost gap-2">
-                                        {% lucide "monitor" class="w-3 h-3" %} {{ job.node.hostname }}
-                                    </div>
-                                {% elif job.cluster %}
-                                    <div class="badge badge-ghost gap-2">
-                                        {% lucide "boxes" class="w-3 h-3" %} {{ job.cluster.name }}
-                                    </div>
+                                {% if node.status == "ONLINE" %}
+                                    <div class="badge badge-success badge-xs gap-1 text-white">Online</div>
+                                {% elif node.status == "OFFLINE" %}
+                                    <div class="badge badge-error badge-xs gap-1 text-white">Offline</div>
                                 {% else %}
-                                    <span class="opacity-50">-</span>
+                                    <div class="badge badge-ghost badge-xs gap-1">Unknown</div>
                                 {% endif %}
-                            </td>
-                            <td>
-                                {% if job.schedule %}
-                                    <div class="badge badge-info badge-outline gap-1 text-xs">
-                                        {% lucide "repeat" class="w-3 h-3" %}
-                                        {{ job.schedule.get_schedule_type_display|default:job.schedule.schedule_type }}
-                                    </div>
-                                {% else %}
-                                    <div class="badge badge-ghost badge-outline gap-1 text-xs">
-                                        {% lucide "play" class="w-3 h-3" %} One-off
-                                    </div>
-                                {% endif %}
-                            </td>
-                            <td class="font-mono text-xs opacity-70">
-                                {{ job.schedule.last_run|timesince|default:"Never" }} ago
                             </td>
                             <td class="text-right">
                                 <div class="join">
-                                    <a href="{% url 'job' job.id %}" class="btn btn-sm btn-ghost join-item tooltip" data-tip="Details">
+                                    <a href="{% url 'node' node.id %}" class="btn btn-sm btn-ghost join-item tooltip" data-tip="Details">
                                         {% lucide "eye" class="w-4 h-4 opacity-70" %}
                                     </a>
-
+                                    
                                     <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Edit"
-                                            hx-get="{% url 'job_update' job.id %}" 
-                                            hx-target="#job-dialog">
+                                            hx-get="{% url 'node_update' node.id %}"
+                                            hx-target="#node-dialog">
                                         {% lucide "pencil" class="w-4 h-4 text-warning" %}
                                     </button>
                                     
                                     <button class="btn btn-sm btn-ghost join-item tooltip" data-tip="Delete"
-                                            hx-get="{% url 'job_delete' job.id %}" 
-                                            hx-target="#job-dialog">
+                                            hx-get="{% url 'node_delete' node.id %}"
+                                            hx-target="#node-dialog">
                                         {% lucide "trash-2" class="w-4 h-4 text-error" %}
                                     </button>
                                 </div>
@@ -144,7 +132,7 @@
                             <td colspan="5">
                                 <div class="flex flex-col items-center justify-center py-12 text-base-content/50 gap-4">
                                     {% lucide "search-x" class="w-12 h-12 opacity-20" %}
-                                    <p>No scheduled jobs found.</p>
+                                    <p>No nodes found.</p>
                                 </div>
                             </td>
                         </tr>
@@ -153,24 +141,24 @@
                 </table>
             </div>
 
-            {% if jobs.paginator.num_pages > 1 %}
+            {% if nodes.paginator.num_pages > 1 %}
             <div class="p-4 border-t border-base-200 flex justify-center">
                 <div class="join">
-                    {% if jobs.has_previous %}
+                    {% if nodes.has_previous %}
                         <button class="join-item btn btn-sm" 
-                                hx-get="?page={{ jobs.previous_page_number }}&q={{ request.GET.q }}" 
+                                hx-get="?page={{ nodes.previous_page_number }}&q={{ query }}" 
                                 hx-target="#table">«</button>
                     {% else %}
                         <button class="join-item btn btn-sm btn-disabled">«</button>
                     {% endif %}
                     
                     <button class="join-item btn btn-sm btn-active">
-                        Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}
+                        Page {{ nodes.number }} of {{ nodes.paginator.num_pages }}
                     </button>
                     
-                    {% if jobs.has_next %}
+                    {% if nodes.has_next %}
                         <button class="join-item btn btn-sm" 
-                                hx-get="?page={{ jobs.next_page_number }}&q={{ request.GET.q }}" 
+                                hx-get="?page={{ nodes.next_page_number }}&q={{ query }}" 
                                 hx-target="#table">»</button>
                     {% else %}
                         <button class="join-item btn btn-sm btn-disabled">»</button>
@@ -182,85 +170,59 @@
         {% endpartialdef %}
     </div>
 
-    <dialog id="job-dialog" class="modal bg-black/50 backdrop-blur-sm"></dialog>
+    <dialog id="node-dialog" class="modal bg-black/50 backdrop-blur-sm"></dialog>
 
-    {% partialdef job-form %}
+    {% partialdef node-form %}
         <div class="modal-box relative">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
-            
             <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
                 {% if '/create/' in request.path %}
-                    {% lucide "circle-plus" class="w-5 h-5 text-[#42A5F5]" %} Schedule New Job
+                    {% lucide "circle-plus" class="w-5 h-5 text-[#42A5F5]" %} Add Node
                 {% else %}
-                    {% lucide "pencil" class="w-5 h-5 text-warning" %} Edit Job
+                    {% lucide "pencil" class="w-5 h-5 text-warning" %} Edit Node
                 {% endif %}
             </h3>
-
-            <form method="post" hx-post="{{ url }}" hx-target="#job-dialog" class="space-y-4">
+            <form method="post" hx-post="{{ url }}" hx-target="#node-dialog" class="space-y-4">
                 {% csrf_token %}
-                
                 {% for field in form %}
                 <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text font-medium">{{ field.label }}</span>
-                    </label>
-                    <div class="[&>input]:input [&>input]:input-bordered [&>input]:w-full [&>select]:select [&>select]:select-bordered [&>select]:w-full [&>textarea]:textarea [&>textarea]:textarea-bordered [&>textarea]:w-full">
+                    <label class="label"><span class="label-text font-medium">{{ field.label }}</span></label>
+                    <div class="[&>input]:input [&>input]:input-bordered [&>input]:w-full [&>select]:select [&>select]:select-bordered [&>select]:w-full">
                         {{ field }}
                     </div>
-                    {% if field.errors %}
-                        <span class="text-error text-xs mt-1">{{ field.errors.0 }}</span>
-                    {% endif %}
-                    {% if field.help_text %}
-                        <label class="label">
-                            <span class="label-text-alt text-base-content/60">{{ field.help_text }}</span>
-                        </label>
-                    {% endif %}
+                    {% if field.errors %}<span class="text-error text-xs mt-1">{{ field.errors.0 }}</span>{% endif %}
                 </div>
                 {% endfor %}
-
                 <div class="modal-action mt-8">
                     <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white">Save Schedule</button>
+                    <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white">Save</button>
                 </div>
             </form>
         </div>
     {% endpartialdef %}
 
-    {% partialdef job-delete-form %}
+    {% partialdef node-delete-form %}
         <div class="modal-box relative">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal()">✕</button>
             <h3 class="font-bold text-lg text-error flex items-center gap-2">
-                {% lucide "triangle-alert" class="w-6 h-6" %} Delete Job?
+                {% lucide "triangle-alert" class="w-6 h-6" %} Delete Node?
             </h3>
             <div class="py-4">
-                <p>Are you sure you want to delete <strong class="text-base-content">{{ job.name }}</strong>?</p>
-                <p class="text-sm opacity-60 mt-2">This will cancel all future runs and delete execution history.</p>
+                <p>Are you sure you want to delete <strong class="text-base-content">{{ node.hostname }}</strong>?</p>
+                <p class="text-sm opacity-60 mt-2">This action cannot be undone.</p>
             </div>
             <div class="modal-action">
                 <button type="button" class="btn" onclick="closeModal()">Cancel</button>
-                <button hx-delete="{% url 'job_delete' job.id %}" 
-                        hx-target="#table" 
-                        class="btn btn-error text-white">Delete</button>
+                <button hx-delete="{% url 'node_delete' node.id %}" hx-target="#table" class="btn btn-error text-white">Delete</button>
             </div>
         </div>
     {% endpartialdef %}
 
     <script>
-        const dialog = document.getElementById("job-dialog");
-
-        dialog.addEventListener("htmx:afterSwap", (evt) => {
-            if (evt.target === dialog) {
-                dialog.showModal();
-            }
-        });
-
-        function closeModal() {
-            dialog.close();
-        }
-
-        document.body.addEventListener("closeModal", () => {
-            dialog.close();
-        });
+        const dialog = document.getElementById("node-dialog");
+        dialog.addEventListener("htmx:afterSwap", (evt) => { if (evt.target === dialog) dialog.showModal(); });
+        function closeModal() { dialog.close(); }
+        document.body.addEventListener("closeModal", () => { dialog.close(); });
     </script>
 </div>
 {% endblock %}

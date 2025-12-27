@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static lucide %}
+
+{% block body %}
+<div class="p-6 max-w-7xl mx-auto space-y-6 animate-in fade-in duration-500">
+    
+    <div class="flex flex-col gap-2">
+        <a href="{% url 'cluster' node.cluster.id %}" class="btn btn-ghost btn-sm w-fit gap-2 pl-0 text-base-content/60 hover:text-base-content">
+            {% lucide "arrow-left" class="w-4 h-4" %}
+            Back to {{ node.cluster.name }}
+        </a>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-base-200 rounded-xl">
+                    {% lucide "server" class="w-8 h-8 text-[#42A5F5]" %}
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight">{{ node.hostname }}</h1>
+                    <p class="text-sm text-base-content/60 font-mono">{{ node.ip_address }}</p>
+                </div>
+            </div>
+
+            <div>
+                {% if node.status == "ONLINE" %}
+                    <div class="badge badge-success gap-2 py-3 px-4 text-white font-semibold shadow-sm">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                        </span>
+                        Online
+                    </div>
+                {% elif node.status == "OFFLINE" %}
+                    <div class="badge badge-error gap-2 py-3 px-4 text-white font-semibold shadow-sm">
+                        <div class="w-2 h-2 rounded-full bg-white"></div>
+                        Offline
+                    </div>
+                {% else %}
+                    <div class="badge badge-ghost gap-2 py-3 px-4 font-semibold shadow-sm">
+                        <div class="w-2 h-2 rounded-full bg-base-content/40"></div>
+                        Unknown
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-2 space-y-6">
+            <div class="card bg-base-100 shadow-lg border border-base-200">
+                <div class="card-body">
+                    <h2 class="card-title text-sm uppercase text-base-content/50 mb-4">System Details</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center">
+                                {% lucide "user" class="w-5 h-5 opacity-70" %}
+                            </div>
+                            <div>
+                                <div class="text-xs opacity-50 font-bold uppercase">SSH User</div>
+                                <div class="font-mono">{{ node.username }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center">
+                                {% lucide "clock" class="w-5 h-5 opacity-70" %}
+                            </div>
+                            <div>
+                                <div class="text-xs opacity-50 font-bold uppercase">Last Seen</div>
+                                <div>{{ node.last_seen|timesince|default:"Never" }} ago</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 md:col-span-2">
+                            <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center">
+                                {% lucide "key" class="w-5 h-5 opacity-70" %}
+                            </div>
+                            <div class="w-full">
+                                <div class="text-xs opacity-50 font-bold uppercase">Agent Key</div>
+                                <div class="font-mono text-xs bg-base-200 p-2 rounded border border-base-300 break-all select-all">
+                                    {{ node.agent_key }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-lg border border-base-200">
+                <div class="card-body">
+                    <h2 class="card-title text-sm uppercase text-base-content/50 mb-4">Management</h2>
+                    <div class="flex gap-4">
+                        <a href="{% url 'terminal' node.id %}" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] text-white border-none gap-2 flex-1 md:flex-none">
+                            {% lucide "terminal" class="w-5 h-5" %}
+                            Open Web Terminal
+                        </a>
+                        <button class="btn btn-ghost gap-2 border-base-300" disabled>
+                            {% lucide "refresh-cw" class="w-4 h-4" %} Reboot
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-1">
+            <div class="card bg-[#1e1e1e] text-gray-300 shadow-xl overflow-hidden">
+                <div class="card-body p-6">
+                    <div class="flex items-center gap-2 text-white mb-4">
+                        {% lucide "cloud-download" class="w-6 h-6 text-green-400" %}
+                        <h3 class="card-title text-lg">Agent Setup</h3>
+                    </div>
+                    
+                    <p class="text-sm opacity-80 mb-4">
+                        Run this command on <strong>{{ node.hostname }}</strong> to enable metrics and monitoring.
+                    </p>
+
+                    <div class="relative group">
+                        <div class="mockup-code bg-black text-xs min-w-0 pr-12">
+                            <pre class="whitespace-pre-wrap break-all p-4 pt-0"><code id="install-cmd" class="text-green-400">{{ install_cmd }}</code></pre>
+                        </div>
+                        
+                        <button onclick="copyCommand()" 
+                                class="absolute top-2 right-2 btn btn-xs btn-square btn-ghost text-white opacity-50 hover:opacity-100 hover:bg-white/20 transition-all"
+                                title="Copy to clipboard">
+                            <span id="copy-icon">{% lucide "copy" class="w-4 h-4" %}</span>
+                            <span id="check-icon" class="hidden text-green-400">{% lucide "check" class="w-4 h-4" %}</span>
+                        </button>
+                    </div>
+
+                    <div class="mt-4 flex items-center gap-2 text-xs opacity-50">
+                        {% lucide "info" class="w-4 h-4" %}
+                        <span>Standard Python libraries only. No pip required.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function copyCommand() {
+        const cmdText = document.getElementById('install-cmd').innerText;
+        const copyIcon = document.getElementById('copy-icon');
+        const checkIcon = document.getElementById('check-icon');
+        
+        navigator.clipboard.writeText(cmdText).then(() => {
+            // Visual feedback
+            copyIcon.classList.add('hidden');
+            checkIcon.classList.remove('hidden');
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                copyIcon.classList.remove('hidden');
+                checkIcon.classList.add('hidden');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            alert("Failed to copy command. Please select and copy manually.");
+        });
+    }
+</script>
+{% endblock %}

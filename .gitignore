@@ -214,3 +214,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# TailwindCSS
+.django_tailwind_cli/
+static/css/tailwind.css
+static/css/tailwind.min.css

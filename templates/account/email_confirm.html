@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load i18n static lucide account %}
+
+{% block body %}
+<div class="relative min-h-screen flex items-center justify-center bg-base-200 overflow-hidden px-4">
+    
+    <div class="absolute inset-0 z-0 opacity-[0.03]" 
+         style="background-image: radial-gradient(#42A5F5 1px, transparent 1px); background-size: 30px 30px;">
+    </div>
+    
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s"></div>
+
+    <div class="relative z-10 w-full max-w-md">
+        
+        <div class="text-center mb-8">
+            <a href="{% url 'index' %}" class="inline-flex items-center justify-center mb-4 relative group">
+                <div class="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/30 transition-all"></div>
+                <img src="{% static 'images/favicon.svg' %}" alt="NIA-OS" class="h-16 w-16 relative z-10 drop-shadow-lg">
+            </a>
+        </div>
+
+        <div class="card bg-base-100/80 backdrop-blur-xl border border-base-200 shadow-2xl overflow-hidden">
+            <div class="card-body p-8 text-center">
+
+                {% if confirmation %}
+                    <div class="mx-auto w-20 h-20 bg-[#42A5F5]/10 rounded-2xl flex items-center justify-center mb-6 ring-4 ring-base-100 shadow-lg">
+                        {% lucide "mail-check" class="w-10 h-10 text-[#42A5F5]" %}
+                    </div>
+
+                    <h1 class="text-2xl font-bold tracking-tight mb-2">{% trans "Confirm Email Address" %}</h1>
+                    
+                    <p class="text-base-content/60 mb-8 text-sm leading-relaxed">
+                        {% blocktrans with email=confirmation.email_address.email %}
+                        Please confirm that <strong class="text-base-content">{{ email }}</strong> is the email address for your NIA-OS account.
+                        {% endblocktrans %}
+                    </p>
+
+                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}" class="w-full">
+                        {% csrf_token %}
+                        <button type="submit" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full shadow-lg shadow-blue-500/20 group">
+                            {% trans "Confirm Email" %}
+                            {% lucide "arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" %}
+                        </button>
+                    </form>
+
+                {% else %}
+                    <div class="mx-auto w-20 h-20 bg-error/10 rounded-2xl flex items-center justify-center mb-6 ring-4 ring-base-100 shadow-lg">
+                        {% lucide "link-2-off" class="w-10 h-10 text-error" %}
+                    </div>
+
+                    <h1 class="text-2xl font-bold tracking-tight mb-2">{% trans "Link Expired" %}</h1>
+                    
+                    <p class="text-base-content/60 mb-8 text-sm">
+                        {% trans "This confirmation link is invalid or has already been used. Please try logging in or requesting a new one." %}
+                    </p>
+
+                    <div class="space-y-3">
+                        <a href="{% url 'account_login' %}" class="btn btn-primary w-full">
+                            {% trans "Go to Login" %}
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+            
+            <div class="bg-base-200/50 p-4 text-center text-sm text-base-content/70 border-t border-base-200">
+                <a href="{% url 'index' %}" class="link link-hover hover:text-[#42A5F5] font-medium">
+                    &larr; Back to Home
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-8 opacity-40 text-xs font-mono">
+            &copy; {% now "Y" %} NIA-OS. Secure Infrastructure.
+        </div>
+
+    </div>
+</div>
+{% endblock %}

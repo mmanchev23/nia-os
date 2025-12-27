@@ -1,0 +1,48 @@
+{% load static lucide %}
+
+<input type="checkbox" id="logout-modal" class="modal-toggle" />
+
+<div class="modal modal-bottom sm:modal-middle bg-black/40 backdrop-blur-sm z-[60]">
+    
+    <div class="modal-box p-0 bg-base-100 shadow-2xl rounded-3xl w-full max-w-sm border border-base-200 overflow-hidden relative transform transition-all">
+        
+        <div class="h-24 bg-gradient-to-tr from-[#42A5F5]/10 to-blue-600/10 w-full"></div>
+        
+        <label for="logout-modal" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 text-base-content/50 hover:bg-base-100/50">
+            {% lucide "x" class="w-5 h-5" %}
+        </label>
+
+        <div class="px-8 pb-8 -mt-10 text-center relative">
+            
+            <div class="mx-auto w-20 h-20 bg-base-100 rounded-2xl flex items-center justify-center shadow-lg ring-4 ring-base-100 mb-5">
+                <div class="w-12 h-12 bg-[#42A5F5]/10 rounded-xl flex items-center justify-center text-[#42A5F5]">
+                    {% lucide "log-out" class="w-6 h-6 ml-1" %}
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold tracking-tight mb-2">Ready to leave?</h3>
+            <p class="text-sm text-base-content/60 mb-8 leading-relaxed">
+                You are about to sign out of <strong>NIA-OS</strong>.<br>
+                Please ensure all your tasks are saved.
+            </p>
+
+            <div class="space-y-3">
+                <form method="post" action="{% url 'account_logout' %}" class="w-full">
+                    {% csrf_token %}
+                    <button type="submit" 
+                            class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full rounded-xl shadow-lg shadow-blue-500/20 group">
+                        <span>Sign Out</span>
+                        {% lucide "arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" %}
+                    </button>
+                </form>
+                
+                <label for="logout-modal" class="btn btn-ghost w-full rounded-xl text-base-content/60 hover:text-base-content hover:bg-base-200/50">
+                    Stay Logged In
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <label class="modal-backdrop" for="logout-modal">Close</label>
+</div>

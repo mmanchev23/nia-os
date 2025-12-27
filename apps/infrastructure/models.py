@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -45,6 +47,11 @@ class Cluster(BaseModel):
 
 
 class Node(BaseModel):
+    class Status(models.TextChoices):
+        UNKNOWN = "UNKNOWN", _("Unknown")
+        ONLINE = "ONLINE", _("Online")
+        OFFLINE = "OFFLINE", _("Offline")
+
     cluster = models.ForeignKey(
         to=Cluster,
         on_delete=models.CASCADE,
@@ -88,6 +95,23 @@ class Node(BaseModel):
         validators=[MinValueValidator(1), MaxValueValidator(65535)],
         verbose_name=_("Port"),
     )
+
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.UNKNOWN,
+        verbose_name=_("Status"),
+    )
+
+    agent_key = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+        verbose_name=_("Agent Key"),
+        help_text=_("Secret key used by the agent to authenticate."),
+    )
+
+    last_seen = models.DateTimeField(null=True, blank=True, verbose_name=_("Last Seen"))
 
     def __str__(self) -> str:
         return self.hostname
