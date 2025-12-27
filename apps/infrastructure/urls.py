@@ -18,6 +18,7 @@ urlpatterns = [
         name="cluster_delete",
     ),
     path("nodes/create/", views.node_create, name="node_create"),
+    path("nodes/<uuid:node_id>/", views.node_detail, name="node_detail"),
     path("nodes/<uuid:node_id>/update/", views.node_update, name="node_update"),
     path("nodes/<uuid:node_id>/delete/", views.node_delete, name="node_delete"),
     path("nodes/<uuid:node_id>/terminal/", views.terminal, name="terminal"),

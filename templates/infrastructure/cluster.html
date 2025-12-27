@@ -59,7 +59,7 @@
                 {% for node in nodes %}
                 <tr>
                     <td>
-                        <a href="{% url 'terminal' node.id %}">
+                        <a href="{% url 'node_detail' node.id %}">
                             {{ node.hostname }}
                         </a>
                     </td>

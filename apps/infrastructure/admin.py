@@ -48,7 +48,7 @@ class NodeAdmin(admin.ModelAdmin):
     search_help_text = _("Search by node hostname and ip address or cluster details.")
     autocomplete_fields = ["cluster"]
 
-    def cluster_user(self, obj):
+    def cluster_user(self, obj) -> str:
         return obj.cluster.user
 
     cluster_user.short_description = _("User")

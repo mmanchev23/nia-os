@@ -3,7 +3,7 @@ from uuid import UUID
 from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_http_methods
@@ -213,6 +213,27 @@ def node_create(request: HttpRequest) -> HttpResponse:
 
     context = {"form": form, "url": request.path, "title": "Add New Node"}
     return render(request, "infrastructure/cluster.html#node-form", context)
+
+
+@login_required
+def node_detail(request: HttpRequest, node_id: UUID) -> HttpResponse:
+    try:
+        node = NodeService.get(node_id, request.user)
+    except Node.DoesNotExist:
+        messages.error(request, "Node not found.")
+        return redirect("clusters")
+
+    host = request.build_absolute_uri("/")[:-1]
+    agent_url = f"{host}/static/agent.py"
+    ingest_url = f"{host}/monitoring/api/ingest/"
+    install_cmd = f"curl -s {agent_url} | python3 - {ingest_url} {node.agent_key}"
+
+    context = {
+        "node": node,
+        "install_cmd": install_cmd,
+    }
+
+    return render(request, "infrastructure/node_detail.html", context)
 
 
 @login_required
