@@ -117,7 +117,11 @@
                                 {% endif %}
                             </td>
                             <td class="font-mono text-xs opacity-70">
-                                {{ job.schedule.last_run|timesince|default:_("Never") }} {% trans "ago" %}
+                                {% if job.last_run_at %}
+                                    {{ job.last_run_at|timesince }} {% trans "ago" %}
+                                {% else %}
+                                    {% trans "Never" %}
+                                {% endif %}
                             </td>
                             <td class="text-right">
                                 <div class="join">

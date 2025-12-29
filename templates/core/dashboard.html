@@ -203,8 +203,8 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const statusData = JSON.parse("{{ status_chart_data|safe }}");
-    const historyData = JSON.parse("{{ initial_chart_data|safe }}");
+    const statusData = {{ status_chart_data|safe }};
+    const historyData = {{ initial_chart_data|safe }};
 
     const statusCtx = document.getElementById("deviceStatusChart").getContext("2d");
     const statusChart = new Chart(statusCtx, {
@@ -239,17 +239,53 @@ document.addEventListener("DOMContentLoaded", function() {
                     tension: 0.4,
                     fill: true,
                     pointRadius: 0,
-                    pointHoverRadius: 4
+                    pointHoverRadius: 4,
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: { duration: 0 }, 
-                plugins: { legend: { display: false } },
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        mode: "index",
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ": " + context.parsed.y + "%";
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    x: { display: false },
-                    y: { beginAtZero: true, max: 100, display: false }
+                    x: { 
+                        display: false,
+                        grid: { display: false } 
+                    },
+                    y: { 
+                        display: true,
+                        beginAtZero: true, 
+                        max: 100,
+                        ticks: {
+                            stepSize: 25,
+                            callback: function(value) {
+                                return value + "%";
+                            },
+                            color: "rgba(156, 163, 175, 0.5)",
+                            font: { size: 10 }
+                        },
+                        grid: {
+                            color: "rgba(156, 163, 175, 0.1)",
+                            drawBorder: false
+                        }
+                    }
+                },
+                interaction: {
+                    mode: "nearest",
+                    axis: "x",
+                    intersect: false
                 }
             }
         });
@@ -257,13 +293,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const cpuCtx = document.getElementById("cpuChart").getContext("2d");
     const memCtx = document.getElementById("memoryChart").getContext("2d");
-    
+
     let cpuGrad = cpuCtx.createLinearGradient(0, 0, 0, 200);
-    cpuGrad.addColorStop(0, "rgba(66, 165, 245, 0.4)");
+    cpuGrad.addColorStop(0, "rgba(66, 165, 245, 0.2)");
     cpuGrad.addColorStop(1, "rgba(66, 165, 245, 0)");
 
     let memGrad = memCtx.createLinearGradient(0, 0, 0, 200);
-    memGrad.addColorStop(0, "rgba(22, 163, 74, 0.4)");
+    memGrad.addColorStop(0, "rgba(22, 163, 74, 0.2)");
     memGrad.addColorStop(1, "rgba(22, 163, 74, 0)");
 
     const cpuChart = createLineChart(cpuCtx, "{% trans 'CPU %' %}", "#42A5F5", cpuGrad, historyData.cpu, historyData.labels);
@@ -276,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 statusChart.data.datasets[0].data = [data.status.online, data.status.offline, data.status.unknown];
                 statusChart.update();
 
-                const now = new Date().toLocaleTimeString('en-US', { hour12: false });
+                const now = new Date().toLocaleTimeString("en", { hour12: false });
 
                 [cpuChart, memChart].forEach((chart, idx) => {
                     const newValue = idx === 0 ? data.telemetry.cpu : data.telemetry.memory;
@@ -288,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     chart.data.labels.push(now);
                     chart.data.datasets[0].data.push(newValue);
-                    chart.update('none');
+                    chart.update("none");
                 });
             })
             .catch(err => console.error("Polling error:", err));
