@@ -1,4 +1,4 @@
-{% load static lucide %}
+{% load static lucide i18n %}
 
 <input type="checkbox" id="logout-modal" class="modal-toggle" />
 
@@ -20,10 +20,9 @@
                 </div>
             </div>
 
-            <h3 class="text-xl font-bold tracking-tight mb-2">Ready to leave?</h3>
+            <h3 class="text-xl font-bold tracking-tight mb-2">{% trans "Ready to leave?" %}</h3>
             <p class="text-sm text-base-content/60 mb-8 leading-relaxed">
-                You are about to sign out of <strong>NIA-OS</strong>.<br>
-                Please ensure all your tasks are saved.
+                {% blocktrans %}You are about to sign out of <strong>NIA-OS</strong>.<br>Please ensure all your tasks are saved.{% endblocktrans %}
             </p>
 
             <div class="space-y-3">
@@ -31,18 +30,18 @@
                     {% csrf_token %}
                     <button type="submit" 
                             class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full rounded-xl shadow-lg shadow-blue-500/20 group">
-                        <span>Sign Out</span>
+                        <span>{% trans "Sign Out" %}</span>
                         {% lucide "arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" %}
                     </button>
                 </form>
                 
                 <label for="logout-modal" class="btn btn-ghost w-full rounded-xl text-base-content/60 hover:text-base-content hover:bg-base-200/50">
-                    Stay Logged In
+                    {% trans "Stay Logged In" %}
                 </label>
             </div>
 
         </div>
     </div>
 
-    <label class="modal-backdrop" for="logout-modal">Close</label>
+    <label class="modal-backdrop" for="logout-modal">{% trans "Close" %}</label>
 </div>

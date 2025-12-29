@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static lucide %}
+{% load static lucide i18n %}
 
 {% block body %}
 <style>
@@ -8,14 +8,13 @@
         to { stroke-dashoffset: -24; }
     }
     .animate-flow {
-        /* Increased duration slightly for smoother look */
         animation: flow 1.5s linear infinite;
     }
     
     /* Subtler floating animation */
     @keyframes float {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-6px); } /* Reduced movement to keep alignment better */
+        50% { transform: translateY(-6px); } 
     }
     .animate-float {
         animation: float 5s ease-in-out infinite;
@@ -56,42 +55,42 @@
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "boxes" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Clusters</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Clusters" %}</span>
         </div>
 
         <div class="absolute top-[28%] right-[18%] translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-float" style="animation-delay: 0.5s;">
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "calendar-clock" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Scheduler</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Scheduler" %}</span>
         </div>
 
         <div class="absolute bottom-[28%] right-[18%] translate-x-1/2 translate-y-1/2 flex flex-col items-center animate-float" style="animation-delay: 1s;">
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "activity" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Telemetry</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Telemetry" %}</span>
         </div>
 
         <div class="absolute bottom-[15%] left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center animate-float" style="animation-delay: 1.5s;">
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "server" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Nodes</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Nodes" %}</span>
         </div>
 
         <div class="absolute bottom-[28%] left-[18%] -translate-x-1/2 translate-y-1/2 flex flex-col items-center animate-float" style="animation-delay: 2s;">
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "shield-check" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Security</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Security" %}</span>
         </div>
 
         <div class="absolute top-[28%] left-[18%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-float" style="animation-delay: 2.5s;">
             <div class="w-14 h-14 rounded-full bg-base-100/80 border-2 border-[#42A5F5] flex items-center justify-center shadow-[0_0_15px_rgba(66,165,245,0.2)] pulse-ring relative z-10 backdrop-blur-md">
                 {% lucide "terminal" class="w-7 h-7 text-[#42A5F5]" %}
             </div>
-            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">Terminal</span>
+            <span class="mt-2 text-sm text-base-content/80 font-bold tracking-wide bg-base-100/60 px-2 py-0.5 rounded backdrop-blur-sm">{% trans "Terminal" %}</span>
         </div>
     </div>
 
@@ -108,7 +107,7 @@
             </div>
             
             <p class="text-base-content/60 text-lg leading-relaxed">
-                Network Infrastructure Automation &amp; Orchestration System
+                {% trans "Network Infrastructure Automation & Orchestration System" %}
             </p>
             
             <a href="{% url 'account_login' %}"
@@ -117,27 +116,27 @@
                     <span class="justify-items-center">
                         <span class="flex items-center gap-2">
                             {% lucide "boxes" class="w-5 h-5" %}
-                            Manage Clusters
+                            {% trans "Manage Clusters" %}
                         </span>
                         <span class="flex items-center gap-2">
                             {% lucide "terminal" class="w-5 h-5" %}
-                            Remote Access
+                            {% trans "Remote Access" %}
                         </span>
                         <span class="flex items-center gap-2">
                             {% lucide "calendar-clock" class="w-5 h-5" %}
-                            Automate Tasks
+                            {% trans "Automate Tasks" %}
                         </span>
                         <span class="flex items-center gap-2">
                             {% lucide "activity" class="w-5 h-5" %}
-                            Live Telemetry
+                            {% trans "Live Telemetry" %}
                         </span>
                         <span class="flex items-center gap-2">
                             {% lucide "monitor-check" class="w-5 h-5" %}
-                            Monitor Health
+                            {% trans "Monitor Health" %}
                         </span>
                         <span class="flex items-center gap-2">
                             {% lucide "network" class="w-5 h-5" %}
-                            Orchestrate Scale
+                            {% trans "Orchestrate Scale" %}
                         </span>
                     </span>
                 </span>

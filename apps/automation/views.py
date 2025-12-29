@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 
 from config.middlewares.htmx import HttpRequest
@@ -57,7 +58,7 @@ def job_create(request: HttpRequest) -> HttpResponse:
 
             try:
                 JobService.create(data)
-                messages.success(request, "Job scheduled successfully!")
+                messages.success(request, _("Job scheduled successfully!"))
 
                 jobs = JobService.list(request.user)
                 context = {"jobs": Paginator(jobs, 10).page(1)}
@@ -71,7 +72,7 @@ def job_create(request: HttpRequest) -> HttpResponse:
     else:
         form = JobForm(request.user)
 
-    context = {"form": form, "url": request.path, "title": "Schedule New Job"}
+    context = {"form": form, "url": request.path, "title": _("Schedule New Job")}
     return render(request, "automation/jobs.html#job-form", context)
 
 
@@ -102,7 +103,9 @@ def job_update(request: HttpRequest, job_id: UUID) -> HttpResponse:
 
             try:
                 JobService.update(job.id, request.user, data)
-                messages.success(request, f"Job {data.name} updated!")
+                messages.success(
+                    request, _("Job {name} updated!").format(name=data.name)
+                )
 
                 jobs = JobService.list(request.user)
                 context = {"jobs": Paginator(jobs, 10).page(1)}
@@ -128,7 +131,11 @@ def job_update(request: HttpRequest, job_id: UUID) -> HttpResponse:
 
         form = JobForm(request.user, initial=initial)
 
-    context = {"form": form, "url": request.path, "title": f"Edit {job.name}"}
+    context = {
+        "form": form,
+        "url": request.path,
+        "title": _("Edit {name}").format(name=job.name),
+    }
     return render(request, "automation/jobs.html#job-form", context)
 
 
@@ -138,7 +145,7 @@ def job_delete(request: HttpRequest, job_id: UUID) -> HttpResponse:
 
     if request.method == "DELETE":
         job.delete()
-        messages.success(request, f"Job '{job.name}' deleted!")
+        messages.success(request, _("Job '{name}' deleted!").format(name=job.name))
 
         jobs = ScheduledJob.objects.filter(user=request.user).order_by("-created")
         context = {"jobs": Paginator(jobs, 10).page(1)}
