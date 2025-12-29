@@ -1,7 +1,7 @@
-{% load static django_htmx tailwind_cli lucide %}
+{% load static django_htmx tailwind_cli lucide i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
     <head>
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="{% static 'images/favicon-96x96.png' %}" sizes="96x96" />

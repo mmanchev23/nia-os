@@ -66,13 +66,13 @@
             
             <div class="bg-base-200/50 p-4 text-center text-sm text-base-content/70 border-t border-base-200">
                 <a href="{% url 'index' %}" class="link link-hover hover:text-[#42A5F5] font-medium">
-                    &larr; Back to Home
+                    &larr; {% trans "Back to Home" %}
                 </a>
             </div>
         </div>
 
         <div class="text-center mt-8 opacity-40 text-xs font-mono">
-            &copy; {% now "Y" %} NIA-OS. Secure Infrastructure.
+            &copy; {% now "Y" %} NIA-OS. {% trans "Secure Infrastructure." %}
         </div>
 
     </div>

@@ -1,8 +1,9 @@
 import json
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest, JsonResponse
+from django.shortcuts import render
+from django.utils.translation import gettext as _
+from django.contrib.auth.decorators import login_required
 
 from apps.infrastructure.models import Cluster, Node
 from apps.automation.models import ScheduledJob
@@ -55,7 +56,7 @@ def dashboard(request: HttpRequest) -> HttpResponse:
 
     if not history:
         initial_chart_data = {
-            "labels": ["Wait...", "Wait...", "Wait..."],
+            "labels": [_("Wait..."), _("Wait..."), _("Wait...")],
             "cpu": [0, 0, 0],
             "memory": [0, 0, 0],
         }

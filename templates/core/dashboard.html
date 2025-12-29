@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static lucide %} 
+{% load static lucide i18n %} 
 
 {% block body %}
 <div class="p-6 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
@@ -7,13 +7,13 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h1 class="text-3xl font-bold tracking-tight">
-                Welcome, <span class="text-[#42A5F5]">{{ request.user.first_name|default:request.user.username }}</span>
+                {% blocktrans with name=request.user.first_name|default:request.user.username %}Welcome, <span class="text-[#42A5F5]">{{ name }}</span>{% endblocktrans %}
             </h1>
-            <p class="text-base-content/60">System overview and real-time infrastructure metrics.</p>
+            <p class="text-base-content/60">{% trans "System overview and real-time infrastructure metrics." %}</p>
         </div>
         <div class="flex gap-2">
             <button onclick="window.location.reload()" class="btn btn-ghost btn-sm gap-2">
-                {% lucide "refresh-cw" class="w-4 h-4" %} Refresh
+                {% lucide "refresh-cw" class="w-4 h-4" %} {% trans "Refresh" %}
             </button>
         </div>
     </div>
@@ -33,9 +33,9 @@
                             {{ stats.health|default:0 }}%
                         </div>
                     </div>
-                    <div class="stat-title">System Health</div>
+                    <div class="stat-title">{% trans "System Health" %}</div>
                     <div class="stat-value text-success">{{ stats.health }}%</div>
-                    <div class="stat-desc">Operational Score</div>
+                    <div class="stat-desc">{% trans "Operational Score" %}</div>
                 </div>
             </div>
             <div class="stats shadow bg-base-100 border border-base-200">
@@ -43,9 +43,9 @@
                     <div class="stat-figure text-[#42A5F5]">
                         {% lucide "boxes" class="w-8 h-8 opacity-80" %}
                     </div>
-                    <div class="stat-title">Total Clusters</div>
+                    <div class="stat-title">{% trans "Total Clusters" %}</div>
                     <div class="stat-value">{{ stats.clusters }}</div>
-                    <div class="stat-desc">Active Groups</div>
+                    <div class="stat-desc">{% trans "Active Groups" %}</div>
                 </div>
             </div>
             <div class="stats shadow bg-base-100 border border-base-200">
@@ -53,9 +53,9 @@
                     <div class="stat-figure text-warning">
                         {% lucide "server" class="w-8 h-8 opacity-80" %}
                     </div>
-                    <div class="stat-title">Compute Nodes</div>
+                    <div class="stat-title">{% trans "Compute Nodes" %}</div>
                     <div class="stat-value">{{ stats.nodes }}</div>
-                    <div class="stat-desc">{{ stats.online }} Online / {{ stats.nodes }} Total</div>
+                    <div class="stat-desc">{% blocktrans with online=stats.online total=stats.nodes %}{{ online }} Online / {{ total }} Total{% endblocktrans %}</div>
                 </div>
             </div>
             <div class="stats shadow bg-base-100 border border-base-200">
@@ -63,9 +63,9 @@
                     <div class="stat-figure text-secondary">
                         {% lucide "calendar-clock" class="w-8 h-8 opacity-80" %}
                     </div>
-                    <div class="stat-title">Scheduled Jobs</div>
+                    <div class="stat-title">{% trans "Scheduled Jobs" %}</div>
                     <div class="stat-value">{{ stats.jobs }}</div>
-                    <div class="stat-desc">Automation Tasks</div>
+                    <div class="stat-desc">{% trans "Automation Tasks" %}</div>
                 </div>
             </div>
         {% endpartialdef %}
@@ -76,9 +76,9 @@
             <div class="card-body p-4">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold flex items-center gap-2">
-                        {% lucide "activity" class="w-4 h-4 text-[#42A5F5]" %} CPU Usage
+                        {% lucide "activity" class="w-4 h-4 text-[#42A5F5]" %} {% trans "CPU Usage" %}
                     </h3>
-                    <span id="cpu-live-badge" class="badge badge-xs badge-success animate-pulse">Live</span>
+                    <span id="cpu-live-badge" class="badge badge-xs badge-success animate-pulse">{% trans "Live" %}</span>
                 </div>
                 <div class="relative h-48 w-full">
                     <canvas id="cpuChart"></canvas>
@@ -90,9 +90,9 @@
             <div class="card-body p-4">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold flex items-center gap-2">
-                        {% lucide "layers" class="w-4 h-4 text-green-600" %} Memory Usage
+                        {% lucide "layers" class="w-4 h-4 text-green-600" %} {% trans "Memory Usage" %}
                     </h3>
-                    <span id="mem-live-badge" class="badge badge-xs badge-success animate-pulse">Live</span>
+                    <span id="mem-live-badge" class="badge badge-xs badge-success animate-pulse">{% trans "Live" %}</span>
                 </div>
                 <div class="relative h-48 w-full">
                     <canvas id="memoryChart"></canvas>
@@ -103,14 +103,14 @@
         <div class="card bg-base-100 shadow border border-base-200">
             <div class="card-body p-4 flex flex-col items-center justify-center">
                 <h3 class="font-bold flex items-center gap-2 mb-2 self-start w-full">
-                    {% lucide "chart-pie" class="w-4 h-4 text-warning" %} Node Status
+                    {% lucide "chart-pie" class="w-4 h-4 text-warning" %} {% trans "Node Status" %}
                 </h3>
                 <div class="relative h-40 w-40">
                     <canvas id="deviceStatusChart"></canvas>
                 </div>
                 <div class="flex gap-4 mt-4 text-xs font-mono">
-                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-success"></div> Online</div>
-                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-error"></div> Offline</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-success"></div> {% trans "Online" %}</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-error"></div> {% trans "Offline" %}</div>
                 </div>
             </div>
         </div>
@@ -121,18 +121,18 @@
             <div class="card-body p-0">
                 <div class="p-4 border-b border-base-200 flex justify-between items-center">
                     <h3 class="font-bold flex items-center gap-2">
-                        {% lucide "server" class="w-4 h-4 opacity-50" %} Recent Nodes
+                        {% lucide "server" class="w-4 h-4 opacity-50" %} {% trans "Recent Nodes" %}
                     </h3>
-                    <a href="{% url 'clusters' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">View All</a>
+                    <a href="{% url 'clusters' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">{% trans "View All" %}</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Hostname</th>
-                                <th>IP Address</th>
-                                <th>Status</th>
-                                <th class="text-right">Last Seen</th>
+                                <th>{% trans "Hostname" %}</th>
+                                <th>{% trans "IP Address" %}</th>
+                                <th>{% trans "Status" %}</th>
+                                <th class="text-right">{% trans "Last Seen" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,17 +142,17 @@
                                 <td class="font-mono text-xs opacity-70">{{ node.ip_address }}</td>
                                 <td>
                                     {% if node.status == "ONLINE" %}
-                                        <div class="badge badge-success badge-xs gap-1 text-white">Online</div>
+                                        <div class="badge badge-success badge-xs gap-1 text-white">{% trans "Online" %}</div>
                                     {% elif node.status == "OFFLINE" %}
-                                        <div class="badge badge-error badge-xs gap-1 text-white">Offline</div>
+                                        <div class="badge badge-error badge-xs gap-1 text-white">{% trans "Offline" %}</div>
                                     {% else %}
-                                        <div class="badge badge-neutral badge-xs gap-1">Unknown</div>
+                                        <div class="badge badge-neutral badge-xs gap-1">{% trans "Unknown" %}</div>
                                     {% endif %}
                                 </td>
-                                <td class="text-right text-xs opacity-60">{{ node.last_seen|timesince }} ago</td>
+                                <td class="text-right text-xs opacity-60">{{ node.last_seen|timesince }} {% trans "ago" %}</td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="4" class="text-center py-8 opacity-50">No nodes found.</td></tr>
+                            <tr><td colspan="4" class="text-center py-8 opacity-50">{% trans "No nodes found." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -164,14 +164,14 @@
             <div class="card-body p-0">
                 <div class="p-4 border-b border-base-200 flex justify-between items-center">
                     <h3 class="font-bold flex items-center gap-2">
-                        {% lucide "calendar-clock" class="w-4 h-4 opacity-50" %} Scheduled Jobs
+                        {% lucide "calendar-clock" class="w-4 h-4 opacity-50" %} {% trans "Scheduled Jobs" %}
                     </h3>
-                    <a href="{% url 'jobs' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">Manage</a>
+                    <a href="{% url 'jobs' %}" class="link text-[#42A5F5] text-xs no-underline hover:text-[#1E88E5]">{% trans "Manage" %}</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="table table-sm">
                         <thead>
-                            <tr><th>Job Name</th><th>Schedule</th><th>Target</th></tr>
+                            <tr><th>{% trans "Job Name" %}</th><th>{% trans "Schedule" %}</th><th>{% trans "Target" %}</th></tr>
                         </thead>
                         <tbody>
                             {% for job in recent_jobs %}
@@ -179,17 +179,17 @@
                                 <td class="font-medium">{{ job.name }}</td>
                                 <td>
                                     {% if job.schedule.schedule_type == 'O' %}
-                                        <span class="badge badge-ghost badge-xs">Once</span>
+                                        <span class="badge badge-ghost badge-xs">{% trans "Once" %}</span>
                                     {% elif job.schedule.schedule_type == 'I' %}
-                                        <span class="badge badge-info badge-xs text-white">Every {{ job.schedule.minutes }}m</span>
+                                        <span class="badge badge-info badge-xs text-white">{% blocktrans with min=job.schedule.minutes %}Every {{ min }}m{% endblocktrans %}</span>
                                     {% endif %}
                                 </td>
                                 <td class="text-xs opacity-70">
-                                    {% if job.cluster %}Cluster: {{ job.cluster.name }}{% else %}Node: {{ job.node.hostname }}{% endif %}
+                                    {% if job.cluster %}{% trans "Cluster" %}: {{ job.cluster.name }}{% else %}{% trans "Node" %}: {{ job.node.hostname }}{% endif %}
                                 </td>
                             </tr>
                             {% empty %}
-                            <tr><td colspan="3" class="text-center py-8 opacity-50">No jobs scheduled.</td></tr>
+                            <tr><td colspan="3" class="text-center py-8 opacity-50">{% trans "No jobs scheduled." %}</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -203,14 +203,14 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const statusData = JSON.parse('{{ status_chart_data|safe }}');
-    const historyData = JSON.parse('{{ initial_chart_data|safe }}');
+    const statusData = JSON.parse("{{ status_chart_data|safe }}");
+    const historyData = JSON.parse("{{ initial_chart_data|safe }}");
 
     const statusCtx = document.getElementById("deviceStatusChart").getContext("2d");
     const statusChart = new Chart(statusCtx, {
         type: "doughnut",
         data: {
-            labels: ["Online", "Offline", "Unknown"],
+            labels: ["{% trans 'Online' %}", "{% trans 'Offline' %}", "{% trans 'Unknown' %}"],
             datasets: [{
                 data: [statusData.online, statusData.offline, statusData.unknown],
                 backgroundColor: ["#36D399", "#F87272", "#D1D5DB"],
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            cutout: '75%'
+            cutout: "75%"
         }
     });
 
@@ -266,8 +266,8 @@ document.addEventListener("DOMContentLoaded", function() {
     memGrad.addColorStop(0, "rgba(22, 163, 74, 0.4)");
     memGrad.addColorStop(1, "rgba(22, 163, 74, 0)");
 
-    const cpuChart = createLineChart(cpuCtx, "CPU %", "#42A5F5", cpuGrad, historyData.cpu, historyData.labels);
-    const memChart = createLineChart(memCtx, "RAM %", "#16A34A", memGrad, historyData.memory, historyData.labels);
+    const cpuChart = createLineChart(cpuCtx, "{% trans 'CPU %' %}", "#42A5F5", cpuGrad, historyData.cpu, historyData.labels);
+    const memChart = createLineChart(memCtx, "{% trans 'RAM %' %}", "#16A34A", memGrad, historyData.memory, historyData.labels);
 
     function fetchMetrics() {
         fetch("{% url 'dashboard_metrics_json' %}")

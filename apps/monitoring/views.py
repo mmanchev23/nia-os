@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -24,8 +25,8 @@ def ingest_metrics(request: HttpRequest) -> HttpResponse:
         return JsonResponse({"status": "ok"}, status=200)
 
     except (json.JSONDecodeError, ValueError, TypeError):
-        return JsonResponse({"error": "Invalid JSON format"}, status=400)
+        return JsonResponse({"error": _("Invalid JSON format")}, status=400)
     except ValidationError:
-        return JsonResponse({"error": "Invalid Agent Key"}, status=403)
+        return JsonResponse({"error": _("Invalid Agent Key")}, status=403)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)

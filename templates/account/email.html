@@ -119,7 +119,7 @@
         </div>
         
         <div class="text-center mt-8 opacity-40 text-xs font-mono">
-            &copy; {% now "Y" %} NIA-OS. Secure Infrastructure.
+            &copy; {% now "Y" %} NIA-OS. {% trans "Secure Infrastructure." %}
         </div>
 
     </div>
@@ -130,15 +130,15 @@
 {% block extra_body %}
 <script type="text/javascript">
 (function() {
-  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
-  var actions = document.getElementsByName('action_remove');
-  if (actions.length) {
-    actions[0].addEventListener("click", function(e) {
-      if (!confirm(message)) {
-        e.preventDefault();
-      }
-    });
-  }
+    var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+    var actions = document.getElementsByName('action_remove');
+    if (actions.length) {
+        actions[0].addEventListener("click", function(e) {
+        if (!confirm(message)) {
+            e.preventDefault();
+        }
+        });
+    }
 })();
 </script>
 {% endblock %}

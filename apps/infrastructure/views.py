@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 
 from config.middlewares.htmx import HttpRequest
@@ -52,7 +53,7 @@ def cluster_create(request: HttpRequest) -> HttpResponse:
 
             try:
                 ClusterService.create(data)
-                messages.success(request, f"{data.name} created!")
+                messages.success(request, _("{name} created!").format(name=data.name))
 
                 clusters = ClusterService.list(request.user).annotate(
                     node_count=Count("nodes")
@@ -70,7 +71,7 @@ def cluster_create(request: HttpRequest) -> HttpResponse:
     else:
         form = ClusterForm()
 
-    context = {"form": form, "url": request.path, "title": "Create Cluster"}
+    context = {"form": form, "url": request.path, "title": _("Create Cluster")}
     return render(request, "infrastructure/clusters.html#cluster-form", context)
 
 
@@ -79,7 +80,7 @@ def cluster(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
     try:
         cluster = ClusterService.get(cluster_id, request.user)
     except Cluster.DoesNotExist:
-        messages.error(request, "Cluster not found.")
+        messages.error(request, _("Cluster not found."))
         clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
         context = {"clusters": Paginator(clusters, 10).page(1)}
         return render(request, "infrastructure/clusters.html#cluster-table", context)
@@ -110,7 +111,7 @@ def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
     try:
         cluster = ClusterService.get(cluster_id, request.user)
     except Cluster.DoesNotExist:
-        messages.error(request, "Cluster not found.")
+        messages.error(request, _("Cluster not found."))
         clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
         context = {"clusters": Paginator(clusters, 10).page(1)}
         response = render(
@@ -131,7 +132,7 @@ def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
 
             try:
                 ClusterService.update(cluster.id, data)
-                messages.success(request, f"{data.name} updated!")
+                messages.success(request, _("{name} updated!").format(name=data.name))
 
                 clusters = ClusterService.list(request.user).annotate(
                     node_count=Count("nodes")
@@ -149,7 +150,11 @@ def cluster_update(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
     else:
         form = ClusterForm(instance=cluster)
 
-    context = {"form": form, "url": request.path, "title": f"Edit {cluster.name}"}
+    context = {
+        "form": form,
+        "url": request.path,
+        "title": _("Edit {name}").format(name=cluster.name),
+    }
     return render(request, "infrastructure/clusters.html#cluster-form", context)
 
 
@@ -158,12 +163,14 @@ def cluster_delete(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
     try:
         cluster = ClusterService.get(cluster_id, request.user)
     except Cluster.DoesNotExist:
-        messages.error(request, "Cluster not found.")
+        messages.error(request, _("Cluster not found."))
         return HttpResponse(status=404)
 
     if request.method == "DELETE":
         ClusterService.delete(cluster_id, request.user)
-        messages.success(request, f"Cluster '{cluster.name}' deleted!")
+        messages.success(
+            request, _("Cluster '{name}' deleted!").format(name=cluster.name)
+        )
 
         clusters = ClusterService.list(request.user).annotate(node_count=Count("nodes"))
         context = {"clusters": Paginator(clusters, 10).page(1)}
@@ -208,7 +215,7 @@ def nodes(request: HttpRequest) -> HttpResponse:
     return render(request, "infrastructure/nodes.html", context)
 
 
-def _render_node_table(request, cluster=None):
+def _render_node_table(request, cluster=None) -> HttpResponse:
     current_url = request.headers.get("HX-Current-URL", "")
 
     if "nodes" in current_url:
@@ -233,7 +240,7 @@ def node(request: HttpRequest, node_id: UUID) -> HttpResponse:
     try:
         node = NodeService.get(node_id, request.user)
     except Node.DoesNotExist:
-        messages.error(request, "Node not found.")
+        messages.error(request, _("Node not found."))
         return redirect("clusters")
 
     host = request.build_absolute_uri("/")[:-1]
@@ -266,9 +273,11 @@ def node_create(request: HttpRequest) -> HttpResponse:
 
             try:
                 NodeService.create(data)
-                messages.success(request, f"Node {data.hostname} created!")
+                messages.success(
+                    request,
+                    _("Node {hostname} created!").format(hostname=data.hostname),
+                )
 
-                # SMART RENDER: Update the table user is currently looking at
                 response = _render_node_table(request, cluster=data.cluster)
                 response["HX-Retarget"] = "#table"
                 response["HX-Trigger"] = "closeModal"
@@ -287,15 +296,13 @@ def node_create(request: HttpRequest) -> HttpResponse:
                 pass
         form = NodeForm(request.user, initial=initial)
 
-    # Determine which template to render the form from (affects styling/context slightly)
     template = (
         "infrastructure/nodes.html"
         if "nodes" in request.path
         else "infrastructure/cluster.html"
     )
-    context = {"form": form, "url": request.path, "title": "Add New Node"}
+    context = {"form": form, "url": request.path, "title": _("Add New Node")}
 
-    # We use the generic #node-form ID which should exist in both templates
     return render(request, f"{template}#node-form", context)
 
 
@@ -304,7 +311,7 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
     try:
         node = NodeService.get(node_id, request.user)
     except Node.DoesNotExist:
-        messages.error(request, "Node not found.")
+        messages.error(request, _("Node not found."))
         return HttpResponse(status=404)
 
     if request.method == "POST":
@@ -322,7 +329,10 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
 
             try:
                 NodeService.update(node.id, request.user, data)
-                messages.success(request, f"Node {data.hostname} updated!")
+                messages.success(
+                    request,
+                    _("Node {hostname} updated!").format(hostname=data.hostname),
+                )
 
                 response = _render_node_table(request, cluster=data.cluster)
                 response["HX-Retarget"] = "#table"
@@ -333,7 +343,6 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
     else:
         form = NodeForm(request.user, instance=node)
 
-    # Detect context for template choice
     current_url = request.headers.get("HX-Current-URL", "")
     template = (
         "infrastructure/nodes.html"
@@ -341,7 +350,11 @@ def node_update(request: HttpRequest, node_id: UUID) -> HttpResponse:
         else "infrastructure/cluster.html"
     )
 
-    context = {"form": form, "url": request.path, "title": f"Edit {node.hostname}"}
+    context = {
+        "form": form,
+        "url": request.path,
+        "title": _("Edit {hostname}").format(hostname=node.hostname),
+    }
     return render(request, f"{template}#node-form", context)
 
 
@@ -350,20 +363,21 @@ def node_delete(request: HttpRequest, node_id: UUID) -> HttpResponse:
     try:
         node = NodeService.get(node_id, request.user)
     except Node.DoesNotExist:
-        messages.error(request, "Node not found.")
+        messages.error(request, _("Node not found."))
         return HttpResponse(status=404)
 
     cluster = node.cluster
 
     if request.method == "DELETE":
         NodeService.delete(node_id, request.user)
-        messages.success(request, f"Node '{node.hostname}' deleted!")
+        messages.success(
+            request, _("Node '{hostname}' deleted!").format(hostname=node.hostname)
+        )
 
         response = _render_node_table(request, cluster=cluster)
         response["HX-Trigger"] = "closeModal"
         return response
 
-    # Detect context for template choice
     current_url = request.headers.get("HX-Current-URL", "")
     template = (
         "infrastructure/nodes.html"
@@ -379,7 +393,7 @@ def terminal(request: HttpRequest, node_id: UUID) -> HttpResponse:
     try:
         node = NodeService.get(node_id, request.user)
     except Node.DoesNotExist:
-        messages.error(request, "Node not found.")
+        messages.error(request, _("Node not found."))
         return HttpResponse(status=404)
 
     return render(request, "infrastructure/terminal.html", {"node": node})

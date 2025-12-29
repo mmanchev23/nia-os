@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static lucide %}
+{% load static lucide i18n %}
 
 {% block body %}
 <div class="p-6 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-2">
         <a href="{% url 'jobs' %}" class="btn btn-ghost btn-sm w-fit gap-2 pl-0 text-base-content/60 hover:text-base-content">
             {% lucide "arrow-left" class="w-4 h-4" %}
-            Back to Jobs
+            {% trans "Back to Jobs" %}
         </a>
 
         <div class="flex flex-col md:flex-row justify-between items-start gap-6">
@@ -20,9 +20,9 @@
                         <h1 class="text-3xl font-bold tracking-tight">{{ job.name }}</h1>
                         <p class="text-base-content/60 flex items-center gap-2 mt-1">
                             {% if job.node %}
-                                {% lucide "server" class="w-4 h-4" %} Node: {{ job.node.hostname }}
+                                {% lucide "server" class="w-4 h-4" %} {% trans "Node" %}: {{ job.node.hostname }}
                             {% else %}
-                                {% lucide "boxes" class="w-4 h-4" %} Cluster: {{ job.cluster.name }}
+                                {% lucide "boxes" class="w-4 h-4" %} {% trans "Cluster" %}: {{ job.cluster.name }}
                             {% endif %}
                         </p>
                     </div>
@@ -31,30 +31,30 @@
                 <div class="stats shadow w-full bg-base-100 border border-base-200">
                     <div class="stat p-4">
                         <div class="stat-title flex items-center gap-2">
-                            {% lucide "calendar" class="w-4 h-4" %} Schedule
+                            {% lucide "calendar" class="w-4 h-4" %} {% trans "Schedule" %}
                         </div>
                         <div class="stat-value text-lg">
                             {% if job.schedule %}
                                 {{ job.schedule.get_schedule_type_display|default:job.schedule.schedule_type }}
                             {% else %}
-                                One-off Run
+                                {% trans "One-off Run" %}
                             {% endif %}
                         </div>
                         <div class="stat-desc">
                             {% if job.schedule.next_run %}
-                                Next: {{ job.schedule.next_run|date:"M d, H:i" }}
+                                {% blocktrans with next=job.schedule.next_run|date:"M d, H:i" %}Next: {{ next }}{% endblocktrans %}
                             {% else %}
-                                Not scheduled
+                                {% trans "Not scheduled" %}
                             {% endif %}
                         </div>
                     </div>
                     
                     <div class="stat p-4">
                         <div class="stat-title flex items-center gap-2">
-                            {% lucide "clock" class="w-4 h-4" %} Last Run
+                            {% lucide "clock" class="w-4 h-4" %} {% trans "Last Run" %}
                         </div>
                         <div class="stat-value text-lg">
-                            {{ job.schedule.last_run|timesince|default:"Never" }} ago
+                            {{ job.schedule.last_run|timesince|default:_("Never") }} {% trans "ago" %}
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
     <div class="space-y-4">
         <h3 class="text-xl font-bold flex items-center gap-2">
             {% lucide "history" class="w-5 h-5 text-base-content/70" %}
-            Execution History
+            {% trans "Execution History" %}
         </h3>
 
         <div id="history-table" class="card bg-base-100 shadow-xl border border-base-200">
@@ -80,11 +80,11 @@
                     <table class="table table-zebra w-full">
                         <thead class="bg-base-200/50">
                             <tr>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Node</th>
-                                <th>Duration</th>
-                                <th class="text-right">Output</th>
+                                <th>{% trans "Status" %}</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "Node" %}</th>
+                                <th>{% trans "Duration" %}</th>
+                                <th class="text-right">{% trans "Output" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,15 +93,15 @@
                                 <td>
                                     {% if exec.status == "SUCCESS" %}
                                         <div class="badge badge-success gap-2 text-white">
-                                            {% lucide "check" class="w-3 h-3" %} Success
+                                            {% lucide "check" class="w-3 h-3" %} {% trans "Success" %}
                                         </div>
                                     {% elif exec.status == "FAILED" %}
                                         <div class="badge badge-error gap-2 text-white">
-                                            {% lucide "x" class="w-3 h-3" %} Failed
+                                            {% lucide "x" class="w-3 h-3" %} {% trans "Failed" %}
                                         </div>
                                     {% else %}
                                         <div class="badge badge-warning gap-2 text-white animate-pulse">
-                                            {% lucide "loader-2" class="w-3 h-3 animate-spin" %} Running
+                                            {% lucide "loader-2" class="w-3 h-3 animate-spin" %} {% trans "Running" %}
                                         </div>
                                     {% endif %}
                                 </td>
@@ -122,7 +122,7 @@
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-ghost gap-1" onclick="document.getElementById('log-{{ exec.id }}').showModal()">
                                         {% lucide "file-text" class="w-3 h-3" %}
-                                        View Log
+                                        {% trans "View Log" %}
                                     </button>
 
                                     <dialog id="log-{{ exec.id }}" class="modal bg-black/50 backdrop-blur-sm">
@@ -132,7 +132,7 @@
                                             </form>
                                             
                                             <h3 class="font-bold text-lg text-white mb-4 flex items-center gap-2">
-                                                {% lucide "terminal" class="w-5 h-5" %} Execution Log #{{ exec.id }}
+                                                {% lucide "terminal" class="w-5 h-5" %} {% trans "Execution Log" %} #{{ exec.id }}
                                             </h3>
 
                                             <div class="font-mono text-xs space-y-2">
@@ -145,19 +145,19 @@
                                                 
                                                 {% if exec.stderr %}
                                                     <div class="text-red-400 border-l-2 border-red-700 pl-2 mt-4">
-                                                        <div class="opacity-50 mb-1">STDERR (Exit Code: {{ exec.exit_code }})</div>
+                                                        <div class="opacity-50 mb-1">STDERR ({% trans "Exit Code" %}: {{ exec.exit_code }})</div>
                                                         <pre class="whitespace-pre-wrap">{{ exec.stderr }}</pre>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if not exec.stdout and not exec.stderr %}
-                                                    <div class="text-gray-500 italic">No output recorded.</div>
+                                                    <div class="text-gray-500 italic">{% trans "No output recorded." %}</div>
                                                 {% endif %}
                                             </div>
                                             
                                             <div class="modal-action">
                                                 <form method="dialog">
-                                                    <button class="btn btn-sm btn-ghost text-white">Close</button>
+                                                    <button class="btn btn-sm btn-ghost text-white">{% trans "Close" %}</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -168,7 +168,7 @@
                             <tr>
                                 <td colspan="5" class="text-center py-8 opacity-50">
                                     {% lucide "history" class="w-12 h-12 mx-auto mb-2 opacity-20" %}
-                                    No execution history recorded yet.
+                                    {% trans "No execution history recorded yet." %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -188,7 +188,7 @@
                         {% endif %}
                         
                         <button class="join-item btn btn-sm btn-active">
-                            Page {{ executions.number }} of {{ executions.paginator.num_pages }}
+                            {% blocktrans with number=executions.number total=executions.paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktrans %}
                         </button>
                         
                         {% if executions.has_next %}
