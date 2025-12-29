@@ -12,6 +12,10 @@ on:
       - test
       - dev
 
+env:
+  DOCKER_BUILDKIT: 1
+  DOCKER_DRIVER: overlay2
+
 jobs:
   static-analysis:
     name: Static Analysis
@@ -26,3 +30,60 @@ jobs:
         run: ruff check .
       - name: Run ruff format check
         run: ruff format --check .
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.14-alpine
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install uv
+        run: pip install uv --quiet
+      - name: Install dependencies
+        run: uv pip install -r pyproject.toml --system -n --group dev
+      - name: Run tests
+        run: pytest
+
+  build-and-push:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    needs: [static-analysis, unit-tests]
+    if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'test' || github.ref_name == 'dev')
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Harbor
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT }}
+
+      - name: Generate Image Metadata
+        id: meta
+        run: |
+          if [ "${GITHUB_REF_NAME}" == "master" ]; then
+            TAG_PREFIX="latest"
+          elif [ "${GITHUB_REF_NAME}" == "test" ]; then
+            TAG_PREFIX="stable"
+          else
+            TAG_PREFIX="unstable"
+          fi
+
+          FULL_TAG="${TAG_PREFIX}-$(date +'%y%m%d')-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}"
+          echo "FULL_TAG=${FULL_TAG}" >> $GITHUB_ENV
+
+          IMAGE_URL="ghcr.io/${{ github.actor }}/${{ github.repository }}"
+          echo "IMAGE_URL=${IMAGE_URL}" >> $GITHUB_ENV
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_URL }}:${{ env.FULL_TAG }}
