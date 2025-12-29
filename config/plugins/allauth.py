@@ -43,8 +43,8 @@ SOCIALACCOUNT_PROVIDERS = {
         },
         "OAUTH_PKCE_ENABLED": True,
         "APP": {
-            "client_id": env.str("GOOGLE_CLIENT_ID"),
-            "secret": env.str("GOOGLE_CLIENT_SECRET"),
+            "client_id": env.str("GOOGLE_CLIENT_ID", ""),
+            "secret": env.str("GOOGLE_CLIENT_SECRET", ""),
             "key": "",
         },
     }
