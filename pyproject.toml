@@ -18,6 +18,8 @@ dependencies = [
     "django-unfold>=0.74.1",
     "django-widget-tweaks>=1.5.0",
     "lucide[django]>=1.1.3",
+    "psycopg2-binary>=2.9.11",
+    "whitenoise>=6.11.0",
 ]
 
 [dependency-groups]
