@@ -26,3 +26,17 @@ jobs:
         run: ruff check .
       - name: Run ruff format check
         run: ruff format --check .
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.14-alpine
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install uv
+        run: pip install uv --quiet
+      - name: Install dependencies
+        run: uv pip install -r pyproject.toml --system -n --group dev
+      - name: Run tests
+        run: pytest
