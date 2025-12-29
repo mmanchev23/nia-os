@@ -1,10 +1,12 @@
 from django.contrib import admin
 
+from unfold.admin import ModelAdmin
+
 from .models import Metric
 
 
 @admin.register(Metric)
-class MetricAdmin(admin.ModelAdmin):
+class MetricAdmin(ModelAdmin):
     list_display = ["node", "cpu_percent", "ram_percent", "disk_percent", "created"]
     list_filter = ["node", "created"]
 

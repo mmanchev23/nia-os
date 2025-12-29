@@ -1,11 +1,14 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
+from unfold.admin import ModelAdmin
+
+from .forms import NodeAdminForm
 from .models import Cluster, Node
 
 
 @admin.register(Cluster)
-class ClusterAdmin(admin.ModelAdmin):
+class ClusterAdmin(ModelAdmin):
     list_display = ["name", "user", "nodes", "created", "updated"]
     list_filter = ["user", "created", "updated"]
     search_fields = [
@@ -26,7 +29,8 @@ class ClusterAdmin(admin.ModelAdmin):
 
 
 @admin.register(Node)
-class NodeAdmin(admin.ModelAdmin):
+class NodeAdmin(ModelAdmin):
+    form = NodeAdminForm
     list_display = [
         "hostname",
         "ip_address",
