@@ -54,7 +54,11 @@
                             {% lucide "clock" class="w-4 h-4" %} {% trans "Last Run" %}
                         </div>
                         <div class="stat-value text-lg">
-                            {{ job.schedule.last_run|timesince|default:_("Never") }} {% trans "ago" %}
+                            {% if job.last_run_at %}
+                                {{ job.last_run_at|timesince }} {% trans "ago" %}
+                            {% else %}
+                                {% trans "Never" %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -126,7 +130,7 @@
                                     </button>
 
                                     <dialog id="log-{{ exec.id }}" class="modal bg-black/50 backdrop-blur-sm">
-                                        <div class="modal-box w-11/12 max-w-4xl bg-[#1e1e1e] text-gray-300">
+                                        <div class="modal-box w-11/12 max-w-4xl bg-[#1e1e1e] text-gray-300 text-left">
                                             <form method="dialog">
                                                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-white">✕</button>
                                             </form>

@@ -1,4 +1,4 @@
-from django_q.models import Schedule
+from django_q.models import Schedule, Task
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -56,6 +56,16 @@ class ScheduledJob(BaseModel):
     class Meta:
         verbose_name = _("Scheduled Job")
         verbose_name_plural = _("Scheduled Jobs")
+
+    @property
+    def last_run_at(self) -> models.DateTimeField | None:
+        if self.schedule and self.schedule.task:
+            task = Task.objects.filter(id=self.schedule.task).first()
+
+            if task:
+                return task.started
+
+        return None
 
 
 class JobExecution(BaseModel):

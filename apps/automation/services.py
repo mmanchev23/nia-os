@@ -72,7 +72,7 @@ class JobService:
 
             if job.schedule:
                 job.schedule.func = "apps.automation.tasks.execute_job"
-                job.schedule.args = str(job.id)
+                job.schedule.args = str((str(job.id),))
                 job.schedule.schedule_type = data.schedule_type
                 job.schedule.minutes = data.minutes
                 job.schedule.repeats = data.repeats
