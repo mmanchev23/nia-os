@@ -39,6 +39,10 @@ THIRD_PARTY_APPS = [
     "django_tailwind_cli",
     "lucide",
     "widget_tweaks",
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
 ]
 
 LOCAL_APPS = [
@@ -176,3 +180,4 @@ from config.plugins.email import *  # noqa
 from config.plugins.fernet import *  # noqa
 from config.plugins.q2 import *  # noqa
 from config.plugins.tailwind import *  # noqa
+from config.plugins.unfold import *  # noqa
