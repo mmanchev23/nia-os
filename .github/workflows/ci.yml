@@ -74,7 +74,9 @@ jobs:
             TAG_PREFIX="unstable"
           fi
 
-          FULL_TAG="${TAG_PREFIX}-$(date +'%y%m%d')-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}"
+          TS=$(date +%s)
+
+          FULL_TAG="${TAG_PREFIX}-${TS}"
           echo "FULL_TAG=${FULL_TAG}" >> $GITHUB_ENV
 
           IMAGE_URL="ghcr.io/${{ github.actor }}/${{ github.repository }}"
