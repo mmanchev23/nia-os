@@ -11,6 +11,8 @@ RUN pip install uv && uv pip install -r pyproject.toml --system -n
 
 COPY . .
 
+RUN python manage.py compilemessages
+
 RUN python manage.py tailwind setup \
     && python manage.py tailwind build \
     && python manage.py collectstatic --noinput \
