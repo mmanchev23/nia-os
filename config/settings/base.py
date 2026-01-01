@@ -43,6 +43,9 @@ THIRD_PARTY_APPS = [
     "unfold.contrib.filters",
     "unfold.contrib.forms",
     "unfold.contrib.inlines",
+    "adrf",
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 LOCAL_APPS = [
@@ -51,6 +54,7 @@ LOCAL_APPS = [
     "apps.infrastructure",
     "apps.automation",
     "apps.monitoring",
+    "apps.api",
 ]
 
 INSTALLED_APPS = [
