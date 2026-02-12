@@ -24,7 +24,7 @@ def ingest_metrics(request: HttpRequest) -> HttpResponse:
         MonitoringService.ingest_metrics(dto)
         return JsonResponse({"status": "ok"}, status=200)
 
-    except (json.JSONDecodeError, ValueError, TypeError):
+    except json.JSONDecodeError, ValueError, TypeError:
         return JsonResponse({"error": _("Invalid JSON format")}, status=400)
     except ValidationError:
         return JsonResponse({"error": _("Invalid Agent Key")}, status=403)
