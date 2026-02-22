@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/mmanchev23/nia-os:latest-1771756120
