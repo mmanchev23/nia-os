@@ -219,3 +219,23 @@ __marimo__/
 .django_tailwind_cli/
 static/css/tailwind.css
 static/css/tailwind.min.css
+
+# Ignore all secret YAMLs by default
+*secret.yaml
+
+# But keep the sealed ones
+!sealed-*.yaml
+
+# Certificates
+*.pem
+*.crt
+*.cert
+
+# Keys
+*.key
+
+# Json files
+*.json
+
+# Config files
+*-config.yaml

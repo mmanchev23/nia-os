@@ -1,0 +1,20 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: nia-os
+  namespace: argocd
+spec:
+  namespace: argocd
+  applicationRefs:
+    - namePattern: "nia-os"
+      writeBackConfig:
+        method: "git"
+        gitConfig:
+          repository: "git@github.com:mmanchev23/nia-os.git"
+          branch: main
+      images:
+        - alias: "nia-os"
+          imageName: "ghcr.io/mmanchev23/nia-os"
+          commonUpdateSettings:
+            updateStrategy: "newest-build"
+            pullSecret: "secret:argocd/github-ssh-secret"

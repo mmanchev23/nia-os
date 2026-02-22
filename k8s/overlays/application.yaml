@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nia-os
+  namespace: argocd
+spec:
+  project: nia-os
+  source:
+    repoURL: git@github.com:mmanchev23/nia-os.git
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nia-os
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

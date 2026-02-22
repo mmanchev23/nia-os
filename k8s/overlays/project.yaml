@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: nia-os
+  namespace: argocd
+spec:
+  description: "Network Infrastructure Automation & Orchestration System"
+  sourceRepos:
+    - "https://github.com/mmanchev23/nia-os.git"
+  destinations:
+    - namespace: nia-os
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: "*"
+    kind: "*"
