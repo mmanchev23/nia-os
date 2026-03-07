@@ -25,7 +25,7 @@ spec:
         runAsNonRoot: true
       initContainers:
         - name: migration
-          image: ghcr.io/mmanchev23/nia-os:latest-1770926382
+          image: ghcr.io/mmanchev23/nia-os:latest-1771756120
           command: ["/bin/sh", "-c"]
           args:
             - python manage.py migrate --noinput
@@ -41,7 +41,7 @@ spec:
               cpu: "500m"
       containers:
         - name: nia-os
-          image: ghcr.io/mmanchev23/nia-os:latest-1770926382
+          image: ghcr.io/mmanchev23/nia-os:latest-1771756120
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -56,7 +56,7 @@ spec:
             - secretRef:
                 name: nia-os
         - name: qcluster
-          image: ghcr.io/mmanchev23/nia-os:latest-1770926382
+          image: ghcr.io/mmanchev23/nia-os:latest-1771756120
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:

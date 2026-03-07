@@ -12,10 +12,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - nia-os.mmanchev23.dev
+    - nia-os.manchev.dev
     secretName: tls
   rules:
-  - host: nia-os.mmanchev23.dev
+  - host: nia-os.manchev.dev
     http:
       paths:
       - pathType: Prefix
