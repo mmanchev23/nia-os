@@ -99,13 +99,18 @@ def send_metrics(
 
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
-        server_url, data=data, headers={"Content-Type": "application/json"}
+        server_url,
+        data=data,
+        headers={"Content-Type": "application/json", "User-Agent": "NIA-OS-Agent/1.0"},
     )
 
     try:
         with urllib.request.urlopen(req, timeout=5) as response:
             if response.status != 200:
                 print(f"Error {response.status}: Server rejected payload")
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode("utf-8", errors="ignore")
+        print(f"HTTP Error {e.code}: {e.reason} -> {error_body}")
     except urllib.error.URLError as e:
         print(f"Connection Failed: {e.reason}")
     except Exception as e:
