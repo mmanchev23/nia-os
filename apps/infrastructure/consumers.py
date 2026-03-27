@@ -79,6 +79,11 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
 
     async def start_ssh_session(self) -> None:
         try:
+            logger.error(f"--- DEBUG NODE ---")
+            logger.error(f"UUID: {self.node.id}")
+            logger.error(f"Hostname: {self.node.hostname}")
+            logger.error(f"Username in DB: '{self.node.username}' (Type: {type(self.node.username)})")
+
             self.ssh_conn = await asyncssh.connect(
                 self.node.ip_address,
                 port=self.node.port,
