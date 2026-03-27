@@ -1,3 +1,4 @@
+import os
 import json
 import asyncio
 import asyncssh
@@ -79,6 +80,12 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
 
     async def start_ssh_session(self) -> None:
         try:
+            if "USER" not in os.environ:
+                os.environ["USER"] = "nia-os"
+
+            if "HOME" not in os.environ:
+                os.environ["HOME"] = "/tmp"
+
             self.ssh_conn = await asyncssh.connect(
                 self.node.ip_address,
                 port=self.node.port,
