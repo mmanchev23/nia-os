@@ -246,8 +246,7 @@ def node(request: HttpRequest, node_id: UUID) -> HttpResponse:
     host = request.build_absolute_uri("/")[:-1]
     agent_url = f"{host}/static/agent.py"
     ingest_url = f"{host}/monitoring/api/ingest/"
-    install_cmd = f"curl -s {agent_url} | python3 - {ingest_url} {node.agent_key}"
-
+    install_cmd = f"nohup bash -c 'curl -s {agent_url} | python3 - {ingest_url} {node.agent_key}' > /dev/null 2>&1 &"
     context = {
         "node": node,
         "install_cmd": install_cmd,
