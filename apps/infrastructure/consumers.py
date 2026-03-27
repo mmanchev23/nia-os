@@ -86,6 +86,7 @@ class NodeTerminalConsumer(AsyncWebsocketConsumer):
                 password=self.node.password,
                 known_hosts=None,
                 client_keys=None,
+                config=None,
                 connect_timeout=10,
             )
 
