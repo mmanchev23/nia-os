@@ -32,6 +32,8 @@ def test_execute_job_success(mock_connect) -> None:
         username=node.username,
         password=node.password,
         known_hosts=None,
+        client_keys=None,
+        config=None,
         connect_timeout=10,
     )
 
