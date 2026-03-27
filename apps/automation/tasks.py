@@ -1,3 +1,4 @@
+import os
 import asyncio
 import asyncssh
 
@@ -16,12 +17,20 @@ async def _run_ssh_command(job: ScheduledJob, node: Node) -> None:
     )
 
     try:
+        if "USER" not in os.environ:
+            os.environ["USER"] = "nia-os"
+
+        if "HOME" not in os.environ:
+            os.environ["HOME"] = "/tmp"
+
         async with asyncssh.connect(
             node.ip_address,
             port=node.port,
             username=node.username,
             password=node.password,
             known_hosts=None,
+            client_keys=None,
+            config=None,
             connect_timeout=10,
         ) as conn:
             final_command = job.command
