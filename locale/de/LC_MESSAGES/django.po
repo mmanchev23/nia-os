@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NIA-OS 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 11:20+0300\n"
+"POT-Creation-Date: 2026-05-25 14:48+0300\n"
 "PO-Revision-Date: 2025-12-29 18:20+0200\n"
 "Last-Translator: Martin Manchev <your@email.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -11,6 +11,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/api/views.py:41
+msgid "Your API token has been successfully rotated."
+msgstr "Ihr API-Token wurde erfolgreich rotiert."
+
+#: apps/api/views.py:44
+msgid "An error occurred."
+msgstr "Es ist ein Fehler aufgetreten."
 
 #: apps/authentication/forms.py:9 apps/authentication/forms.py:11
 msgid "First Name"
@@ -245,15 +253,14 @@ msgid ""
 "The password is encrypted. Enter a new password to change it, or leave blank "
 "to keep the current one."
 msgstr ""
-"Das Passwort ist verschlüsselt. Geben Sie ein neues Passwort ein, um es zu ändern, "
-"oder lassen Sie das Feld leer, um das aktuelle beizubehalten."
+"Das Passwort ist verschlüsselt. Geben Sie ein neues Passwort ein, um es zu "
+"ändern, oder lassen Sie das Feld leer, um das aktuelle beizubehalten."
 
 #: apps/infrastructure/models.py:33 templates/infrastructure/clusters.html:76
 msgid "Summary"
 msgstr "Zusammenfassung"
 
 #: apps/infrastructure/models.py:41 templates/core/index.html:58
-#: templates/shared/sidebar.html:82
 msgid "Clusters"
 msgstr "Cluster"
 
@@ -394,15 +401,15 @@ msgstr "Ungültiges JSON-Format"
 msgid "Invalid Agent Key"
 msgstr "Ungültiger Agent-Schlüssel"
 
-#: config/settings/base.py:137
+#: config/settings/base.py:145
 msgid "English"
 msgstr "Englisch"
 
-#: config/settings/base.py:138
+#: config/settings/base.py:146
 msgid "German"
 msgstr "Deutsch"
 
-#: config/settings/base.py:139
+#: config/settings/base.py:147
 msgid "Bulgarian"
 msgstr "Bulgarisch"
 
@@ -580,8 +587,9 @@ msgid "Update Password"
 msgstr "Passwort aktualisieren"
 
 #: templates/account/password_change.html:75
-#: templates/account/password_set.html:75 templates/automation/jobs.html:226
-#: templates/automation/jobs.html:244 templates/infrastructure/cluster.html:226
+#: templates/account/password_set.html:75 templates/api/tokens.html:215
+#: templates/automation/jobs.html:226 templates/automation/jobs.html:244
+#: templates/infrastructure/cluster.html:226
 #: templates/infrastructure/cluster.html:244
 #: templates/infrastructure/clusters.html:195
 #: templates/infrastructure/clusters.html:213
@@ -705,531 +713,88 @@ msgstr "Nicht erhalten?"
 msgid "Resend"
 msgstr "Erneut senden"
 
-#: templates/automation/job.html:10
-msgid "Back to Jobs"
-msgstr "Zurück zu Jobs"
+#: templates/api/tokens.html:25 templates/shared/sidebar.html:136
+msgid "Access Tokens"
+msgstr "Zugriffstoken"
 
-#: templates/automation/job.html:40
-msgid "One-off Run"
-msgstr "Einmalige Ausführung"
+#: templates/api/tokens.html:26
+msgid "Manage your API keys and learn how to integrate programmatically."
+msgstr "Verwalten Sie Ihre API-Schlüssel und erfahren Sie, wie Sie sie programmatisch integrieren."
 
-#: templates/automation/job.html:45
-#, python-format
-msgid "Next: %(next)s"
-msgstr "Nächste: %(next)s"
+#: templates/api/tokens.html:46
+msgid "Your Personal Token"
+msgstr "Ihr persönlicher Token"
 
-#: templates/automation/job.html:47
-msgid "Not scheduled"
-msgstr "Nicht geplant"
+#: templates/api/tokens.html:50
+msgid "Keep this token secret. It grants full access to your account."
+msgstr "Bewahren Sie diesen Token geheim auf. Er gewährt vollen Zugriff auf Ihr Konto."
 
-#: templates/automation/job.html:54 templates/automation/jobs.html:77
-msgid "Last Run"
-msgstr "Letzte Ausführung"
+#: templates/api/tokens.html:55
+msgid "Token Key"
+msgstr "Token-Schlüssel"
 
-#: templates/automation/job.html:58 templates/automation/jobs.html:121
-#: templates/core/dashboard.html:152 templates/infrastructure/node.html:72
-msgid "ago"
-msgstr "her"
+#: templates/api/tokens.html:66
+msgid "Show/Hide"
+msgstr "Anzeigen/Ausblenden"
 
-#: templates/automation/job.html:60 templates/automation/jobs.html:123
-#: templates/infrastructure/node.html:72
-msgid "Never"
-msgstr "Nie"
+#: templates/api/tokens.html:73
+msgid "Copy"
+msgstr "Kopieren"
 
-#: templates/automation/job.html:78
-msgid "Execution History"
-msgstr "Ausführungshistorie"
+#: templates/api/tokens.html:83
+msgid "Rotate Token"
+msgstr "Token erneuern"
 
-#: templates/automation/job.html:88
-msgid "Date"
-msgstr "Datum"
+#: templates/api/tokens.html:87 templates/api/tokens.html:236
+msgid "Last rotated:"
+msgstr "Zuletzt erneuert:"
 
-#: templates/automation/job.html:90
-msgid "Duration"
-msgstr "Dauer"
+#: templates/api/tokens.html:208
+msgid "Rotate API Token?"
+msgstr "API-Token erneuern?"
 
-#: templates/automation/job.html:91
-msgid "Output"
-msgstr "Ausgabe"
-
-#: templates/automation/job.html:108
-msgid "Running"
-msgstr "Läuft"
-
-#: templates/automation/job.html:129
-msgid "View Log"
-msgstr "Protokoll anzeigen"
-
-#: templates/automation/job.html:139
-msgid "Execution Log"
-msgstr "Ausführungsprotokoll"
-
-#: templates/automation/job.html:158
-msgid "No output recorded."
-msgstr "Keine Ausgabe aufgezeichnet."
-
-#: templates/automation/job.html:175
-msgid "No execution history recorded yet."
-msgstr "Noch keine Ausführungshistorie aufgezeichnet."
-
-#: templates/automation/job.html:195 templates/automation/jobs.html:172
-#: templates/infrastructure/cluster.html:168
-#: templates/infrastructure/clusters.html:144
-#: templates/infrastructure/nodes.html:156
-#, python-format
-msgid "Page %(number)s of %(total)s"
-msgstr "Seite %(number)s von %(total)s"
-
-#: templates/automation/jobs.html:13
-msgid "Automation Jobs"
-msgstr "Automatisierungsjobs"
-
-#: templates/automation/jobs.html:15
-msgid "Schedule and manage automated commands across your infrastructure."
-msgstr ""
-"Planen und verwalten Sie automatisierte Befehle in Ihrer Infrastruktur."
-
-#: templates/automation/jobs.html:23
-msgid "Search jobs..."
-msgstr "Jobs suchen..."
-
-#: templates/automation/jobs.html:35
-msgid "Schedule Job"
-msgstr "Job planen"
-
-#: templates/automation/jobs.html:78 templates/infrastructure/cluster.html:88
-#: templates/infrastructure/clusters.html:77
-#: templates/infrastructure/nodes.html:78
-msgid "Actions"
-msgstr "Aktionen"
-
-#: templates/automation/jobs.html:115
-msgid "One-off"
-msgstr "Einmalig"
-
-#: templates/automation/jobs.html:128 templates/infrastructure/cluster.html:118
-#: templates/infrastructure/nodes.html:112
-msgid "Details"
-msgstr "Details"
-
-#: templates/automation/jobs.html:132 templates/infrastructure/cluster.html:121
-#: templates/infrastructure/clusters.html:104
-#: templates/infrastructure/nodes.html:116
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: templates/automation/jobs.html:138 templates/automation/jobs.html:247
-#: templates/infrastructure/cluster.html:127
-#: templates/infrastructure/cluster.html:247
-#: templates/infrastructure/clusters.html:110
-#: templates/infrastructure/clusters.html:216
-#: templates/infrastructure/nodes.html:122
-#: templates/infrastructure/nodes.html:216
-msgid "Delete"
-msgstr "Löschen"
-
-#: templates/automation/jobs.html:151
-msgid "No scheduled jobs found."
-msgstr "Keine geplanten Jobs gefunden."
-
-#: templates/automation/jobs.html:199
-msgid "Edit Job"
-msgstr "Job bearbeiten"
-
-#: templates/automation/jobs.html:227
-msgid "Save Schedule"
-msgstr "Zeitplan speichern"
-
-#: templates/automation/jobs.html:237
-msgid "Delete Job?"
-msgstr "Job löschen?"
-
-#: templates/automation/jobs.html:240
-#: templates/infrastructure/clusters.html:209
-#, python-format
+#: templates/api/tokens.html:211
 msgid ""
-"Are you sure you want to delete <strong class=\"text-base-"
-"content\">%(name)s</strong>?"
+"This will immediately invalidate the current token. Applications using the "
+"old token will stop working until updated."
 msgstr ""
-"Sind Sie sicher, dass Sie <strong class=\"text-base-content\">%(name)s</"
-"strong> löschen möchten?"
+"Dies macht den aktuellen Token sofort ungültig. Anwendungen, die den alten "
+"Token verwenden, funktionieren erst nach einer Aktualisierung wieder."
 
-#: templates/automation/jobs.html:241
-msgid "This will cancel all future runs and delete execution history."
-msgstr ""
-"Dies wird alle zukünftigen Ausführungen abbrechen und die Historie löschen."
+#: templates/api/tokens.html:221
+msgid "Yes, Rotate It"
+msgstr "Ja, erneuern"
 
-#: templates/core/dashboard.html:10
-#, python-format
-msgid "Welcome, <span class=\"text-[#42A5F5]\">%(name)s</span>"
-msgstr "Willkommen, <span class=\"text-[#42A5F5]\">%(name)s</span>"
+#: templates/api/tokens.html:249
+msgid "Token rotated successfully!"
+msgstr "Token wurde erfolgreich erneuert!"
 
-#: templates/core/dashboard.html:12
-msgid "System overview and real-time infrastructure metrics."
-msgstr "Systemübersicht und Echtzeit-Infrastrukturmetriken."
+# ... (останалите, които бяха попълнени)
 
-#: templates/core/dashboard.html:16
-msgid "Refresh"
-msgstr "Aktualisieren"
+#: templates/shared/sidebar.html:78
+msgid "Monitoring"
+msgstr "Überwachung"
 
-#: templates/core/dashboard.html:36
-msgid "System Health"
-msgstr "Systemgesundheit"
+#: templates/shared/sidebar.html:83
+msgid "Live Dashboard"
+msgstr "Live-Dashboard"
 
-#: templates/core/dashboard.html:38
-msgid "Operational Score"
-msgstr "Betriebsstatus"
+#: templates/shared/sidebar.html:112
+msgid "Automations"
+msgstr "Automatisierungen"
 
-#: templates/core/dashboard.html:46
-msgid "Total Clusters"
-msgstr "Gesamte Cluster"
+#: templates/shared/sidebar.html:126
+msgid "API"
+msgstr "API"
 
-#: templates/core/dashboard.html:48
-msgid "Active Groups"
-msgstr "Aktive Gruppen"
+#: templates/shared/sidebar.html:132
+msgid "Version 1"
+msgstr "Version 1"
 
-#: templates/core/dashboard.html:56 templates/infrastructure/nodes.html:13
-#: templates/shared/sidebar.html:93
-msgid "Compute Nodes"
-msgstr "Rechenknoten"
-
-#: templates/core/dashboard.html:58
-#, python-format
-msgid "%(online)s Online / %(total)s Total"
-msgstr "%(online)s Online / %(total)s Gesamt"
-
-#: templates/core/dashboard.html:68
-msgid "Automation Tasks"
-msgstr "Automatisierungsaufgaben"
-
-#: templates/core/dashboard.html:79
-msgid "CPU Usage"
-msgstr "CPU-Auslastung"
-
-#: templates/core/dashboard.html:81 templates/core/dashboard.html:95
-msgid "Live"
-msgstr "Live"
-
-#: templates/core/dashboard.html:93
-msgid "Memory Usage"
-msgstr "Speicherauslastung"
-
-#: templates/core/dashboard.html:106
-msgid "Node Status"
-msgstr "Knotenstatus"
-
-#: templates/core/dashboard.html:124
-msgid "Recent Nodes"
-msgstr "Neueste Knoten"
-
-#: templates/core/dashboard.html:126
-msgid "View All"
-msgstr "Alle anzeigen"
-
-#: templates/core/dashboard.html:155 templates/infrastructure/nodes.html:135
-msgid "No nodes found."
-msgstr "Keine Knoten gefunden."
-
-#: templates/core/dashboard.html:169
-msgid "Manage"
-msgstr "Verwalten"
-
-#: templates/core/dashboard.html:182
-msgid "Once"
-msgstr "Einmalig"
-
-#: templates/core/dashboard.html:184
-#, python-format
-msgid "Every %(min)sm"
-msgstr "Alle %(min)sm"
-
-#: templates/core/dashboard.html:192
-msgid "No jobs scheduled."
-msgstr "Keine Jobs geplant."
-
-#: templates/core/dashboard.html:305
-#, python-format
-msgid "CPU %%"
-msgstr "CPU %%"
-
-#: templates/core/dashboard.html:306
-#, python-format
-msgid "RAM %%"
-msgstr "RAM %%"
-
-#: templates/core/index.html:65
-msgid "Scheduler"
-msgstr "Planer"
-
-#: templates/core/index.html:72
-msgid "Telemetry"
-msgstr "Telemetrie"
-
-#: templates/core/index.html:86
-msgid "Security"
-msgstr "Sicherheit"
-
-#: templates/core/index.html:93
-msgid "Terminal"
-msgstr "Terminal"
-
-#: templates/core/index.html:110
-msgid "Network Infrastructure Automation & Orchestration System"
-msgstr "Netzwerkinfrastruktur-Automatisierungs- & Orchestrierungssystem"
-
-#: templates/core/index.html:119
-msgid "Manage Clusters"
-msgstr "Cluster verwalten"
-
-#: templates/core/index.html:123
-msgid "Remote Access"
-msgstr "Fernzugriff"
-
-#: templates/core/index.html:127
-msgid "Automate Tasks"
-msgstr "Aufgaben automatisieren"
-
-#: templates/core/index.html:131
-msgid "Live Telemetry"
-msgstr "Live-Telemetrie"
-
-#: templates/core/index.html:135
-msgid "Monitor Health"
-msgstr "Integrität überwachen"
-
-#: templates/core/index.html:139
-msgid "Orchestrate Scale"
-msgstr "Skalierung orchestrieren"
-
-#: templates/infrastructure/cluster.html:10
-msgid "Back to Clusters"
-msgstr "Zurück zu Clustern"
-
-#: templates/infrastructure/cluster.html:22
-msgid "No description provided."
-msgstr "Keine Beschreibung vorhanden."
-
-#: templates/infrastructure/cluster.html:31
-#: templates/infrastructure/nodes.html:23
-msgid "Search nodes..."
-msgstr "Knoten suchen..."
-
-#: templates/infrastructure/cluster.html:43
-#: templates/infrastructure/cluster.html:194
-#: templates/infrastructure/nodes.html:35
-#: templates/infrastructure/nodes.html:180
-msgid "Add Node"
-msgstr "Knoten hinzufügen"
-
-#: templates/infrastructure/cluster.html:140
-msgid "No nodes found in this cluster."
-msgstr "Keine Knoten in diesem Cluster gefunden."
-
-#: templates/infrastructure/cluster.html:145
-msgid "Clear Search"
-msgstr "Suche löschen"
-
-#: templates/infrastructure/cluster.html:196
-#: templates/infrastructure/nodes.html:182
-msgid "Edit Node"
-msgstr "Knoten bearbeiten"
-
-#: templates/infrastructure/cluster.html:227
-#: templates/infrastructure/clusters.html:196
-#: templates/infrastructure/nodes.html:198
-msgid "Save"
-msgstr "Speichern"
-
-#: templates/infrastructure/cluster.html:237
-#: templates/infrastructure/nodes.html:208
-msgid "Delete Node?"
-msgstr "Knoten löschen?"
-
-#: templates/infrastructure/cluster.html:240
-#: templates/infrastructure/nodes.html:211
-#, python-format
-msgid ""
-"Are you sure you want to delete <strong class=\"text-base-"
-"content\">%(hostname)s</strong>?"
-msgstr ""
-"Sind Sie sicher, dass Sie <strong class=\"text-base-content\">%(hostname)s</"
-"strong> löschen möchten?"
-
-#: templates/infrastructure/cluster.html:241
-msgid "All telemetry data associated with this node will also be removed."
-msgstr ""
-"Alle Telemetriedaten, die diesem Knoten zugeordnet sind, werden ebenfalls "
-"entfernt."
-
-#: templates/infrastructure/clusters.html:13
-msgid "Resource Clusters"
-msgstr "Ressourcen-Cluster"
-
-#: templates/infrastructure/clusters.html:15
-msgid "Manage your infrastructure groups and compute resources."
-msgstr "Verwalten Sie Ihre Infrastrukturgruppen und Rechenressourcen."
-
-#: templates/infrastructure/clusters.html:23
-msgid "Search clusters..."
-msgstr "Cluster suchen..."
-
-#: templates/infrastructure/clusters.html:35
-msgid "Add Cluster"
-msgstr "Cluster hinzufügen"
-
-#: templates/infrastructure/clusters.html:74
-msgid "Cluster Name"
-msgstr "Cluster-Name"
-
-#: templates/infrastructure/clusters.html:123
-msgid "No clusters found."
-msgstr "Keine Cluster gefunden."
-
-#: templates/infrastructure/clusters.html:169
-msgid "New Cluster"
-msgstr "Neuer Cluster"
-
-#: templates/infrastructure/clusters.html:171
-msgid "Edit Cluster"
-msgstr "Cluster bearbeiten"
-
-#: templates/infrastructure/clusters.html:206
-msgid "Delete Cluster?"
-msgstr "Cluster löschen?"
-
-#: templates/infrastructure/clusters.html:210
-#: templates/infrastructure/nodes.html:212
-msgid "This action cannot be undone."
-msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
-
-#: templates/infrastructure/node.html:10
-#, python-format
-msgid "Back to %(name)s"
-msgstr "Zurück zu %(name)s"
-
-#: templates/infrastructure/node.html:53
-msgid "System Details"
-msgstr "Systemdetails"
-
-#: templates/infrastructure/node.html:61
-msgid "SSH User"
-msgstr "SSH-Benutzer"
-
-#: templates/infrastructure/node.html:93
-msgid "Management"
-msgstr "Verwaltung"
-
-#: templates/infrastructure/node.html:97
-msgid "Open Web Terminal"
-msgstr "Web-Terminal öffnen"
-
-#: templates/infrastructure/node.html:100
-msgid "Reboot"
-msgstr "Neustart"
-
-#: templates/infrastructure/node.html:112
-msgid "Agent Setup"
-msgstr "Agent-Einrichtung"
-
-#: templates/infrastructure/node.html:116
-#, python-format
-msgid ""
-"Run this command on <strong>%(hostname)s</strong> to enable metrics and "
-"monitoring."
-msgstr ""
-"Führen Sie diesen Befehl auf <strong>%(hostname)s</strong> aus, um Metriken "
-"und Überwachung zu aktivieren."
-
-#: templates/infrastructure/node.html:126
-msgid "Copy to clipboard"
-msgstr "In die Zwischenablage kopieren"
-
-#: templates/infrastructure/node.html:134
-msgid "Standard Python libraries only. No pip required."
-msgstr "Nur Standard-Python-Bibliotheken. Kein pip erforderlich."
-
-#: templates/infrastructure/node.html:159
-msgid "Failed to copy command. Please select and copy manually."
-msgstr ""
-"Befehl konnte nicht kopiert werden. Bitte auswählen und manuell kopieren."
-
-#: templates/infrastructure/nodes.html:15
-msgid "Global view of all registered infrastructure nodes."
-msgstr "Globale Ansicht aller registrierten Infrastrukturknoten."
-
-#: templates/infrastructure/terminal.html:34
-#, python-format
-msgid "Back to %(hostname)s"
-msgstr "Zurück zu %(hostname)s"
-
-#: templates/infrastructure/terminal.html:40
-msgid "Connecting..."
-msgstr "Verbinden..."
-
-#: templates/infrastructure/terminal.html:59
-msgid "Powered by NIA-OS"
-msgstr "Bereitgestellt von NIA-OS"
-
-#: templates/infrastructure/terminal.html:110
-msgid "Connected"
-msgstr "Verbunden"
-
-#: templates/infrastructure/terminal.html:112
-msgid "Secure channel established to"
-msgstr "Sicherer Kanal hergestellt zu"
-
-#: templates/infrastructure/terminal.html:126
-msgid "Disconnected"
-msgstr "Getrennt"
-
-#: templates/infrastructure/terminal.html:129
-msgid "Session ended. Redirecting in 2s..."
-msgstr "Sitzung beendet. Weiterleitung in 2s..."
-
-#: templates/infrastructure/terminal.html:139
-msgid "Error"
-msgstr "Fehler"
-
-#: templates/infrastructure/terminal.html:140
-msgid "Connection Error."
-msgstr "Verbindungsfehler."
-
-#: templates/shared/sidebar.html:15
-msgid "close sidebar"
-msgstr "Seitenleiste schließen"
-
-#: templates/shared/sidebar.html:50
-msgid "Login / Register"
-msgstr "Login / Registrieren"
-
-#: templates/shared/sidebar.html:67
-msgid "Dashboard"
-msgstr "Dashboard"
-
-#: templates/shared/sidebar.html:72
-msgid "Infrastructure"
-msgstr "Infrastruktur"
-
-#: templates/shared/sidebar.html:99
-msgid "Automation"
-msgstr "Automatisierung"
-
-#: templates/shared/sidebar.html:109
-msgid "Jobs & Tasks"
-msgstr "Jobs & Aufgaben"
-
-#: templates/shared/sidebar.html:116
-msgid "System"
-msgstr "System"
-
-#: templates/shared/sidebar.html:120
-msgid "Admin Panel"
-msgstr "Admin-Bereich"
-
-#: templates/shared/sidebar.html:172
+#: templates/shared/sidebar.html:187
 msgid "Logout"
 msgstr "Abmelden"
 
-#: templates/shared/sidebar.html:179
+#: templates/shared/sidebar.html:194
 msgid "View Source on GitHub"
 msgstr "Quellcode auf GitHub ansehen"

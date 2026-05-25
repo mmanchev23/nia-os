@@ -3,15 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     collapses.forEach(collapse => {
         const input = collapse.querySelector("input[type='checkbox']");
-
         input.addEventListener("change", () => {
             if (input.checked) {
-                collapses.forEach(otherCollapse => {
-                    const otherInput = otherCollapse.querySelector("input[type='checkbox']");
-
-                    if (otherInput !== input) {
-                        otherInput.checked = false;
-                    }
+                collapses.forEach(other => {
+                    if (other !== collapse) other.querySelector("input").checked = false;
                 });
             }
         });

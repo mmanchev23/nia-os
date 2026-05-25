@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 11:20+0300\n"
+"POT-Creation-Date: 2026-05-25 14:48+0300\n"
 "PO-Revision-Date: 2025-12-29 18:15+0200\n"
 "Last-Translator: Martin Manchev <your@email.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -11,6 +11,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/api/views.py:41
+msgid "Your API token has been successfully rotated."
+msgstr "Вашият API токен беше успешно сменен."
+
+#: apps/api/views.py:44
+msgid "An error occurred."
+msgstr "Възникна грешка."
 
 #: apps/authentication/forms.py:9 apps/authentication/forms.py:11
 msgid "First Name"
@@ -252,7 +260,6 @@ msgid "Summary"
 msgstr "Резюме"
 
 #: apps/infrastructure/models.py:41 templates/core/index.html:58
-#: templates/shared/sidebar.html:82
 msgid "Clusters"
 msgstr "Клъстери"
 
@@ -393,15 +400,15 @@ msgstr "Невалиден JSON формат"
 msgid "Invalid Agent Key"
 msgstr "Невалиден агентски ключ"
 
-#: config/settings/base.py:137
+#: config/settings/base.py:145
 msgid "English"
 msgstr "Английски"
 
-#: config/settings/base.py:138
+#: config/settings/base.py:146
 msgid "German"
 msgstr "Немски"
 
-#: config/settings/base.py:139
+#: config/settings/base.py:147
 msgid "Bulgarian"
 msgstr "Български"
 
@@ -472,22 +479,13 @@ msgid "Confirm Email Address"
 msgstr "Потвърдете имейл адреса"
 
 #: templates/account/email_confirm.html:34
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        Please confirm that <strong class=\"text-base-"
-#| "content\">%(email)s</strong> is the email address for your NIA-OS "
-#| "account.\n"
-#| "                        "
 msgid ""
 "\n"
-"                        Please confirm that <strong class=\"text-base-"
-"content\">%(email)s</strong> is the email address for your NIA-OS account.\n"
+"                        Please confirm that <strong class=\"text-base-content\">%(email)s</strong> is the email address for your NIA-OS account.\n"
 "                        "
 msgstr ""
 "\n"
-"                        Моля, потвърдете, че <strong class=\"text-base-"
-"content\">%(email)s</strong> е имейл адресът за вашия NIA-OS акаунт.\n"
+"                        Моля, потвърдете, че <strong class=\"text-base-content\">%(email)s</strong> е имейл адресът за вашия NIA-OS акаунт.\n"
 "                        "
 
 #: templates/account/email_confirm.html:42
@@ -579,8 +577,9 @@ msgid "Update Password"
 msgstr "Обнови паролата"
 
 #: templates/account/password_change.html:75
-#: templates/account/password_set.html:75 templates/automation/jobs.html:226
-#: templates/automation/jobs.html:244 templates/infrastructure/cluster.html:226
+#: templates/account/password_set.html:75 templates/api/tokens.html:215
+#: templates/automation/jobs.html:226 templates/automation/jobs.html:244
+#: templates/infrastructure/cluster.html:226
 #: templates/infrastructure/cluster.html:244
 #: templates/infrastructure/clusters.html:195
 #: templates/infrastructure/clusters.html:213
@@ -674,6 +673,10 @@ msgstr "Създай акаунт"
 msgid "Already have an account?"
 msgstr "Вече имате акаунт?"
 
+#: templates/account/signup.html:98
+msgid "Sign in"
+msgstr "Вход"
+
 #: templates/account/verification_sent.html:30
 msgid "Verify Your Email"
 msgstr "Потвърдете вашия имейл"
@@ -701,6 +704,62 @@ msgstr "Не го получихте?"
 #: templates/account/verification_sent.html:54
 msgid "Resend"
 msgstr "Изпрати отново"
+
+#: templates/api/tokens.html:25 templates/shared/sidebar.html:136
+msgid "Access Tokens"
+msgstr "Токени за достъп"
+
+#: templates/api/tokens.html:26
+msgid "Manage your API keys and learn how to integrate programmatically."
+msgstr "Управлявайте вашите API ключове и научете как да се интегрирате програмно."
+
+#: templates/api/tokens.html:46
+msgid "Your Personal Token"
+msgstr "Вашият личен токен"
+
+#: templates/api/tokens.html:50
+msgid "Keep this token secret. It grants full access to your account."
+msgstr "Пазете този токен в тайна. Той предоставя пълен достъп до вашия акаунт."
+
+#: templates/api/tokens.html:55
+msgid "Token Key"
+msgstr "Ключ на токена"
+
+#: templates/api/tokens.html:66
+msgid "Show/Hide"
+msgstr "Покажи/Скрий"
+
+#: templates/api/tokens.html:73
+msgid "Copy"
+msgstr "Копирай"
+
+#: templates/api/tokens.html:83
+msgid "Rotate Token"
+msgstr "Смени токена"
+
+#: templates/api/tokens.html:87 templates/api/tokens.html:236
+msgid "Last rotated:"
+msgstr "Последно сменен:"
+
+#: templates/api/tokens.html:208
+msgid "Rotate API Token?"
+msgstr "Смяна на API токен?"
+
+#: templates/api/tokens.html:211
+msgid ""
+"This will immediately invalidate the current token. Applications using the "
+"old token will stop working until updated."
+msgstr ""
+"Това незабавно ще деактивира текущия токен. Приложенията, използващи стария "
+"токен, ще спрат да работят, докато не бъдат актуализирани."
+
+#: templates/api/tokens.html:221
+msgid "Yes, Rotate It"
+msgstr "Да, смени го"
+
+#: templates/api/tokens.html:249
+msgid "Token rotated successfully!"
+msgstr "Токенът беше успешно сменен!"
 
 #: templates/automation/job.html:10
 msgid "Back to Jobs"
@@ -783,8 +842,7 @@ msgstr "Автоматизирани задачи"
 
 #: templates/automation/jobs.html:15
 msgid "Schedule and manage automated commands across your infrastructure."
-msgstr ""
-"Планирайте и управлявайте автоматизирани команди във вашата инфраструктура."
+msgstr "Планирайте и управлявайте автоматизирани команди във вашата инфраструктура."
 
 #: templates/automation/jobs.html:23
 msgid "Search jobs..."
@@ -844,12 +902,8 @@ msgstr "Изтриване на задача?"
 #: templates/automation/jobs.html:240
 #: templates/infrastructure/clusters.html:209
 #, python-format
-msgid ""
-"Are you sure you want to delete <strong class=\"text-base-"
-"content\">%(name)s</strong>?"
-msgstr ""
-"Сигурни ли сте, че искате да изтриете <strong class=\"text-base-"
-"content\">%(name)s</strong>?"
+msgid "Are you sure you want to delete <strong class=\"text-base-content\">%(name)s</strong>?"
+msgstr "Сигурни ли сте, че искате да изтриете <strong class=\"text-base-content\">%(name)s</strong>?"
 
 #: templates/automation/jobs.html:241
 msgid "This will cancel all future runs and delete execution history."
@@ -885,7 +939,7 @@ msgid "Active Groups"
 msgstr "Активни групи"
 
 #: templates/core/dashboard.html:56 templates/infrastructure/nodes.html:13
-#: templates/shared/sidebar.html:93
+#: templates/shared/sidebar.html:102
 msgid "Compute Nodes"
 msgstr "Изчислителни възли"
 
@@ -1044,19 +1098,14 @@ msgstr "Изтриване на възел?"
 #: templates/infrastructure/cluster.html:240
 #: templates/infrastructure/nodes.html:211
 #, python-format
-msgid ""
-"Are you sure you want to delete <strong class=\"text-base-"
-"content\">%(hostname)s</strong>?"
-msgstr ""
-"Сигурни ли сте, че искате да изтриете <strong class=\"text-base-"
-"content\">%(hostname)s</strong>?"
+msgid "Are you sure you want to delete <strong class=\"text-base-content\">%(hostname)s</strong>?"
+msgstr "Сигурни ли сте, че искате да изтриете <strong class=\"text-base-content\">%(hostname)s</strong>?"
 
 #: templates/infrastructure/cluster.html:241
 msgid "All telemetry data associated with this node will also be removed."
-msgstr ""
-"Всички данни за телеметрия, свързани с този възел, също ще бъдат премахнати."
+msgstr "Всички данни за телеметрия, свързани с този възел, също ще бъдат премахнати."
 
-#: templates/infrastructure/clusters.html:13
+#: templates/infrastructure/clusters.html:13 templates/shared/sidebar.html:98
 msgid "Resource Clusters"
 msgstr "Ресурсни клъстери"
 
@@ -1196,34 +1245,46 @@ msgstr "затвори менюто"
 msgid "Login / Register"
 msgstr "Вход / Регистрация"
 
-#: templates/shared/sidebar.html:67
-msgid "Dashboard"
-msgstr "Табло"
-
-#: templates/shared/sidebar.html:72
-msgid "Infrastructure"
-msgstr "Инфраструктура"
-
-#: templates/shared/sidebar.html:99
-msgid "Automation"
-msgstr "Автоматизация"
-
-#: templates/shared/sidebar.html:109
-msgid "Jobs & Tasks"
-msgstr "Задачи и процеси"
-
-#: templates/shared/sidebar.html:116
+#: templates/shared/sidebar.html:63
 msgid "System"
 msgstr "Система"
 
-#: templates/shared/sidebar.html:120
+#: templates/shared/sidebar.html:68
 msgid "Admin Panel"
 msgstr "Админ панел"
 
-#: templates/shared/sidebar.html:172
+#: templates/shared/sidebar.html:78
+msgid "Monitoring"
+msgstr "Мониторинг"
+
+#: templates/shared/sidebar.html:83
+msgid "Live Dashboard"
+msgstr "Табло на живо"
+
+#: templates/shared/sidebar.html:92
+msgid "Infrastructure"
+msgstr "Инфраструктура"
+
+#: templates/shared/sidebar.html:112
+msgid "Automations"
+msgstr "Автоматизация"
+
+#: templates/shared/sidebar.html:117
+msgid "Jobs & Tasks"
+msgstr "Задачи и процеси"
+
+#: templates/shared/sidebar.html:126
+msgid "API"
+msgstr "API"
+
+#: templates/shared/sidebar.html:132
+msgid "Version 1"
+msgstr "Версия 1"
+
+#: templates/shared/sidebar.html:187
 msgid "Logout"
 msgstr "Изход"
 
-#: templates/shared/sidebar.html:179
+#: templates/shared/sidebar.html:194
 msgid "View Source on GitHub"
 msgstr "Виж кода в GitHub"
