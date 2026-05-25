@@ -1,53 +1,30 @@
 # NIA-OS
 
-### Network Infrastructure Automation & Orchestration System
+## Network Infrastructure Automation & Orchestration System
 
 > **🎓 Academic Use Notice:**
-> This software was developed as a Bachelor's Thesis. Permission is explicitly granted to the **Technical University of Sofia (FDIBA)** to review and execute this software for the purposes of academic evaluation.
+> This software was developed as a Bachelor's Thesis at the **Technical University of Sofia (FDIBA)**. Permission is explicitly granted for academic evaluation and research purposes.
 
 ---
 
 ## 📖 Overview
 
-**NIA-OS** is a modern, lightweight, and secure platform designed to simplify the management, monitoring, and automation of distributed infrastructure nodes. Designed with a **"Glass OS" aesthetic**, it provides a seamless user experience that feels like a native operating system in the browser.
+**NIA-OS** is a modern, lightweight, and secure platform designed to simplify the management, monitoring, and automation of distributed infrastructure nodes. With a signature **"Glass OS" aesthetic**, it provides a seamless user experience that brings the feel of a native desktop operating system directly into your browser.
 
-Unlike heavy enterprise solutions, NIA-OS focuses on simplicity and interactivity, leveraging **HTMX** and **WebSockets** to deliver real-time updates without the overhead of a full Single Page Application (SPA).
+Unlike bloated enterprise solutions, NIA-OS prioritizes interactivity and speed. It leverages **HTMX** and **WebSockets** to deliver a highly reactive interface without the complexity of a heavy Single Page Application (SPA).
 
-## ✨ Key Features
+---
 
-### 🖥️ Modern "Glass OS" UI/UX
+## 🚀 Key Features
 
-* **Aesthetic:** Translucent glassmorphism, glowing ambient backgrounds, and fluid animations.
-* **Interactivity:** Powered by **HTMX** for smooth modal interactions, live search, and pagination without page reloads.
-* **Responsive:** Fully responsive layout with a modern, magnetic sidebar and control dock.
-
-### ☁️ Infrastructure Management
-
-* **Cluster & Node Organization:** Group resources into logical clusters for easier management.
-* **Agent-Based Architecture:** Lightweight, dependency-free Python agent (standard library only) for telemetry and command execution.
-* **Secure Onboarding:** One-line command setup for new nodes using secure Agent Keys.
-
-### 🚀 Automation & Orchestration
-
-* **Task Scheduler:** Schedule cron-like jobs or run one-off tasks across specific nodes or entire clusters.
-* **Live Execution Logs:** Watch command output in real-time via a terminal-like console viewer.
-* **History:** detailed audit logs of every execution, exit codes, and durations.
-
-### 🔌 Live Web Terminal
-
-* **Browser-based SSH:** Full xterm.js integration allowing direct SSH access to nodes from the browser.
-* **WebSocket Tunneling:** Low-latency secure channel via Django Channels.
-* **UI:** Resizable, macOS-style terminal window with connection status indicators.
-
-### 📊 Observability & Monitoring
-
-* **Real-time Dashboard:** Live visualization of CPU, RAM, and Disk usage.
-* **Health Checks:** Instant status indicators (Online/Offline) with visual pulse effects.
-
-### 🔐 Security & Auth
-
-* **Authentication:** Full OAuth2 support (Google) and email/password authentication via Django Allauth.
-* **Profile Management:** Modern settings for password resets, email management, and profile overview.
+| Feature | Description |
+| --- | --- |
+| **Glass OS UI** | Immersive glassmorphism with fluid animations and a macOS-style dock. |
+| **HTMX-Powered** | Smooth modal interactions and live updates with near-zero frontend overhead. |
+| **Agent-Based** | Dependency-free Python agent (std-lib only) – no `pip` required on target nodes. |
+| **Orchestration** | Cron-like scheduler for executing tasks across specific clusters or nodes. |
+| **Live Terminal** | In-browser SSH via `xterm.js` and low-latency WebSocket tunneling. |
+| **Observability** | Real-time monitoring of CPU, RAM, and Disk metrics with status pulse effects. |
 
 ---
 
@@ -55,27 +32,26 @@ Unlike heavy enterprise solutions, NIA-OS focuses on simplicity and interactivit
 
 ### Backend
 
-* **Django 6:** Core application framework.
-* **Django Channels:** WebSocket handling for the terminal and live metrics.
-* **Django Q:** Asynchronous task queue for automation jobs.
-* **PostgreSQL:** Relational database.
+* **Django 6** – The core application framework.
+* **Django Channels** – Handling WebSockets for the live terminal and metrics.
+* **Django Q** – Robust, asynchronous task queue for automation jobs.
+* **PostgreSQL** – Relational data storage.
 
 ### Frontend
 
-* **Templates:** Django Template Language (DTL).
-* **Styling:** Tailwind CSS + DaisyUI.
-* **Interactivity:** HTMX.
-* **Icons:** Lucide Icons.
-* **Terminal:** xterm.js.
+* **UI/UX** – Tailwind CSS & DaisyUI.
+* **Interactivity** – HTMX.
+* **Icons** – Lucide Icons.
+* **Terminal** – xterm.js integration.
 
 ---
 
-## 🚀 Getting Started
+## ⚙️ Getting Started
 
 ### Prerequisites
 
 * Python 3.14+
-* [uv](https://github.com/astral-sh/uv) (Extremely fast Python package installer and resolver)
+* [uv](https://github.com/astral-sh/uv) (Extremely fast package management)
 * PostgreSQL
 
 ### Installation
@@ -88,51 +64,37 @@ cd nia-os
 
 ```
 
-2. **Install dependencies and sync environment:**
-NIA-OS uses `uv` for dependency management. This command will create the virtual environment and install all lock-file dependencies.
+2. **Setup Environment:**
+
+NIA-OS uses `uv` to manage the environment and dependencies automatically.
 
 ```bash
 uv sync
+source .venv/bin/activate  # Or .venv\Scripts\activate on Windows
 
 ```
 
-3. **Activate the virtual environment:**
+3. **Configuration:**
 
-```bash
-# On macOS/Linux
-source .venv/bin/activate
-
-# On Windows
-.venv\Scripts\activate
-
-```
-
-4. **Configure Environment:**
-Copy the example environment file and configure your secrets (Database credentials, Secret Key, etc.).
+Configure your environment variables:
 
 ```bash
 cp .env.example .env
+# Edit .env and update DATABASE_URL, SECRET_KEY, etc.
 
 ```
 
-*Note: Ensure you update `DATABASE_URL` and `SECRET_KEY` in the `.env` file before proceeding.*
-
-5. **Run Migrations:**
+4. **Initialize:**
 
 ```bash
 python manage.py migrate
-
-```
-
-6. **Start the Server (ASGI for WebSockets):**
-
-```bash
 python manage.py tailwind runserver
 
 ```
 
-7. **Start Django Q cluster (for Automation):**
-In a separate terminal (don't forget to activate the venv):
+5. **Start the Scheduler:**
+
+In a separate terminal (with the venv activated):
 
 ```bash
 python manage.py qcluster
@@ -141,35 +103,34 @@ python manage.py qcluster
 
 ---
 
-## 🖥️ Agent Setup
+## 🤖 Agent Setup
 
-To monitor a node, navigate to the **Nodes** section in the UI, click **"Add Node"**, and run the generated command on your target server:
+To register a new node:
 
+1. Navigate to **Nodes** → **"Add Node"**.
+2. Copy the generated one-line command.
+3. Run it on your target server:
 ```bash
-# Example Command (Generated by UI)
-curl -s https://nia-os.mmanchev23.dev/static/agent.py | python3 - https://nia-os.mmanchev23.dev/api/ingest/ <AGENT_KEY>
+# Agent runs via Python standard library (no pip needed!)
+nohup bash -c 'curl -s https://nia-os.manchev.dev/static/agent.py | python3 - https://nia-os.manchev.dev/monitoring/api/ingest/ <AGENT_KEY>' > /dev/null 2>&1 &
 
 ```
 
-*Note: The agent requires only a standard Python 3 installation. No `pip install` required.*
 
 ---
 
-## 📜 License
+## 📜 License & Copyright
 
-All Rights Reserved
+**All Rights Reserved.**
 
-**Copyright (c) 2025 Martin Manchev Manchev**
+Copyright (c) 2026 **Martin Manchev Manchev**
 
-THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-UNAUTHORIZED COPYING, TRANSFERRING, OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM, IS STRICTLY PROHIBITED.
+> **Proprietary Notice:**
+> The contents of this project are proprietary and confidential. Unauthorized copying, transferring, or reproduction of the contents of this project, via any medium, is strictly prohibited. Receipt or possession of this source code does not convey or imply any right to use it for any purpose other than for which it was provided.
 
-The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them for any purpose other than the purpose for which they were provided to you.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
-
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.*
 
 ---
 
-**Developed by Martin Manchev** *Bachelor's Thesis, Technical University of Sofia*
+**Developed by Martin Manchev Manchev**
+*Bachelor's Thesis, Technical University of Sofia*

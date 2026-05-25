@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: NIA-OS 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 14:48+0300\n"
-"PO-Revision-Date: 2025-12-29 18:15+0200\n"
+"POT-Creation-Date: 2026-05-25 15:07+0300\n"
+"PO-Revision-Date: 2026-05-25 15:20+0300\n"
 "Last-Translator: Martin Manchev <your@email.com>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
-"Language: bg\n"
+"Language-Team: German <de@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,19 +14,19 @@ msgstr ""
 
 #: apps/api/views.py:41
 msgid "Your API token has been successfully rotated."
-msgstr "Вашият API токен беше успешно сменен."
+msgstr "Ihr API-Token wurde erfolgreich erneuert."
 
 #: apps/api/views.py:44
 msgid "An error occurred."
-msgstr "Възникна грешка."
+msgstr "Ein Fehler ist aufgetreten."
 
 #: apps/authentication/forms.py:9 apps/authentication/forms.py:11
 msgid "First Name"
-msgstr "Име"
+msgstr "Vorname"
 
 #: apps/authentication/forms.py:16 apps/authentication/forms.py:19
 msgid "Last Name"
-msgstr "Фамилия"
+msgstr "Nachname"
 
 #: apps/authentication/models.py:13 apps/core/models.py:12
 #: apps/core/models.py:37
@@ -37,211 +37,211 @@ msgstr "ID"
 #: apps/infrastructure/admin.py:58 apps/infrastructure/models.py:18
 #: templates/infrastructure/cluster.html:86
 msgid "User"
-msgstr "Потребител"
+msgstr "Benutzer"
 
 #: apps/authentication/models.py:19
 msgid "Users"
-msgstr "Потребители"
+msgstr "Benutzer"
 
 #: apps/automation/admin.py:68 templates/automation/jobs.html:75
 #: templates/core/dashboard.html:174
 msgid "Target"
-msgstr "Цел"
+msgstr "Ziel"
 
 #: apps/automation/admin.py:72
 msgid "Run Once / Manual"
-msgstr "Еднократно / Ръчно"
+msgstr "Einmalig / Manuell"
 
 #: apps/automation/admin.py:83
 msgid "Django-Q Schedule"
-msgstr "Django-Q График"
+msgstr "Django-Q Zeitplan"
 
 #: apps/automation/admin.py:117 apps/automation/models.py:95
 #: apps/infrastructure/models.py:103 templates/automation/job.html:87
 #: templates/core/dashboard.html:134 templates/infrastructure/cluster.html:87
 #: templates/infrastructure/nodes.html:77
 msgid "Status"
-msgstr "Статус"
+msgstr "Status"
 
 #: apps/automation/forms.py:8 templates/automation/jobs.html:74
 #: templates/core/dashboard.html:174
 msgid "Job Name"
-msgstr "Име на задача"
+msgstr "Job-Name"
 
 #: apps/automation/forms.py:11 apps/automation/models.py:41
 msgid "Command"
-msgstr "Команда"
+msgstr "Befehl"
 
 #: apps/automation/forms.py:13 apps/automation/models.py:40
 msgid "Bash command to execute"
-msgstr "Bash команда за изпълнение"
+msgstr "Auszuführender Bash-Befehl"
 
 #: apps/automation/forms.py:17
 msgid "Target Node"
-msgstr "Целеви възел"
+msgstr "Ziel-Knoten"
 
 #: apps/automation/forms.py:21
 msgid "Target Cluster"
-msgstr "Целеви клъстер"
+msgstr "Ziel-Cluster"
 
 #: apps/automation/forms.py:26
 msgid "Run Once"
-msgstr "Еднократно"
+msgstr "Einmalig ausführen"
 
 #: apps/automation/forms.py:27
 msgid "Recurring (Minutes)"
-msgstr "Повтарящо се (Минути)"
+msgstr "Wiederkehrend (Minuten)"
 
 #: apps/automation/forms.py:28
 msgid "Hourly"
-msgstr "На всеки час"
+msgstr "Stündlich"
 
 #: apps/automation/forms.py:29
 msgid "Daily"
-msgstr "Ежедневно"
+msgstr "Täglich"
 
 #: apps/automation/forms.py:31 templates/automation/jobs.html:76
 msgid "Frequency"
-msgstr "Честота"
+msgstr "Häufigkeit"
 
 #: apps/automation/forms.py:37
 msgid "Interval (Minutes)"
-msgstr "Интервал (Минути)"
+msgstr "Intervall (Minuten)"
 
 #: apps/automation/forms.py:38
 msgid "Only required if \"Recurring\" is selected"
-msgstr "Задължително само ако е избрано \"Повтарящо се\""
+msgstr "Nur erforderlich, wenn \"Wiederkehrend\" ausgewählt ist"
 
 #: apps/automation/forms.py:55
 msgid "Please select either a Node OR a Cluster, not both."
-msgstr "Моля, изберете или Възел, ИЛИ Клъстер, но не и двете."
+msgstr "Bitte wählen Sie entweder einen Knoten ODER einen Cluster, nicht beides."
 
 #: apps/automation/forms.py:59
 msgid "Please select a target (Node or Cluster)."
-msgstr "Моля, изберете цел (Възел или Клъстер)."
+msgstr "Bitte wählen Sie ein Ziel (Knoten oder Cluster)."
 
 #: apps/automation/forms.py:62
 msgid "Please specify the number of minutes."
-msgstr "Моля, посочете броя на минутите."
+msgstr "Bitte geben Sie die Anzahl der Minuten an."
 
 #: apps/automation/models.py:25 apps/automation/models.py:88
 #: apps/infrastructure/models.py:120 apps/monitoring/models.py:13
 #: templates/automation/job.html:23 templates/automation/job.html:89
 #: templates/core/dashboard.html:188
 msgid "Node"
-msgstr "Възел"
+msgstr "Knoten"
 
 #: apps/automation/models.py:34 apps/infrastructure/models.py:40
 #: apps/infrastructure/models.py:59 templates/automation/job.html:25
 #: templates/core/dashboard.html:188 templates/infrastructure/nodes.html:76
 msgid "Cluster"
-msgstr "Клъстер"
+msgstr "Cluster"
 
 #: apps/automation/models.py:37 apps/infrastructure/models.py:26
 msgid "Name"
-msgstr "Име"
+msgstr "Name"
 
 #: apps/automation/models.py:50 templates/automation/job.html:34
 #: templates/core/dashboard.html:174
 msgid "Schedule"
-msgstr "График"
+msgstr "Zeitplan"
 
 #: apps/automation/models.py:57
 msgid "Scheduled Job"
-msgstr "Планирана задача"
+msgstr "Geplanter Job"
 
 #: apps/automation/models.py:58 templates/core/dashboard.html:66
 #: templates/core/dashboard.html:167
 msgid "Scheduled Jobs"
-msgstr "Планирани задачи"
+msgstr "Geplante Jobs"
 
 #: apps/automation/models.py:73
 msgid "Pending"
-msgstr "Чакащ"
+msgstr "Ausstehend"
 
 #: apps/automation/models.py:74 templates/automation/job.html:100
 msgid "Success"
-msgstr "Успех"
+msgstr "Erfolg"
 
 #: apps/automation/models.py:75 templates/automation/job.html:104
 msgid "Failed"
-msgstr "Грешка"
+msgstr "Fehlgeschlagen"
 
 #: apps/automation/models.py:81
 msgid "Job"
-msgstr "Задача"
+msgstr "Job"
 
 #: apps/automation/models.py:98 templates/automation/job.html:152
 msgid "Exit Code"
-msgstr "Код на изход"
+msgstr "Exit-Code"
 
 #: apps/automation/models.py:100
 msgid "Standard Output"
-msgstr "Стандартен изход"
+msgstr "Standardausgabe"
 
 #: apps/automation/models.py:102
 msgid "Standard Error"
-msgstr "Стандартна грешка"
+msgstr "Standardfehler"
 
 #: apps/automation/models.py:104
 msgid "Started At"
-msgstr "Стартирано на"
+msgstr "Gestartet am"
 
 #: apps/automation/models.py:107
 msgid "Finished At"
-msgstr "Завършило на"
+msgstr "Beendet am"
 
 #: apps/automation/views.py:61
 msgid "Job scheduled successfully!"
-msgstr "Задачата е планирана успешно!"
+msgstr "Job erfolgreich geplant!"
 
 #: apps/automation/views.py:75 templates/automation/jobs.html:197
 msgid "Schedule New Job"
-msgstr "Планиране на нова задача"
+msgstr "Neuen Job planen"
 
 #: apps/automation/views.py:107
 #, python-brace-format
 msgid "Job {name} updated!"
-msgstr "Задача {name} е обновена!"
+msgstr "Job {name} aktualisiert!"
 
 #: apps/automation/views.py:137 apps/infrastructure/views.py:156
 #, python-brace-format
 msgid "Edit {name}"
-msgstr "Редакция на {name}"
+msgstr "{name} bearbeiten"
 
 #: apps/automation/views.py:148
 #, python-brace-format
 msgid "Job '{name}' deleted!"
-msgstr "Задача '{name}' е изтрита!"
+msgstr "Job '{name}' gelöscht!"
 
 #: apps/core/models.py:18 apps/core/models.py:43
 msgid "Created"
-msgstr "Създаден"
+msgstr "Erstellt"
 
 #: apps/core/models.py:24
 msgid "Updated"
-msgstr "Обновен"
+msgstr "Aktualisiert"
 
 #: apps/core/views.py:59
 msgid "Wait..."
-msgstr "Изчакайте..."
+msgstr "Warten..."
 
 #: apps/infrastructure/admin.py:22
 msgid "Search by cluster name and summary or user details."
-msgstr "Търсене по име на клъстер, резюме или потребител."
+msgstr "Suche nach Cluster-Namen, Zusammenfassung oder Benutzerdetails."
 
 #: apps/infrastructure/admin.py:28 apps/infrastructure/models.py:121
 #: templates/core/index.html:79 templates/infrastructure/clusters.html:75
 msgid "Nodes"
-msgstr "Възли"
+msgstr "Knoten"
 
 #: apps/infrastructure/admin.py:52
 msgid "Search by node hostname and ip address or cluster details."
-msgstr "Търсене по име на хост, IP адрес или детайли за клъстера."
+msgstr "Suche nach Knoten-Hostname, IP-Adresse oder Cluster-Details."
 
 #: apps/infrastructure/forms.py:11 apps/infrastructure/models.py:88
 msgid "Password"
-msgstr "Парола"
+msgstr "Passwort"
 
 #: apps/infrastructure/forms.py:14
 msgid "********"
@@ -252,23 +252,23 @@ msgid ""
 "The password is encrypted. Enter a new password to change it, or leave blank "
 "to keep the current one."
 msgstr ""
-"Паролата е криптирана. Въведете нова парола, за да я промените, или оставете "
-"празно, за да запазите текущата."
+"Das Passwort ist verschlüsselt. Geben Sie ein neues Passwort ein, um es zu "
+"ändern, oder lassen Sie das Feld leer, um das aktuelle beizubehalten."
 
 #: apps/infrastructure/models.py:33 templates/infrastructure/clusters.html:76
 msgid "Summary"
-msgstr "Резюме"
+msgstr "Zusammenfassung"
 
 #: apps/infrastructure/models.py:41 templates/core/index.html:58
 msgid "Clusters"
-msgstr "Клъстери"
+msgstr "Cluster"
 
 #: apps/infrastructure/models.py:51 templates/core/dashboard.html:149
 #: templates/core/dashboard.html:213 templates/infrastructure/cluster.html:113
 #: templates/infrastructure/node.html:41
 #: templates/infrastructure/nodes.html:107
 msgid "Unknown"
-msgstr "Неизвестен"
+msgstr "Unbekannt"
 
 #: apps/infrastructure/models.py:52 templates/core/dashboard.html:112
 #: templates/core/dashboard.html:145 templates/core/dashboard.html:213
@@ -276,7 +276,7 @@ msgstr "Неизвестен"
 #: templates/infrastructure/node.html:31
 #: templates/infrastructure/nodes.html:103
 msgid "Online"
-msgstr "Онлайн"
+msgstr "Online"
 
 #: apps/infrastructure/models.py:53 templates/core/dashboard.html:113
 #: templates/core/dashboard.html:147 templates/core/dashboard.html:213
@@ -284,93 +284,93 @@ msgstr "Онлайн"
 #: templates/infrastructure/node.html:36
 #: templates/infrastructure/nodes.html:105
 msgid "Offline"
-msgstr "Офлайн"
+msgstr "Offline"
 
 #: apps/infrastructure/models.py:67 templates/core/dashboard.html:132
 #: templates/infrastructure/cluster.html:83
 #: templates/infrastructure/nodes.html:74
 msgid "Hostname"
-msgstr "Хостнейм"
+msgstr "Hostname"
 
 #: apps/infrastructure/models.py:74 templates/core/dashboard.html:133
 #: templates/infrastructure/cluster.html:84
 #: templates/infrastructure/nodes.html:75
 msgid "IP Address"
-msgstr "IP Адрес"
+msgstr "IP-Adresse"
 
 #: apps/infrastructure/models.py:81
 msgid "Username"
-msgstr "Потребителско име"
+msgstr "Benutzername"
 
 #: apps/infrastructure/models.py:96 templates/infrastructure/cluster.html:85
 msgid "Port"
-msgstr "Порт"
+msgstr "Port"
 
 #: apps/infrastructure/models.py:110 templates/infrastructure/node.html:81
 msgid "Agent Key"
-msgstr "Ключ на агента"
+msgstr "Agent-Schlüssel"
 
 #: apps/infrastructure/models.py:111
 msgid "Secret key used by the agent to authenticate."
-msgstr "Таен ключ, използван от агента за удостоверяване."
+msgstr "Geheimer Schlüssel zur Authentifizierung des Agenten."
 
 #: apps/infrastructure/models.py:114 templates/core/dashboard.html:135
 #: templates/infrastructure/node.html:71
 msgid "Last Seen"
-msgstr "Последно видян"
+msgstr "Zuletzt gesehen"
 
 #: apps/infrastructure/views.py:56
 #, python-brace-format
 msgid "{name} created!"
-msgstr "{name} е създаден!"
+msgstr "{name} erstellt!"
 
 #: apps/infrastructure/views.py:74
 msgid "Create Cluster"
-msgstr "Създаване на Клъстер"
+msgstr "Cluster erstellen"
 
 #: apps/infrastructure/views.py:83 apps/infrastructure/views.py:114
 #: apps/infrastructure/views.py:166
 msgid "Cluster not found."
-msgstr "Клъстерът не е намерен."
+msgstr "Cluster nicht gefunden."
 
 #: apps/infrastructure/views.py:135
 #, python-brace-format
 msgid "{name} updated!"
-msgstr "{name} е обновен!"
+msgstr "{name} aktualisiert!"
 
 #: apps/infrastructure/views.py:172
 #, python-brace-format
 msgid "Cluster '{name}' deleted!"
-msgstr "Клъстер '{name}' е изтрит!"
+msgstr "Cluster '{name}' gelöscht!"
 
 #: apps/infrastructure/views.py:243 apps/infrastructure/views.py:313
 #: apps/infrastructure/views.py:365 apps/infrastructure/views.py:395
 msgid "Node not found."
-msgstr "Възелът не е намерен."
+msgstr "Knoten nicht gefunden."
 
 #: apps/infrastructure/views.py:277
 #, python-brace-format
 msgid "Node {hostname} created!"
-msgstr "Възел {hostname} е създаден!"
+msgstr "Knoten {hostname} erstellt!"
 
 #: apps/infrastructure/views.py:303
 msgid "Add New Node"
-msgstr "Добавяне на нов възел"
+msgstr "Neuen Knoten hinzufügen"
 
 #: apps/infrastructure/views.py:333
 #, python-brace-format
 msgid "Node {hostname} updated!"
-msgstr "Възел {hostname} е обновен!"
+msgstr "Knoten {hostname} aktualisiert!"
 
 #: apps/infrastructure/views.py:355
 #, python-brace-format
 msgid "Edit {hostname}"
-msgstr "Редакция на {hostname}"
+msgstr "{hostname} bearbeiten"
 
 #: apps/infrastructure/views.py:373
 #, python-brace-format
 msgid "Node '{hostname}' deleted!"
-msgstr "Възел '{hostname}' е изтрит!"
+msgstr "Knoten '{hostname}' gelöscht!"
 
 #: apps/monitoring/models.py:16
 msgid "CPU %"
@@ -382,199 +382,200 @@ msgstr "RAM %"
 
 #: apps/monitoring/models.py:18
 msgid "Disk %"
-msgstr "Диск %"
+msgstr "Festplatte %"
 
 #: apps/monitoring/models.py:21
 msgid "Metric"
-msgstr "Метрика"
+msgstr "Metrik"
 
 #: apps/monitoring/models.py:22
 msgid "Metrics"
-msgstr "Метрики"
+msgstr "Metriken"
 
 #: apps/monitoring/views.py:28
 msgid "Invalid JSON format"
-msgstr "Невалиден JSON формат"
+msgstr "Ungültiges JSON-Format"
 
 #: apps/monitoring/views.py:30
 msgid "Invalid Agent Key"
-msgstr "Невалиден агентски ключ"
+msgstr "Ungültiger Agent-Schlüssel"
 
 #: config/settings/base.py:145
 msgid "English"
-msgstr "Английски"
+msgstr "Englisch"
 
 #: config/settings/base.py:146
 msgid "German"
-msgstr "Немски"
+msgstr "Deutsch"
 
 #: config/settings/base.py:147
 msgid "Bulgarian"
-msgstr "Български"
+msgstr "Bulgarisch"
 
 #: templates/account/email.html:21
 msgid "Email Addresses"
-msgstr "Имейл адреси"
+msgstr "E-Mail-Adressen"
 
 #: templates/account/email.html:22
 msgid "Manage email addresses associated with your account."
-msgstr "Управление на имейл адресите, свързани с вашия акаунт."
+msgstr "Verwalten Sie die mit Ihrem Konto verknüpften E-Mail-Adressen."
 
 #: templates/account/email.html:33
 msgid "Registered Emails"
-msgstr "Регистрирани имейли"
+msgstr "Registrierte E-Mails"
 
 #: templates/account/email.html:48
 msgid "Verified"
-msgstr "Потвърден"
+msgstr "Verifiziert"
 
 #: templates/account/email.html:52
 msgid "Unverified"
-msgstr "Непотвърден"
+msgstr "Nicht verifiziert"
 
 #: templates/account/email.html:58
 msgid "Primary"
-msgstr "Основен"
+msgstr "Primär"
 
 #: templates/account/email.html:70
 msgid "Make Primary"
-msgstr "Направи основен"
+msgstr "Als primär festlegen"
 
 #: templates/account/email.html:73
 msgid "Re-send Verification"
-msgstr "Изпрати повторно потвърждение"
+msgstr "Verifizierung erneut senden"
 
 #: templates/account/email.html:76
 msgid "Remove"
-msgstr "Премахни"
+msgstr "Entfernen"
 
 #: templates/account/email.html:86
 msgid "Add New Email"
-msgstr "Добави нов имейл"
+msgstr "Neue E-Mail hinzufügen"
 
 #: templates/account/email.html:90
 msgid "E-mail address"
-msgstr "Имейл адрес"
+msgstr "E-Mail-Adresse"
 
 #: templates/account/email.html:98
 msgid "Add Email"
-msgstr "Добави"
+msgstr "E-Mail hinzufügen"
 
 #: templates/account/email.html:116 templates/account/email_confirm.html:69
 msgid "Back to Home"
-msgstr "Обратно към начало"
+msgstr "Zurück zur Startseite"
 
 #: templates/account/email.html:122 templates/account/email_confirm.html:75
 #: templates/account/login.html:103 templates/account/password_change.html:81
 #: templates/account/signup.html:98 templates/account/verification_sent.html:60
 msgid "Secure Infrastructure."
-msgstr "Сигурна инфраструктура."
+msgstr "Sichere Infrastruktur."
 
 #: templates/account/email.html:133
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr "Наистина ли искате да премахнете избрания имейл адрес?"
+msgstr "Möchten Sie die ausgewählte E-Mail-Adresse wirklich entfernen?"
 
 #: templates/account/email_confirm.html:31
 msgid "Confirm Email Address"
-msgstr "Потвърдете имейл адреса"
+msgstr "E-Mail-Adresse bestätigen"
 
 #: templates/account/email_confirm.html:34
+#, python-format
 msgid ""
 "\n"
 "                        Please confirm that <strong class=\"text-base-content\">%(email)s</strong> is the email address for your NIA-OS account.\n"
 "                        "
 msgstr ""
 "\n"
-"                        Моля, потвърдете, че <strong class=\"text-base-content\">%(email)s</strong> е имейл адресът за вашия NIA-OS акаунт.\n"
+"                        Bitte bestätigen Sie, dass <strong class=\"text-base-content\">%(email)s</strong> die E-Mail-Adresse für Ihr NIA-OS-Konto ist.\n"
 "                        "
 
 #: templates/account/email_confirm.html:42
 msgid "Confirm Email"
-msgstr "Потвърди имейл"
+msgstr "E-Mail bestätigen"
 
 #: templates/account/email_confirm.html:52
 msgid "Link Expired"
-msgstr "Връзката е изтекла"
+msgstr "Link abgelaufen"
 
 #: templates/account/email_confirm.html:55
 msgid ""
 "This confirmation link is invalid or has already been used. Please try "
 "logging in or requesting a new one."
 msgstr ""
-"Тази връзка за потвърждение е невалидна или вече е използвана. Моля, "
-"опитайте да влезете или заявете нова."
+"Dieser Bestätigungslink ist ungültig oder wurde bereits verwendet. Bitte "
+"versuchen Sie sich anzumelden oder einen neuen anzufordern."
 
 #: templates/account/email_confirm.html:60
 msgid "Go to Login"
-msgstr "Към вход"
+msgstr "Zum Login"
 
 #: templates/account/login.html:21
 msgid "Welcome back"
-msgstr "Добре дошли отново"
+msgstr "Willkommen zurück"
 
 #: templates/account/login.html:22
 msgid "Sign in to access your infrastructure."
-msgstr "Влезте за достъп до вашата инфраструктура."
+msgstr "Melden Sie sich an, um auf Ihre Infrastruktur zuzugreifen."
 
 #: templates/account/login.html:31
 msgid "Continue with Google"
-msgstr "Продължи с Google"
+msgstr "Weiter mit Google"
 
 #: templates/account/login.html:34
 msgid "Or continue with email"
-msgstr "Или продължи с имейл"
+msgstr "Oder weiter mit E-Mail"
 
 #: templates/account/login.html:81
 msgid "Forgot password?"
-msgstr "Забравена парола?"
+msgstr "Passwort vergessen?"
 
 #: templates/account/login.html:89
 msgid "Sign In"
-msgstr "Вход"
+msgstr "Anmelden"
 
 #: templates/account/login.html:97
 msgid "Don't have an account?"
-msgstr "Нямате акаунт?"
+msgstr "Sie haben kein Konto?"
 
 #: templates/account/login.html:98
 msgid "Sign up"
-msgstr "Регистрация"
+msgstr "Registrieren"
 
 #: templates/account/logout.html:23
 msgid "Ready to leave?"
-msgstr "Готови за излизане?"
+msgstr "Bereit zu gehen?"
 
 #: templates/account/logout.html:25
 msgid ""
 "You are about to sign out of <strong>NIA-OS</strong>.<br>Please ensure all "
 "your tasks are saved."
 msgstr ""
-"На път сте да излезете от <strong>NIA-OS</strong>.<br>Моля, уверете се, че "
-"всички задачи са запазени."
+"Sie sind dabei, sich von <strong>NIA-OS</strong> abzumelden.<br>Bitte "
+"stellen Sie sicher, dass alle Ihre Aufgaben gespeichert sind."
 
 #: templates/account/logout.html:33
 msgid "Sign Out"
-msgstr "Изход"
+msgstr "Abmelden"
 
 #: templates/account/logout.html:39
 msgid "Stay Logged In"
-msgstr "Остани в системата"
+msgstr "Angemeldet bleiben"
 
 #: templates/account/logout.html:46 templates/automation/job.html:164
 msgid "Close"
-msgstr "Затвори"
+msgstr "Schließen"
 
 #: templates/account/password_change.html:20
 msgid "Change Password"
-msgstr "Смяна на парола"
+msgstr "Passwort ändern"
 
 #: templates/account/password_change.html:21
 msgid "Update your account security credentials."
-msgstr "Актуализирайте данните за сигурност на акаунта си."
+msgstr "Aktualisieren Sie Ihre Sicherheitsanmeldeinformationen."
 
 #: templates/account/password_change.html:66
 msgid "Update Password"
-msgstr "Обнови паролата"
+msgstr "Passwort aktualisieren"
 
 #: templates/account/password_change.html:75
 #: templates/account/password_set.html:75 templates/api/tokens.html:215
@@ -586,247 +587,248 @@ msgstr "Обнови паролата"
 #: templates/infrastructure/nodes.html:197
 #: templates/infrastructure/nodes.html:215
 msgid "Cancel"
-msgstr "Отказ"
+msgstr "Abbrechen"
 
 #: templates/account/password_reset.html:19
 msgid "Forgot Password?"
-msgstr "Забравена парола?"
+msgstr "Passwort vergessen?"
 
 #: templates/account/password_reset.html:20
 msgid "Enter your email to receive reset instructions."
-msgstr "Въведете имейла си, за да получите инструкции."
+msgstr "Geben Sie Ihre E-Mail ein, um Anweisungen zum Zurücksetzen zu erhalten."
 
 #: templates/account/password_reset.html:59
 msgid "Send Reset Email"
-msgstr "Изпрати имейл за възстановяване"
+msgstr "E-Mail zum Zurücksetzen senden"
 
 #: templates/account/password_reset.html:67
 msgid "Remembered it?"
-msgstr "Спомнихте си я?"
+msgstr "Wieder eingefallen?"
 
 #: templates/account/password_reset.html:69 templates/account/signup.html:93
 msgid "Sign in"
-msgstr "Вход"
+msgstr "Anmelden"
 
 #: templates/account/password_reset_confirm.html:19
 msgid "Set New Password"
-msgstr "Задаване на нова парола"
+msgstr "Neues Passwort festlegen"
 
 #: templates/account/password_reset_confirm.html:20
 msgid "Enter your new password below."
-msgstr "Въведете новата си парола по-долу."
+msgstr "Geben Sie unten Ihr neues Passwort ein."
 
 #: templates/account/password_reset_confirm.html:31
 msgid "Invalid Link"
-msgstr "Невалидна връзка"
+msgstr "Ungültiger Link"
 
 #: templates/account/password_reset_confirm.html:33
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"Връзката за възстановяване на паролата е невалидна или вече е използвана. "
-"Моля, заявете ново възстановяване."
+"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise weil er "
+"bereits verwendet wurde. Bitte fordern Sie ein neues Zurücksetzen des "
+"Passworts an."
 
 #: templates/account/password_reset_confirm.html:36
 msgid "Request New Reset"
-msgstr "Заяви ново възстановяване"
+msgstr "Neues Zurücksetzen anfordern"
 
 #: templates/account/password_reset_confirm.html:79
 msgid "Reset Password"
-msgstr "Възстанови парола"
+msgstr "Passwort zurücksetzen"
 
 #: templates/account/password_reset_confirm.html:89
 msgid "Back to Sign In"
-msgstr "Обратно към Вход"
+msgstr "Zurück zur Anmeldung"
 
 #: templates/account/password_set.html:19
 #: templates/account/password_set.html:66
 msgid "Set Password"
-msgstr "Задай парола"
+msgstr "Passwort festlegen"
 
 #: templates/account/password_set.html:20
 msgid "Create a local password for your account."
-msgstr "Създайте локална парола за вашия акаунт."
+msgstr "Erstellen Sie ein lokales Passwort für Ihr Konto."
 
 #: templates/account/signup.html:21
 msgid "Create account"
-msgstr "Създаване на акаунт"
+msgstr "Konto erstellen"
 
 #: templates/account/signup.html:22
 msgid "Join NIA-OS to manage your infrastructure."
-msgstr "Присъединете се към NIA-OS за управление на вашата инфраструктура."
+msgstr "Treten Sie NIA-OS bei, um Ihre Infrastruktur zu verwalten."
 
 #: templates/account/signup.html:31
 msgid "Sign up with Google"
-msgstr "Регистрация с Google"
+msgstr "Mit Google registrieren"
 
 #: templates/account/signup.html:34
 msgid "Or register with email"
-msgstr "Или регистрация с имейл"
+msgstr "Oder mit E-Mail registrieren"
 
 #: templates/account/signup.html:84
 msgid "Create Account"
-msgstr "Създай акаунт"
+msgstr "Konto erstellen"
 
 #: templates/account/signup.html:92
 msgid "Already have an account?"
-msgstr "Вече имате акаунт?"
+msgstr "Sie haben bereits ein Konto?"
 
 #: templates/account/signup.html:98
 msgid "Sign in"
-msgstr "Вход"
+msgstr "Anmelden"
 
 #: templates/account/verification_sent.html:30
 msgid "Verify Your Email"
-msgstr "Потвърдете вашия имейл"
+msgstr "Bestätigen Sie Ihre E-Mail"
 
 #: templates/account/verification_sent.html:33
 msgid "We have sent a confirmation link to:"
-msgstr "Изпратихме линк за потвърждение до:"
+msgstr "Wir haben einen Bestätigungslink gesendet an:"
 
 #: templates/account/verification_sent.html:41
 msgid ""
 "Please check your inbox (and spam folder) and click the link to activate "
 "your account."
 msgstr ""
-"Моля, проверете входящата си поща (и спам папката) и кликнете върху линка, "
-"за да активирате акаунта си."
+"Bitte überprüfen Sie Ihren Posteingang (und Spam-Ordner) und klicken Sie auf "
+"den Link, um Ihr Konto zu aktivieren."
 
 #: templates/account/verification_sent.html:45
 msgid "Return to Login"
-msgstr "Връщане към Вход"
+msgstr "Zurück zum Login"
 
 #: templates/account/verification_sent.html:52
 msgid "Didn't receive it?"
-msgstr "Не го получихте?"
+msgstr "Nicht erhalten?"
 
 #: templates/account/verification_sent.html:54
 msgid "Resend"
-msgstr "Изпрати отново"
+msgstr "Erneut senden"
 
 #: templates/api/tokens.html:25 templates/shared/sidebar.html:136
 msgid "Access Tokens"
-msgstr "Токени за достъп"
+msgstr "Zugriffstoken"
 
 #: templates/api/tokens.html:26
 msgid "Manage your API keys and learn how to integrate programmatically."
-msgstr "Управлявайте вашите API ключове и научете как да се интегрирате програмно."
+msgstr "Verwalten Sie Ihre API-Schlüssel und erfahren Sie, wie Sie sie programmatisch integrieren."
 
 #: templates/api/tokens.html:46
 msgid "Your Personal Token"
-msgstr "Вашият личен токен"
+msgstr "Ihr persönlicher Token"
 
 #: templates/api/tokens.html:50
 msgid "Keep this token secret. It grants full access to your account."
-msgstr "Пазете този токен в тайна. Той предоставя пълен достъп до вашия акаунт."
+msgstr "Bewahren Sie diesen Token geheim auf. Er gewährt vollen Zugriff auf Ihr Konto."
 
 #: templates/api/tokens.html:55
 msgid "Token Key"
-msgstr "Ключ на токена"
+msgstr "Token-Schlüssel"
 
 #: templates/api/tokens.html:66
 msgid "Show/Hide"
-msgstr "Покажи/Скрий"
+msgstr "Anzeigen/Ausblenden"
 
 #: templates/api/tokens.html:73
 msgid "Copy"
-msgstr "Копирай"
+msgstr "Kopieren"
 
 #: templates/api/tokens.html:83
 msgid "Rotate Token"
-msgstr "Смени токена"
+msgstr "Token erneuern"
 
 #: templates/api/tokens.html:87 templates/api/tokens.html:236
 msgid "Last rotated:"
-msgstr "Последно сменен:"
+msgstr "Zuletzt erneuert:"
 
 #: templates/api/tokens.html:208
 msgid "Rotate API Token?"
-msgstr "Смяна на API токен?"
+msgstr "API-Token erneuern?"
 
 #: templates/api/tokens.html:211
 msgid ""
 "This will immediately invalidate the current token. Applications using the "
 "old token will stop working until updated."
 msgstr ""
-"Това незабавно ще деактивира текущия токен. Приложенията, използващи стария "
-"токен, ще спрат да работят, докато не бъдат актуализирани."
+"Dies macht den aktuellen Token sofort ungültig. Anwendungen, die den alten "
+"Token verwenden, funktionieren erst nach einer Aktualisierung wieder."
 
 #: templates/api/tokens.html:221
 msgid "Yes, Rotate It"
-msgstr "Да, смени го"
+msgstr "Ja, erneuern"
 
 #: templates/api/tokens.html:249
 msgid "Token rotated successfully!"
-msgstr "Токенът беше успешно сменен!"
+msgstr "Token wurde erfolgreich erneuert!"
 
 #: templates/automation/job.html:10
 msgid "Back to Jobs"
-msgstr "Назад към задачи"
+msgstr "Zurück zu Jobs"
 
 #: templates/automation/job.html:40
 msgid "One-off Run"
-msgstr "Еднократно изпълнение"
+msgstr "Einmalige Ausführung"
 
 #: templates/automation/job.html:45
 #, python-format
 msgid "Next: %(next)s"
-msgstr "Следващо: %(next)s"
+msgstr "Nächste: %(next)s"
 
 #: templates/automation/job.html:47
 msgid "Not scheduled"
-msgstr "Не е планирано"
+msgstr "Nicht geplant"
 
 #: templates/automation/job.html:54 templates/automation/jobs.html:77
 msgid "Last Run"
-msgstr "Последно изпълнение"
+msgstr "Letzte Ausführung"
 
 #: templates/automation/job.html:58 templates/automation/jobs.html:121
 #: templates/core/dashboard.html:152 templates/infrastructure/node.html:72
 msgid "ago"
-msgstr "отпреди"
+msgstr "her"
 
 #: templates/automation/job.html:60 templates/automation/jobs.html:123
 #: templates/infrastructure/node.html:72
 msgid "Never"
-msgstr "Никога"
+msgstr "Nie"
 
 #: templates/automation/job.html:78
 msgid "Execution History"
-msgstr "История на изпълнение"
+msgstr "Ausführungshistorie"
 
 #: templates/automation/job.html:88
 msgid "Date"
-msgstr "Дата"
+msgstr "Datum"
 
 #: templates/automation/job.html:90
 msgid "Duration"
-msgstr "Продължителност"
+msgstr "Dauer"
 
 #: templates/automation/job.html:91
 msgid "Output"
-msgstr "Изход"
+msgstr "Ausgabe"
 
 #: templates/automation/job.html:108
 msgid "Running"
-msgstr "Изпълнява се"
+msgstr "Läuft"
 
 #: templates/automation/job.html:129
 msgid "View Log"
-msgstr "Виж лог"
+msgstr "Protokoll anzeigen"
 
 #: templates/automation/job.html:139
 msgid "Execution Log"
-msgstr "Лог на изпълнение"
+msgstr "Ausführungsprotokoll"
 
 #: templates/automation/job.html:158
 msgid "No output recorded."
-msgstr "Няма записан изход."
+msgstr "Keine Ausgabe aufgezeichnet."
 
 #: templates/automation/job.html:175
 msgid "No execution history recorded yet."
-msgstr "Все още няма записана история."
+msgstr "Noch keine Ausführungshistorie aufgezeichnet."
 
 #: templates/automation/job.html:195 templates/automation/jobs.html:172
 #: templates/infrastructure/cluster.html:168
@@ -834,44 +836,44 @@ msgstr "Все още няма записана история."
 #: templates/infrastructure/nodes.html:156
 #, python-format
 msgid "Page %(number)s of %(total)s"
-msgstr "Страница %(number)s от %(total)s"
+msgstr "Seite %(number)s von %(total)s"
 
 #: templates/automation/jobs.html:13
 msgid "Automation Jobs"
-msgstr "Автоматизирани задачи"
+msgstr "Automatisierungsjobs"
 
 #: templates/automation/jobs.html:15
 msgid "Schedule and manage automated commands across your infrastructure."
-msgstr "Планирайте и управлявайте автоматизирани команди във вашата инфраструктура."
+msgstr "Planen und verwalten Sie automatisierte Befehle in Ihrer Infrastruktur."
 
 #: templates/automation/jobs.html:23
 msgid "Search jobs..."
-msgstr "Търсене на задачи..."
+msgstr "Jobs suchen..."
 
 #: templates/automation/jobs.html:35
 msgid "Schedule Job"
-msgstr "Планирай задача"
+msgstr "Job planen"
 
 #: templates/automation/jobs.html:78 templates/infrastructure/cluster.html:88
 #: templates/infrastructure/clusters.html:77
 #: templates/infrastructure/nodes.html:78
 msgid "Actions"
-msgstr "Действия"
+msgstr "Aktionen"
 
 #: templates/automation/jobs.html:115
 msgid "One-off"
-msgstr "Еднократно"
+msgstr "Einmalig"
 
 #: templates/automation/jobs.html:128 templates/infrastructure/cluster.html:118
 #: templates/infrastructure/nodes.html:112
 msgid "Details"
-msgstr "Детайли"
+msgstr "Details"
 
 #: templates/automation/jobs.html:132 templates/infrastructure/cluster.html:121
 #: templates/infrastructure/clusters.html:104
 #: templates/infrastructure/nodes.html:116
 msgid "Edit"
-msgstr "Редакция"
+msgstr "Bearbeiten"
 
 #: templates/automation/jobs.html:138 templates/automation/jobs.html:247
 #: templates/infrastructure/cluster.html:127
@@ -881,121 +883,121 @@ msgstr "Редакция"
 #: templates/infrastructure/nodes.html:122
 #: templates/infrastructure/nodes.html:216
 msgid "Delete"
-msgstr "Изтрий"
+msgstr "Löschen"
 
 #: templates/automation/jobs.html:151
 msgid "No scheduled jobs found."
-msgstr "Няма намерени планирани задачи."
+msgstr "Keine geplanten Jobs gefunden."
 
 #: templates/automation/jobs.html:199
 msgid "Edit Job"
-msgstr "Редакция на задача"
+msgstr "Job bearbeiten"
 
 #: templates/automation/jobs.html:227
 msgid "Save Schedule"
-msgstr "Запази графика"
+msgstr "Zeitplan speichern"
 
 #: templates/automation/jobs.html:237
 msgid "Delete Job?"
-msgstr "Изтриване на задача?"
+msgstr "Job löschen?"
 
 #: templates/automation/jobs.html:240
 #: templates/infrastructure/clusters.html:209
 #, python-format
 msgid "Are you sure you want to delete <strong class=\"text-base-content\">%(name)s</strong>?"
-msgstr "Сигурни ли сте, че искате да изтриете <strong class=\"text-base-content\">%(name)s</strong>?"
+msgstr "Sind Sie sicher, dass Sie <strong class=\"text-base-content\">%(name)s</strong> löschen möchten?"
 
 #: templates/automation/jobs.html:241
 msgid "This will cancel all future runs and delete execution history."
-msgstr "Това ще отмени всички бъдещи изпълнения и ще изтрие историята."
+msgstr "Dies wird alle zukünftigen Ausführungen abbrechen und die Historie löschen."
 
 #: templates/core/dashboard.html:10
 #, python-format
 msgid "Welcome, <span class=\"text-[#42A5F5]\">%(name)s</span>"
-msgstr "Добре дошли, <span class=\"text-[#42A5F5]\">%(name)s</span>"
+msgstr "Willkommen, <span class=\"text-[#42A5F5]\">%(name)s</span>"
 
 #: templates/core/dashboard.html:12
 msgid "System overview and real-time infrastructure metrics."
-msgstr "Преглед на системата и метрики в реално време."
+msgstr "Systemübersicht und Echtzeit-Infrastrukturmetriken."
 
 #: templates/core/dashboard.html:16
 msgid "Refresh"
-msgstr "Обнови"
+msgstr "Aktualisieren"
 
 #: templates/core/dashboard.html:36
 msgid "System Health"
-msgstr "Системно здраве"
+msgstr "Systemgesundheit"
 
 #: templates/core/dashboard.html:38
 msgid "Operational Score"
-msgstr "Оперативен рейтинг"
+msgstr "Betriebsstatus"
 
 #: templates/core/dashboard.html:46
 msgid "Total Clusters"
-msgstr "Общо клъстери"
+msgstr "Gesamte Cluster"
 
 #: templates/core/dashboard.html:48
 msgid "Active Groups"
-msgstr "Активни групи"
+msgstr "Aktive Gruppen"
 
 #: templates/core/dashboard.html:56 templates/infrastructure/nodes.html:13
 #: templates/shared/sidebar.html:102
 msgid "Compute Nodes"
-msgstr "Изчислителни възли"
+msgstr "Rechenknoten"
 
 #: templates/core/dashboard.html:58
 #, python-format
 msgid "%(online)s Online / %(total)s Total"
-msgstr "%(online)s Онлайн / %(total)s Общо"
+msgstr "%(online)s Online / %(total)s Gesamt"
 
 #: templates/core/dashboard.html:68
 msgid "Automation Tasks"
-msgstr "Автоматизирани задачи"
+msgstr "Automatisierungsaufgaben"
 
 #: templates/core/dashboard.html:79
 msgid "CPU Usage"
-msgstr "CPU Натоварване"
+msgstr "CPU-Auslastung"
 
 #: templates/core/dashboard.html:81 templates/core/dashboard.html:95
 msgid "Live"
-msgstr "На живо"
+msgstr "Live"
 
 #: templates/core/dashboard.html:93
 msgid "Memory Usage"
-msgstr "RAM Натоварване"
+msgstr "Speicherauslastung"
 
 #: templates/core/dashboard.html:106
 msgid "Node Status"
-msgstr "Статус на възлите"
+msgstr "Knotenstatus"
 
 #: templates/core/dashboard.html:124
 msgid "Recent Nodes"
-msgstr "Скорошни възли"
+msgstr "Neueste Knoten"
 
 #: templates/core/dashboard.html:126
 msgid "View All"
-msgstr "Виж всички"
+msgstr "Alle anzeigen"
 
 #: templates/core/dashboard.html:155 templates/infrastructure/nodes.html:135
 msgid "No nodes found."
-msgstr "Няма намерени възли."
+msgstr "Keine Knoten gefunden."
 
 #: templates/core/dashboard.html:169
 msgid "Manage"
-msgstr "Управление"
+msgstr "Verwalten"
 
 #: templates/core/dashboard.html:182
 msgid "Once"
-msgstr "Веднъж"
+msgstr "Einmalig"
 
 #: templates/core/dashboard.html:184
 #, python-format
 msgid "Every %(min)sm"
-msgstr "На всеки %(min)sм"
+msgstr "Alle %(min)sm"
 
 #: templates/core/dashboard.html:192
 msgid "No jobs scheduled."
-msgstr "Няма планирани задачи."
+msgstr "Keine Jobs geplant."
 
 #: templates/core/dashboard.html:305
 #, python-format
@@ -1009,269 +1011,265 @@ msgstr "RAM %%"
 
 #: templates/core/index.html:65
 msgid "Scheduler"
-msgstr "Планировчик"
+msgstr "Planer"
 
 #: templates/core/index.html:72
 msgid "Telemetry"
-msgstr "Телеметрия"
+msgstr "Telemetrie"
 
 #: templates/core/index.html:86
 msgid "Security"
-msgstr "Сигурност"
+msgstr "Sicherheit"
 
 #: templates/core/index.html:93
 msgid "Terminal"
-msgstr "Терминал"
+msgstr "Terminal"
 
 #: templates/core/index.html:110
 msgid "Network Infrastructure Automation & Orchestration System"
-msgstr "Система за автоматизация и оркестрация на мрежова инфраструктура"
+msgstr "Netzwerkinfrastruktur-Automatisierungs- & Orchestrierungssystem"
 
 #: templates/core/index.html:119
 msgid "Manage Clusters"
-msgstr "Управлявай Клъстери"
+msgstr "Cluster verwalten"
 
 #: templates/core/index.html:123
 msgid "Remote Access"
-msgstr "Отдалечен достъп"
+msgstr "Fernzugriff"
 
 #: templates/core/index.html:127
 msgid "Automate Tasks"
-msgstr "Автоматизирай задачи"
+msgstr "Aufgaben automatisieren"
 
 #: templates/core/index.html:131
 msgid "Live Telemetry"
-msgstr "Телеметрия на живо"
+msgstr "Live-Telemetrie"
 
 #: templates/core/index.html:135
 msgid "Monitor Health"
-msgstr "Мониторинг"
+msgstr "Integrität überwachen"
 
 #: templates/core/index.html:139
 msgid "Orchestrate Scale"
-msgstr "Мащабиране"
+msgstr "Skalierung orchestrieren"
 
 #: templates/infrastructure/cluster.html:10
 msgid "Back to Clusters"
-msgstr "Назад към клъстери"
+msgstr "Zurück zu Clustern"
 
 #: templates/infrastructure/cluster.html:22
 msgid "No description provided."
-msgstr "Няма описание."
+msgstr "Keine Beschreibung vorhanden."
 
 #: templates/infrastructure/cluster.html:31
 #: templates/infrastructure/nodes.html:23
 msgid "Search nodes..."
-msgstr "Търсене на възли..."
+msgstr "Knoten suchen..."
 
 #: templates/infrastructure/cluster.html:43
 #: templates/infrastructure/cluster.html:194
 #: templates/infrastructure/nodes.html:35
 #: templates/infrastructure/nodes.html:180
 msgid "Add Node"
-msgstr "Добави възел"
+msgstr "Knoten hinzufügen"
 
 #: templates/infrastructure/cluster.html:140
 msgid "No nodes found in this cluster."
-msgstr "Няма намерени възли в този клъстер."
+msgstr "Keine Knoten in diesem Cluster gefunden."
 
 #: templates/infrastructure/cluster.html:145
 msgid "Clear Search"
-msgstr "Изчисти търсенето"
+msgstr "Suche löschen"
 
 #: templates/infrastructure/cluster.html:196
 #: templates/infrastructure/nodes.html:182
 msgid "Edit Node"
-msgstr "Редакция на възел"
+msgstr "Knoten bearbeiten"
 
 #: templates/infrastructure/cluster.html:227
 #: templates/infrastructure/clusters.html:196
 #: templates/infrastructure/nodes.html:198
 msgid "Save"
-msgstr "Запази"
+msgstr "Speichern"
 
 #: templates/infrastructure/cluster.html:237
 #: templates/infrastructure/nodes.html:208
 msgid "Delete Node?"
-msgstr "Изтриване на възел?"
+msgstr "Knoten löschen?"
 
 #: templates/infrastructure/cluster.html:240
 #: templates/infrastructure/nodes.html:211
 #, python-format
 msgid "Are you sure you want to delete <strong class=\"text-base-content\">%(hostname)s</strong>?"
-msgstr "Сигурни ли сте, че искате да изтриете <strong class=\"text-base-content\">%(hostname)s</strong>?"
+msgstr "Sind Sie sicher, dass Sie <strong class=\"text-base-content\">%(hostname)s</strong> löschen möchten?"
 
 #: templates/infrastructure/cluster.html:241
 msgid "All telemetry data associated with this node will also be removed."
-msgstr "Всички данни за телеметрия, свързани с този възел, също ще бъдат премахнати."
+msgstr "Alle Telemetriedaten, die diesem Knoten zugeordnet sind, werden ebenfalls entfernt."
 
 #: templates/infrastructure/clusters.html:13 templates/shared/sidebar.html:98
 msgid "Resource Clusters"
-msgstr "Ресурсни клъстери"
+msgstr "Ressourcen-Cluster"
 
 #: templates/infrastructure/clusters.html:15
 msgid "Manage your infrastructure groups and compute resources."
-msgstr "Управлявайте вашите инфраструктурни групи и изчислителни ресурси."
+msgstr "Verwalten Sie Ihre Infrastrukturgruppen und Rechenressourcen."
 
 #: templates/infrastructure/clusters.html:23
 msgid "Search clusters..."
-msgstr "Търсене на клъстери..."
+msgstr "Cluster suchen..."
 
 #: templates/infrastructure/clusters.html:35
 msgid "Add Cluster"
-msgstr "Добави клъстер"
+msgstr "Cluster hinzufügen"
 
 #: templates/infrastructure/clusters.html:74
 msgid "Cluster Name"
-msgstr "Име на клъстер"
+msgstr "Cluster-Name"
 
 #: templates/infrastructure/clusters.html:123
 msgid "No clusters found."
-msgstr "Няма намерени клъстери."
+msgstr "Keine Cluster gefunden."
 
 #: templates/infrastructure/clusters.html:169
 msgid "New Cluster"
-msgstr "Нов клъстер"
+msgstr "Neuer Cluster"
 
 #: templates/infrastructure/clusters.html:171
 msgid "Edit Cluster"
-msgstr "Редакция на клъстер"
+msgstr "Cluster bearbeiten"
 
 #: templates/infrastructure/clusters.html:206
 msgid "Delete Cluster?"
-msgstr "Изтриване на клъстер?"
+msgstr "Cluster löschen?"
 
 #: templates/infrastructure/clusters.html:210
 #: templates/infrastructure/nodes.html:212
 msgid "This action cannot be undone."
-msgstr "Това действие не може да бъде отменено."
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
 
 #: templates/infrastructure/node.html:10
 #, python-format
 msgid "Back to %(name)s"
-msgstr "Назад към %(name)s"
+msgstr "Zurück zu %(name)s"
 
 #: templates/infrastructure/node.html:53
 msgid "System Details"
-msgstr "Системни детайли"
+msgstr "Systemdetails"
 
 #: templates/infrastructure/node.html:61
 msgid "SSH User"
-msgstr "SSH Потребител"
+msgstr "SSH-Benutzer"
 
 #: templates/infrastructure/node.html:93
 msgid "Management"
-msgstr "Управление"
+msgstr "Verwaltung"
 
 #: templates/infrastructure/node.html:97
 msgid "Open Web Terminal"
-msgstr "Отвори уеб терминал"
+msgstr "Web-Terminal öffnen"
 
 #: templates/infrastructure/node.html:100
 msgid "Reboot"
-msgstr "Рестарт"
+msgstr "Neustart"
 
 #: templates/infrastructure/node.html:112
 msgid "Agent Setup"
-msgstr "Настройка на агента"
+msgstr "Agent-Einrichtung"
 
 #: templates/infrastructure/node.html:116
 #, python-format
-msgid ""
-"Run this command on <strong>%(hostname)s</strong> to enable metrics and "
-"monitoring."
-msgstr ""
-"Изпълнете тази команда на <strong>%(hostname)s</strong> за да активирате "
-"метрики и мониторинг."
+msgid "Run this command on <strong>%(hostname)s</strong> to enable metrics and monitoring."
+msgstr "Führen Sie diesen Befehl auf <strong>%(hostname)s</strong> aus, um Metriken und Überwachung zu aktivieren."
 
 #: templates/infrastructure/node.html:126
 msgid "Copy to clipboard"
-msgstr "Копирай"
+msgstr "In die Zwischenablage kopieren"
 
 #: templates/infrastructure/node.html:134
 msgid "Standard Python libraries only. No pip required."
-msgstr "Само стандартни Python библиотеки. Не се изисква pip."
+msgstr "Nur Standard-Python-Bibliotheken. Kein pip erforderlich."
 
 #: templates/infrastructure/node.html:159
 msgid "Failed to copy command. Please select and copy manually."
-msgstr "Грешка при копиране. Моля, маркирайте и копирайте ръчно."
+msgstr "Befehl konnte nicht kopiert werden. Bitte auswählen und manuell kopieren."
 
 #: templates/infrastructure/nodes.html:15
 msgid "Global view of all registered infrastructure nodes."
-msgstr "Глобален преглед на всички регистрирани инфраструктурни възли."
+msgstr "Globale Ansicht aller registrierten Infrastrukturknoten."
 
 #: templates/infrastructure/terminal.html:34
 #, python-format
 msgid "Back to %(hostname)s"
-msgstr "Назад към %(hostname)s"
+msgstr "Zurück zu %(hostname)s"
 
 #: templates/infrastructure/terminal.html:40
 msgid "Connecting..."
-msgstr "Свързване..."
+msgstr "Verbinden..."
 
 #: templates/infrastructure/terminal.html:59
 msgid "Powered by NIA-OS"
-msgstr "Задвижвано от NIA-OS"
+msgstr "Bereitgestellt von NIA-OS"
 
 #: templates/infrastructure/terminal.html:110
 msgid "Connected"
-msgstr "Свързан"
+msgstr "Verbunden"
 
 #: templates/infrastructure/terminal.html:112
 msgid "Secure channel established to"
-msgstr "Сигурен канал, установен към"
+msgstr "Sicherer Kanal hergestellt zu"
 
 #: templates/infrastructure/terminal.html:126
 msgid "Disconnected"
-msgstr "Прекъснат"
+msgstr "Getrennt"
 
 #: templates/infrastructure/terminal.html:129
 msgid "Session ended. Redirecting in 2s..."
-msgstr "Сесията приключи. Пренасочване след 2 сек..."
+msgstr "Sitzung beendet. Weiterleitung in 2s..."
 
 #: templates/infrastructure/terminal.html:139
 msgid "Error"
-msgstr "Грешка"
+msgstr "Fehler"
 
 #: templates/infrastructure/terminal.html:140
 msgid "Connection Error."
-msgstr "Грешка при свързване."
+msgstr "Verbindungsfehler."
 
 #: templates/shared/sidebar.html:15
 msgid "close sidebar"
-msgstr "затвори менюто"
+msgstr "Seitenleiste schließen"
 
 #: templates/shared/sidebar.html:50
 msgid "Login / Register"
-msgstr "Вход / Регистрация"
+msgstr "Login / Registrieren"
 
 #: templates/shared/sidebar.html:63
 msgid "System"
-msgstr "Система"
+msgstr "System"
 
 #: templates/shared/sidebar.html:68
 msgid "Admin Panel"
-msgstr "Админ панел"
+msgstr "Admin-Bereich"
 
 #: templates/shared/sidebar.html:78
 msgid "Monitoring"
-msgstr "Мониторинг"
+msgstr "Überwachung"
 
 #: templates/shared/sidebar.html:83
 msgid "Live Dashboard"
-msgstr "Табло на живо"
+msgstr "Live-Dashboard"
 
 #: templates/shared/sidebar.html:92
 msgid "Infrastructure"
-msgstr "Инфраструктура"
+msgstr "Infrastruktur"
 
 #: templates/shared/sidebar.html:112
 msgid "Automations"
-msgstr "Автоматизация"
+msgstr "Automatisierungen"
 
 #: templates/shared/sidebar.html:117
 msgid "Jobs & Tasks"
-msgstr "Задачи и процеси"
+msgstr "Jobs & Aufgaben"
 
 #: templates/shared/sidebar.html:126
 msgid "API"
@@ -1279,12 +1277,12 @@ msgstr "API"
 
 #: templates/shared/sidebar.html:132
 msgid "Version 1"
-msgstr "Версия 1"
+msgstr "Version 1"
 
 #: templates/shared/sidebar.html:187
 msgid "Logout"
-msgstr "Изход"
+msgstr "Abmelden"
 
 #: templates/shared/sidebar.html:194
 msgid "View Source on GitHub"
-msgstr "Виж кода в GitHub"
+msgstr "Quellcode auf GitHub ansehen"
