@@ -46,102 +46,98 @@
             </div>
             {% else %}
             <div class="px-6 py-6">
-                 <a href="{% url 'account_login' %}" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full shadow-lg shadow-blue-500/20 btn-lg h-14 min-h-0 text-base">
+                <a href="{% url 'account_login' %}" class="btn bg-[#42A5F5] hover:bg-[#1E88E5] border-none text-white w-full shadow-lg shadow-blue-500/20 btn-lg h-14 min-h-0 text-base">
                     {% lucide "log-in" class="w-5 h-5" %} {% trans "Login / Register" %}
                 </a>
             </div>
             {% endif %}
 
-            <div class="flex-1 overflow-y-auto px-4 space-y-6 py-2">
+            <div class="flex-1 overflow-y-auto px-4 space-y-2 py-2">
                 {% if request.user.is_authenticated %}
-
-                {% if request.user.is_superuser %}
-                <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "System" %}</div>
-                    <div class="space-y-1">
-                        <a href="{% url 'admin:index' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
-                            {% lucide "shield-check" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Admin Panel" %}</span>
-                        </a>
+                    
+                    {% if request.user.is_superuser or request.user.is_staff %}
+                    <div class="collapse collapse-arrow rounded-none bg-transparent">
+                        <input type="checkbox" class="peer min-h-0" /> 
+                        <div class="collapse-title flex items-center gap-4 px-4 py-3 min-h-0 text-base-content/70 hover:bg-base-200 transition-all duration-200">
+                            {% lucide "shield-check" class="w-5 h-5 text-[#42A5F5]" %}
+                            <span class="text-sm font-medium">{% trans "System" %}</span>
+                        </div>
+                        <div class="collapse-content px-0 pb-2 pt-0">
+                            <a href="{% url 'admin:index' %}" class="flex items-center gap-4 px-4 py-3 ml-4 border-l border-base-content/10 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                {% lucide "settings" class="w-4 h-4" %}
+                                <span>{% trans "Admin Panel" %}</span>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                {% endif %}
+                    {% endif %}
 
-                <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "Monitoring" %}</div>
-                    <div class="space-y-1">
-                        <a href="{% url 'dashboard' %}" 
-                        class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                        {% if request.resolver_match.url_name == 'dashboard' %}
-                            bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
-                        {% else %}
-                            text-base-content/70 hover:bg-base-200 hover:pl-6
-                        {% endif %}">
-                            {% lucide "layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Live Dashboard" %}</span>
-                        </a>
+                    <div class="collapse collapse-arrow rounded-none bg-transparent">
+                        <input type="checkbox" class="peer min-h-0" /> 
+                        <div class="collapse-title flex items-center gap-4 px-4 py-3 min-h-0 text-base-content/70 hover:bg-base-200 transition-all duration-200">
+                            {% lucide "activity" class="w-5 h-5 text-[#42A5F5]" %}
+                            <span class="text-sm font-medium">{% trans "Monitoring" %}</span>
+                        </div>
+                        <div class="collapse-content px-0 pb-2 pt-0">
+                            <a href="{% url 'dashboard' %}" class="flex items-center gap-4 px-4 py-3 ml-4 border-l border-base-content/10 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                {% lucide "layout-dashboard" class="w-4 h-4" %}
+                                <span>{% trans "Live Dashboard" %}</span>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "Infrastructure" %}</div>
-                    <div class="space-y-1">
-                        <a href="{% url 'clusters' %}" 
-                           class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                           {% if request.resolver_match.url_name in 'clusters,cluster,cluster_create' %}
-                               bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
-                           {% else %}
-                               text-base-content/70 hover:bg-base-200 hover:pl-6
-                           {% endif %}">
-                            {% lucide "boxes" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Resource Clusters" %}</span>
-                        </a>
-
-                        <a href="{% url 'nodes' %}" 
-                           class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                           {% if request.resolver_match.url_name in 'nodes,node,node_create' %}
-                               bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
-                           {% else %}
-                               text-base-content/70 hover:bg-base-200 hover:pl-6
-                           {% endif %}">
-                            {% lucide "server" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Compute Nodes" %}</span>
-                        </a>
+                    <div class="collapse collapse-arrow rounded-none bg-transparent">
+                        <input type="checkbox" class="peer min-h-0" /> 
+                        <div class="collapse-title flex items-center gap-4 px-4 py-3 min-h-0 text-base-content/70 hover:bg-base-200 transition-all duration-200">
+                            {% lucide "server" class="w-5 h-5 text-[#42A5F5]" %}
+                            <span class="text-sm font-medium">{% trans "Infrastructure" %}</span>
+                        </div>
+                        <div class="collapse-content px-0 pb-2 pt-0">
+                            <div class="space-y-1 ml-4 border-l border-base-content/10">
+                                <a href="{% url 'clusters' %}" class="flex items-center gap-4 px-4 py-3 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                    {% lucide "boxes" class="w-4 h-4" %}
+                                    <span>{% trans "Resource Clusters" %}</span>
+                                </a>
+                                <a href="{% url 'nodes' %}" class="flex items-center gap-4 px-4 py-3 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                    {% lucide "server" class="w-4 h-4" %}
+                                    <span>{% trans "Compute Nodes" %}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "Automation" %}</div>
-                    <div class="space-y-1">
-                        <a href="{% url 'jobs' %}" 
-                           class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                           {% if request.resolver_match.url_name in 'jobs,job' %}
-                               bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
-                           {% else %}
-                               text-base-content/70 hover:bg-base-200 hover:pl-6
-                           {% endif %}">
-                            {% lucide "workflow" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Jobs &amp; Tasks" %}</span>
-                        </a>
+                    <div class="collapse collapse-arrow rounded-none bg-transparent">
+                        <input type="checkbox" class="peer min-h-0" /> 
+                        <div class="collapse-title flex items-center gap-4 px-4 py-3 min-h-0 text-base-content/70 hover:bg-base-200 transition-all duration-200">
+                            {% lucide "terminal" class="w-5 h-5 text-[#42A5F5]" %}
+                            <span class="text-sm font-medium">{% trans "Automations" %}</span>
+                        </div>
+                        <div class="collapse-content px-0 pb-2 pt-0">
+                            <a href="{% url 'jobs' %}" class="flex items-center gap-4 px-4 py-3 ml-4 border-l border-base-content/10 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                {% lucide "workflow" class="w-4 h-4" %}
+                                <span>{% trans "Jobs & Tasks" %}</span>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "API" %}</div>
-                    <div class="space-y-1">
-                        <a href="{% url 'api:api-root' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
-                            {% lucide "code-xml" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Version 1" %}</span>
-                        </a>
+                    <div class="collapse collapse-arrow rounded-none bg-transparent">
+                        <input type="checkbox" class="peer min-h-0" /> 
+                        <div class="collapse-title flex items-center gap-4 px-4 py-3 min-h-0 text-base-content/70 hover:bg-base-200 transition-all duration-200">
+                            {% lucide "braces" class="w-5 h-5 text-[#42A5F5]" %}
+                            <span class="text-sm font-medium">{% trans "API" %}</span>
+                        </div>
+                        <div class="collapse-content px-0 pb-2 pt-0">
+                            <div class="space-y-1 ml-4 border-l border-base-content/10">
+                                <a href="{% url 'api:api-root' %}" class="flex items-center gap-4 px-4 py-3 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                    {% lucide "code-xml" class="w-4 h-4" %}
+                                    <span>{% trans "Version 1" %}</span>
+                                </a>
+                                <a href="{% url 'api:tokens' %}" class="flex items-center gap-4 px-4 py-3 text-base-content/70 hover:text-[#42A5F5] transition-colors text-sm">
+                                    {% lucide "key" class="w-4 h-4" %}
+                                    <span>{% trans "Access Tokens" %}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-1">
-                        <a href="{% url 'api:tokens' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
-                            {% lucide "key" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Access Tokens" %}</span>
-                        </a>
-                    </div>
-                </div>
-
                 {% endif %}
             </div>
 
