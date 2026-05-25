@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-29 18:08+0200\n"
+"POT-Creation-Date: 2026-05-25 11:20+0300\n"
 "PO-Revision-Date: 2025-12-29 18:15+0200\n"
 "Last-Translator: Martin Manchev <your@email.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -26,7 +26,7 @@ msgid "ID"
 msgstr "ID"
 
 #: apps/authentication/models.py:18 apps/automation/models.py:16
-#: apps/infrastructure/admin.py:54 apps/infrastructure/models.py:18
+#: apps/infrastructure/admin.py:58 apps/infrastructure/models.py:18
 #: templates/infrastructure/cluster.html:86
 msgid "User"
 msgstr "Потребител"
@@ -35,21 +35,21 @@ msgstr "Потребител"
 msgid "Users"
 msgstr "Потребители"
 
-#: apps/automation/admin.py:22 templates/automation/jobs.html:75
+#: apps/automation/admin.py:68 templates/automation/jobs.html:75
 #: templates/core/dashboard.html:174
 msgid "Target"
 msgstr "Цел"
 
-#: apps/automation/admin.py:26
+#: apps/automation/admin.py:72
 msgid "Run Once / Manual"
 msgstr "Еднократно / Ръчно"
 
-#: apps/automation/admin.py:37
+#: apps/automation/admin.py:83
 msgid "Django-Q Schedule"
 msgstr "Django-Q График"
 
-#: apps/automation/admin.py:71 apps/automation/models.py:85
-#: apps/infrastructure/models.py:103 templates/automation/job.html:83
+#: apps/automation/admin.py:117 apps/automation/models.py:95
+#: apps/infrastructure/models.py:103 templates/automation/job.html:87
 #: templates/core/dashboard.html:134 templates/infrastructure/cluster.html:87
 #: templates/infrastructure/nodes.html:77
 msgid "Status"
@@ -116,9 +116,9 @@ msgstr "Моля, изберете цел (Възел или Клъстер)."
 msgid "Please specify the number of minutes."
 msgstr "Моля, посочете броя на минутите."
 
-#: apps/automation/models.py:25 apps/automation/models.py:78
+#: apps/automation/models.py:25 apps/automation/models.py:88
 #: apps/infrastructure/models.py:120 apps/monitoring/models.py:13
-#: templates/automation/job.html:23 templates/automation/job.html:85
+#: templates/automation/job.html:23 templates/automation/job.html:89
 #: templates/core/dashboard.html:188
 msgid "Node"
 msgstr "Възел"
@@ -147,39 +147,39 @@ msgstr "Планирана задача"
 msgid "Scheduled Jobs"
 msgstr "Планирани задачи"
 
-#: apps/automation/models.py:63
+#: apps/automation/models.py:73
 msgid "Pending"
 msgstr "Чакащ"
 
-#: apps/automation/models.py:64 templates/automation/job.html:96
+#: apps/automation/models.py:74 templates/automation/job.html:100
 msgid "Success"
 msgstr "Успех"
 
-#: apps/automation/models.py:65 templates/automation/job.html:100
+#: apps/automation/models.py:75 templates/automation/job.html:104
 msgid "Failed"
 msgstr "Грешка"
 
-#: apps/automation/models.py:71
+#: apps/automation/models.py:81
 msgid "Job"
 msgstr "Задача"
 
-#: apps/automation/models.py:88 templates/automation/job.html:148
+#: apps/automation/models.py:98 templates/automation/job.html:152
 msgid "Exit Code"
 msgstr "Код на изход"
 
-#: apps/automation/models.py:90
+#: apps/automation/models.py:100
 msgid "Standard Output"
 msgstr "Стандартен изход"
 
-#: apps/automation/models.py:92
+#: apps/automation/models.py:102
 msgid "Standard Error"
 msgstr "Стандартна грешка"
 
-#: apps/automation/models.py:94
+#: apps/automation/models.py:104
 msgid "Started At"
 msgstr "Стартирано на"
 
-#: apps/automation/models.py:97
+#: apps/automation/models.py:107
 msgid "Finished At"
 msgstr "Завършило на"
 
@@ -187,7 +187,7 @@ msgstr "Завършило на"
 msgid "Job scheduled successfully!"
 msgstr "Задачата е планирана успешно!"
 
-#: apps/automation/views.py:75 templates/automation/jobs.html:193
+#: apps/automation/views.py:75 templates/automation/jobs.html:197
 msgid "Schedule New Job"
 msgstr "Планиране на нова задача"
 
@@ -196,12 +196,12 @@ msgstr "Планиране на нова задача"
 msgid "Job {name} updated!"
 msgstr "Задача {name} е обновена!"
 
-#: apps/automation/views.py:134 apps/infrastructure/views.py:157
+#: apps/automation/views.py:137 apps/infrastructure/views.py:156
 #, python-brace-format
 msgid "Edit {name}"
 msgstr "Редакция на {name}"
 
-#: apps/automation/views.py:144
+#: apps/automation/views.py:148
 #, python-brace-format
 msgid "Job '{name}' deleted!"
 msgstr "Задача '{name}' е изтрита!"
@@ -218,18 +218,34 @@ msgstr "Обновен"
 msgid "Wait..."
 msgstr "Изчакайте..."
 
-#: apps/infrastructure/admin.py:19
+#: apps/infrastructure/admin.py:22
 msgid "Search by cluster name and summary or user details."
 msgstr "Търсене по име на клъстер, резюме или потребител."
 
-#: apps/infrastructure/admin.py:25 apps/infrastructure/models.py:121
+#: apps/infrastructure/admin.py:28 apps/infrastructure/models.py:121
 #: templates/core/index.html:79 templates/infrastructure/clusters.html:75
 msgid "Nodes"
 msgstr "Възли"
 
-#: apps/infrastructure/admin.py:48
+#: apps/infrastructure/admin.py:52
 msgid "Search by node hostname and ip address or cluster details."
 msgstr "Търсене по име на хост, IP адрес или детайли за клъстера."
+
+#: apps/infrastructure/forms.py:11 apps/infrastructure/models.py:88
+msgid "Password"
+msgstr "Парола"
+
+#: apps/infrastructure/forms.py:14
+msgid "********"
+msgstr "********"
+
+#: apps/infrastructure/forms.py:17
+msgid ""
+"The password is encrypted. Enter a new password to change it, or leave blank "
+"to keep the current one."
+msgstr ""
+"Паролата е криптирана. Въведете нова парола, за да я промените, или оставете "
+"празно, за да запазите текущата."
 
 #: apps/infrastructure/models.py:33 templates/infrastructure/clusters.html:76
 msgid "Summary"
@@ -279,10 +295,6 @@ msgstr "IP Адрес"
 msgid "Username"
 msgstr "Потребителско име"
 
-#: apps/infrastructure/models.py:88
-msgid "Password"
-msgstr "Парола"
-
 #: apps/infrastructure/models.py:96 templates/infrastructure/cluster.html:85
 msgid "Port"
 msgstr "Порт"
@@ -300,55 +312,55 @@ msgstr "Таен ключ, използван от агента за удост�
 msgid "Last Seen"
 msgstr "Последно видян"
 
-#: apps/infrastructure/views.py:57
+#: apps/infrastructure/views.py:56
 #, python-brace-format
 msgid "{name} created!"
 msgstr "{name} е създаден!"
 
-#: apps/infrastructure/views.py:76
+#: apps/infrastructure/views.py:74
 msgid "Create Cluster"
 msgstr "Създаване на Клъстер"
 
-#: apps/infrastructure/views.py:85 apps/infrastructure/views.py:116
+#: apps/infrastructure/views.py:83 apps/infrastructure/views.py:114
 #: apps/infrastructure/views.py:166
 msgid "Cluster not found."
 msgstr "Клъстерът не е намерен."
 
-#: apps/infrastructure/views.py:138
+#: apps/infrastructure/views.py:135
 #, python-brace-format
 msgid "{name} updated!"
 msgstr "{name} е обновен!"
 
-#: apps/infrastructure/views.py:171
+#: apps/infrastructure/views.py:172
 #, python-brace-format
 msgid "Cluster '{name}' deleted!"
 msgstr "Клъстер '{name}' е изтрит!"
 
-#: apps/infrastructure/views.py:241 apps/infrastructure/views.py:311
-#: apps/infrastructure/views.py:358 apps/infrastructure/views.py:386
+#: apps/infrastructure/views.py:243 apps/infrastructure/views.py:313
+#: apps/infrastructure/views.py:365 apps/infrastructure/views.py:395
 msgid "Node not found."
 msgstr "Възелът не е намерен."
 
-#: apps/infrastructure/views.py:275
+#: apps/infrastructure/views.py:277
 #, python-brace-format
 msgid "Node {hostname} created!"
 msgstr "Възел {hostname} е създаден!"
 
-#: apps/infrastructure/views.py:301
+#: apps/infrastructure/views.py:303
 msgid "Add New Node"
 msgstr "Добавяне на нов възел"
 
-#: apps/infrastructure/views.py:330
+#: apps/infrastructure/views.py:333
 #, python-brace-format
 msgid "Node {hostname} updated!"
 msgstr "Възел {hostname} е обновен!"
 
-#: apps/infrastructure/views.py:349
+#: apps/infrastructure/views.py:355
 #, python-brace-format
 msgid "Edit {hostname}"
 msgstr "Редакция на {hostname}"
 
-#: apps/infrastructure/views.py:365
+#: apps/infrastructure/views.py:373
 #, python-brace-format
 msgid "Node '{hostname}' deleted!"
 msgstr "Възел '{hostname}' е изтрит!"
@@ -381,15 +393,15 @@ msgstr "Невалиден JSON формат"
 msgid "Invalid Agent Key"
 msgstr "Невалиден агентски ключ"
 
-#: config/settings/base.py:131
+#: config/settings/base.py:137
 msgid "English"
 msgstr "Английски"
 
-#: config/settings/base.py:132
+#: config/settings/base.py:138
 msgid "German"
 msgstr "Немски"
 
-#: config/settings/base.py:133
+#: config/settings/base.py:139
 msgid "Bulgarian"
 msgstr "Български"
 
@@ -460,17 +472,23 @@ msgid "Confirm Email Address"
 msgstr "Потвърдете имейл адреса"
 
 #: templates/account/email_confirm.html:34
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                        Please confirm that <strong class=\"text-base-"
+#| "content\">%(email)s</strong> is the email address for your NIA-OS "
+#| "account.\n"
+#| "                        "
 msgid ""
 "\n"
-"                        Please confirm that <strong class=\"text-base-"
+"                        Please confirm that <strong class=\"text-base-"
 "content\">%(email)s</strong> is the email address for your NIA-OS account.\n"
-"                        "
+"                        "
 msgstr ""
 "\n"
-"                        Моля, потвърдете, че <strong class=\"text-base-"
+"                        Моля, потвърдете, че <strong class=\"text-base-"
 "content\">%(email)s</strong> е имейл адресът за вашия NIA-OS акаунт.\n"
-"                        "
+"                        "
 
 #: templates/account/email_confirm.html:42
 msgid "Confirm Email"
@@ -485,8 +503,8 @@ msgid ""
 "This confirmation link is invalid or has already been used. Please try "
 "logging in or requesting a new one."
 msgstr ""
-"Тази връзка за потвърждение е невалидна или вече е използвана. Моля, опитайте "
-"да влезете или заявете нова."
+"Тази връзка за потвърждение е невалидна или вече е използвана. Моля, "
+"опитайте да влезете или заявете нова."
 
 #: templates/account/email_confirm.html:60
 msgid "Go to Login"
@@ -544,7 +562,7 @@ msgstr "Изход"
 msgid "Stay Logged In"
 msgstr "Остани в системата"
 
-#: templates/account/logout.html:46 templates/automation/job.html:160
+#: templates/account/logout.html:46 templates/automation/job.html:164
 msgid "Close"
 msgstr "Затвори"
 
@@ -561,8 +579,8 @@ msgid "Update Password"
 msgstr "Обнови паролата"
 
 #: templates/account/password_change.html:75
-#: templates/account/password_set.html:75 templates/automation/jobs.html:222
-#: templates/automation/jobs.html:240 templates/infrastructure/cluster.html:226
+#: templates/account/password_set.html:75 templates/automation/jobs.html:226
+#: templates/automation/jobs.html:244 templates/infrastructure/cluster.html:226
 #: templates/infrastructure/cluster.html:244
 #: templates/infrastructure/clusters.html:195
 #: templates/infrastructure/clusters.html:213
@@ -705,53 +723,53 @@ msgstr "Не е планирано"
 msgid "Last Run"
 msgstr "Последно изпълнение"
 
-#: templates/automation/job.html:57 templates/automation/jobs.html:120
-#: templates/infrastructure/node.html:72
-msgid "Never"
-msgstr "Никога"
-
-#: templates/automation/job.html:57 templates/automation/jobs.html:120
+#: templates/automation/job.html:58 templates/automation/jobs.html:121
 #: templates/core/dashboard.html:152 templates/infrastructure/node.html:72
 msgid "ago"
 msgstr "отпреди"
 
-#: templates/automation/job.html:74
+#: templates/automation/job.html:60 templates/automation/jobs.html:123
+#: templates/infrastructure/node.html:72
+msgid "Never"
+msgstr "Никога"
+
+#: templates/automation/job.html:78
 msgid "Execution History"
 msgstr "История на изпълнение"
 
-#: templates/automation/job.html:84
+#: templates/automation/job.html:88
 msgid "Date"
 msgstr "Дата"
 
-#: templates/automation/job.html:86
+#: templates/automation/job.html:90
 msgid "Duration"
 msgstr "Продължителност"
 
-#: templates/automation/job.html:87
+#: templates/automation/job.html:91
 msgid "Output"
 msgstr "Изход"
 
-#: templates/automation/job.html:104
+#: templates/automation/job.html:108
 msgid "Running"
 msgstr "Изпълнява се"
 
-#: templates/automation/job.html:125
+#: templates/automation/job.html:129
 msgid "View Log"
 msgstr "Виж лог"
 
-#: templates/automation/job.html:135
+#: templates/automation/job.html:139
 msgid "Execution Log"
 msgstr "Лог на изпълнение"
 
-#: templates/automation/job.html:154
+#: templates/automation/job.html:158
 msgid "No output recorded."
 msgstr "Няма записан изход."
 
-#: templates/automation/job.html:171
+#: templates/automation/job.html:175
 msgid "No execution history recorded yet."
 msgstr "Все още няма записана история."
 
-#: templates/automation/job.html:191 templates/automation/jobs.html:168
+#: templates/automation/job.html:195 templates/automation/jobs.html:172
 #: templates/infrastructure/cluster.html:168
 #: templates/infrastructure/clusters.html:144
 #: templates/infrastructure/nodes.html:156
@@ -765,7 +783,8 @@ msgstr "Автоматизирани задачи"
 
 #: templates/automation/jobs.html:15
 msgid "Schedule and manage automated commands across your infrastructure."
-msgstr "Планирайте и управлявайте автоматизирани команди във вашата инфраструктура."
+msgstr ""
+"Планирайте и управлявайте автоматизирани команди във вашата инфраструктура."
 
 #: templates/automation/jobs.html:23
 msgid "Search jobs..."
@@ -785,18 +804,18 @@ msgstr "Действия"
 msgid "One-off"
 msgstr "Еднократно"
 
-#: templates/automation/jobs.html:124 templates/infrastructure/cluster.html:118
+#: templates/automation/jobs.html:128 templates/infrastructure/cluster.html:118
 #: templates/infrastructure/nodes.html:112
 msgid "Details"
 msgstr "Детайли"
 
-#: templates/automation/jobs.html:128 templates/infrastructure/cluster.html:121
+#: templates/automation/jobs.html:132 templates/infrastructure/cluster.html:121
 #: templates/infrastructure/clusters.html:104
 #: templates/infrastructure/nodes.html:116
 msgid "Edit"
 msgstr "Редакция"
 
-#: templates/automation/jobs.html:134 templates/automation/jobs.html:243
+#: templates/automation/jobs.html:138 templates/automation/jobs.html:247
 #: templates/infrastructure/cluster.html:127
 #: templates/infrastructure/cluster.html:247
 #: templates/infrastructure/clusters.html:110
@@ -806,23 +825,23 @@ msgstr "Редакция"
 msgid "Delete"
 msgstr "Изтрий"
 
-#: templates/automation/jobs.html:147
+#: templates/automation/jobs.html:151
 msgid "No scheduled jobs found."
 msgstr "Няма намерени планирани задачи."
 
-#: templates/automation/jobs.html:195
+#: templates/automation/jobs.html:199
 msgid "Edit Job"
 msgstr "Редакция на задача"
 
-#: templates/automation/jobs.html:223
+#: templates/automation/jobs.html:227
 msgid "Save Schedule"
 msgstr "Запази графика"
 
-#: templates/automation/jobs.html:233
+#: templates/automation/jobs.html:237
 msgid "Delete Job?"
 msgstr "Изтриване на задача?"
 
-#: templates/automation/jobs.html:236
+#: templates/automation/jobs.html:240
 #: templates/infrastructure/clusters.html:209
 #, python-format
 msgid ""
@@ -832,7 +851,7 @@ msgstr ""
 "Сигурни ли сте, че искате да изтриете <strong class=\"text-base-"
 "content\">%(name)s</strong>?"
 
-#: templates/automation/jobs.html:237
+#: templates/automation/jobs.html:241
 msgid "This will cancel all future runs and delete execution history."
 msgstr "Това ще отмени всички бъдещи изпълнения и ще изтрие историята."
 
@@ -924,12 +943,12 @@ msgstr "На всеки %(min)sм"
 msgid "No jobs scheduled."
 msgstr "Няма планирани задачи."
 
-#: templates/core/dashboard.html:269
+#: templates/core/dashboard.html:305
 #, python-format
 msgid "CPU %%"
 msgstr "CPU %%"
 
-#: templates/core/dashboard.html:270
+#: templates/core/dashboard.html:306
 #, python-format
 msgid "RAM %%"
 msgstr "RAM %%"
@@ -1034,7 +1053,8 @@ msgstr ""
 
 #: templates/infrastructure/cluster.html:241
 msgid "All telemetry data associated with this node will also be removed."
-msgstr "Всички данни за телеметрия, свързани с този възел, също ще бъдат премахнати."
+msgstr ""
+"Всички данни за телеметрия, свързани с този възел, също ще бъдат премахнати."
 
 #: templates/infrastructure/clusters.html:13
 msgid "Resource Clusters"
@@ -1112,8 +1132,8 @@ msgid ""
 "Run this command on <strong>%(hostname)s</strong> to enable metrics and "
 "monitoring."
 msgstr ""
-"Изпълнете тази команда на <strong>%(hostname)s</strong> за да активирате метрики и "
-"мониторинг."
+"Изпълнете тази команда на <strong>%(hostname)s</strong> за да активирате "
+"метрики и мониторинг."
 
 #: templates/infrastructure/node.html:126
 msgid "Copy to clipboard"

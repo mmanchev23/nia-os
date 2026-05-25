@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "tailwind",
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "envFile": "${workspaceFolder}/.env",
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "QCLuster",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "qcluster"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "envFile": "${workspaceFolder}/.env",
+            "program": "${workspaceFolder}/manage.py"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Django + QCLuster",
+            "configurations": ["Django", "QCLuster"]
+        }
+    ]
+}

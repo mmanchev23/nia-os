@@ -24,7 +24,7 @@ from config.env import env, BASE_DIR
 SECRET_KEY = env.str("SECRET_KEY", default="django-insecure-please-change-me")
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])  # pyright: ignore[reportArgumentType]
 
 
 # Application definition
@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.humanize",
     *LOCAL_APPS,
 ]
 
@@ -107,7 +108,7 @@ ASGI_APPLICATION = "config.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {"default": env.db(default="sqlite:///db.sqlite3")}
+DATABASES = {"default": env.db(default="sqlite:///db.sqlite3")}  # pyright: ignore[reportArgumentType]
 
 
 # Password validation
