@@ -8,6 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-secret: nia-os/key
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   ingressClassName: nginx
   tls:
@@ -24,4 +25,4 @@ spec:
           service:
             name: nia-os
             port:
-              number: 80
+              number: 8000

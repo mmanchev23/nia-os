@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from unfold.widgets import UnfoldAdminPasswordInput
+from unfold.widgets import UnfoldAdminPasswordWidget
 
 from .models import Cluster, Node
 
@@ -10,7 +10,7 @@ class NodeAdminForm(forms.ModelForm):
     password = forms.CharField(
         label=_("Password"),
         required=False,
-        widget=UnfoldAdminPasswordInput(
+        widget=UnfoldAdminPasswordWidget(
             attrs={"placeholder": _("********"), "autocomplete": "new-password"}
         ),
         help_text=_(

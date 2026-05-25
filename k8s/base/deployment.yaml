@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: nia-os
   namespace: nia-os
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   revisionHistoryLimit: 2
   replicas: 1
@@ -23,28 +25,15 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         runAsNonRoot: true
-      initContainers:
-        - name: migration
-          image: ghcr.io/mmanchev23/nia-os:latest-1771756120
-          command: ["/bin/sh", "-c"]
-          args:
-            - python manage.py migrate --noinput
-          envFrom:
-            - secretRef:
-                name: nia-os
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: registry
       containers:
         - name: nia-os
           image: ghcr.io/mmanchev23/nia-os:latest-1771756120
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8000
           resources:
             requests:
               memory: "256Mi"
@@ -71,5 +60,3 @@ spec:
           envFrom:
             - secretRef:
                 name: nia-os
-      imagePullSecrets:
-        - name: registry

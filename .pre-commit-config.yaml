@@ -1,7 +1,9 @@
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.8
+  rev: v0.15.14
   hooks:
     - id: ruff-check
+      name: "[Lint] "
       args: [ --fix ]
     - id: ruff-format
+      name: "[Format] "

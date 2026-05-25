@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration
+  namespace: nia-os
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  activeDeadlineSeconds: 60
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: migration
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: registry
+      restartPolicy: OnFailure
+      containers:
+        - name: migration
+          image: ghcr.io/mmanchev23/nia-os:latest-1771756120
+          command: ["/bin/sh", "-c"]
+          args:
+            - python manage.py migrate --noinput
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "768Mi"
+              cpu: "1000m"
+          envFrom:
+            - secretRef:
+                name: nia-os
