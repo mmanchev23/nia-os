@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
     "adrf",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -182,9 +184,11 @@ SITE_ID = 1
 
 # Third-party app settings
 from config.plugins.allauth import *  # noqa
+from config.plugins.cors import *  # noqa
 from config.plugins.email import *  # noqa
 from config.plugins.fernet import *  # noqa
 from config.plugins.q2 import *  # noqa
+from config.plugins.rest import *  # noqa
 from config.plugins.tailwind import *  # noqa
 from config.plugins.unfold import *  # noqa
 from config.plugins.whitenoise import *  # noqa
