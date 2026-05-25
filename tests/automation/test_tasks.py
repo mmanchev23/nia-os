@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock, AsyncMock
 from apps.automation.tasks import execute_job
 from apps.automation.models import JobExecution
 
-from tests.factories import JobFactory, NodeFactory, ClusterFactory
+from tests.factories import ScheduledJobFactory, NodeFactory, ClusterFactory
 
 
 pytestmark = pytest.mark.django_db
@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 @patch("apps.automation.tasks.asyncssh.connect")
 def test_execute_job_success(mock_connect) -> None:
     node = NodeFactory(password="secret")
-    job = JobFactory(node=node, command="echo 'hello'")
+    job = ScheduledJobFactory(node=node, command="echo 'hello'")
 
     mock_conn = MagicMock()
     mock_result = MagicMock()
@@ -51,7 +51,7 @@ def test_execute_job_success(mock_connect) -> None:
 @patch("apps.automation.tasks.asyncssh.connect")
 def test_execute_job_connection_failure(mock_connect) -> None:
     node = NodeFactory()
-    job = JobFactory(node=node)
+    job = ScheduledJobFactory(node=node)
 
     mock_connect.return_value.__aenter__.side_effect = Exception("Connection Timeout")
 
@@ -70,7 +70,7 @@ def test_execute_cluster_batch(mock_connect) -> None:
     n1 = NodeFactory(cluster=cluster, hostname="node-1")
     n2 = NodeFactory(cluster=cluster, hostname="node-2")
 
-    job = JobFactory(cluster=cluster, node=None, command="uptime")
+    job = ScheduledJobFactory(cluster=cluster, node=None, command="uptime")
 
     mock_conn = MagicMock()
     mock_result = MagicMock()

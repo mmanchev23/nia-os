@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from apps.automation.models import ScheduledJob
 
-from tests.factories import NodeFactory, JobFactory, JobExecutionFactory
+from tests.factories import NodeFactory, ScheduledJobFactory, JobExecutionFactory
 
 
 pytestmark = pytest.mark.django_db
@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 
 class TestJobViews:
     def test_job_list(self, client) -> None:
-        job = JobFactory()
+        job = ScheduledJobFactory()
         client.force_login(job.user)
         url = reverse("jobs")
 
@@ -41,7 +41,7 @@ class TestJobViews:
         assert job.node == node
 
     def test_job_detail_history_htmx(self, client) -> None:
-        job = JobFactory()
+        job = ScheduledJobFactory()
         client.force_login(job.user)
 
         JobExecutionFactory.create_batch(20, job=job, node=NodeFactory())

@@ -2,7 +2,7 @@ import pytest
 
 from apps.automation.models import JobExecution
 
-from tests.factories import JobFactory, JobExecutionFactory
+from tests.factories import ScheduledJobFactory, JobExecutionFactory
 
 
 pytestmark = pytest.mark.django_db
@@ -10,7 +10,7 @@ pytestmark = pytest.mark.django_db
 
 class TestJobModel:
     def test_job_str(self) -> None:
-        job = JobFactory(name="Backup DB")
+        job = ScheduledJobFactory(name="Backup DB")
         assert str(job) == "Backup DB"
 
 

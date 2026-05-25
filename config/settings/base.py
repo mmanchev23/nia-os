@@ -21,7 +21,9 @@ from config.env import env, BASE_DIR
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY", default="django-insecure-please-change-me")
+SECRET_KEY = env.str(
+    "SECRET_KEY", default="6gw(10%wc6b*z%bcv(^rf=9rqtqkg_7si^1baqy3sz*goi+pnt"
+)
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])  # pyright: ignore[reportArgumentType]

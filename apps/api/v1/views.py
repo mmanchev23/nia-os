@@ -15,6 +15,7 @@ from .serializers import (
 
 class ScheduledJobViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduledJobSerializer
+    search_fields = ["name", "command"]
 
     def get_queryset(self) -> QuerySet[ScheduledJob]:
         return ScheduledJob.objects.filter(user=self.request.user)
@@ -28,6 +29,7 @@ class ScheduledJobViewSet(viewsets.ModelViewSet):
 
 class JobExecutionViewSet(viewsets.ModelViewSet):
     serializer_class = JobExecutionSerializer
+    search_fields = ["job__name", "status"]
 
     def get_queryset(self) -> QuerySet[JobExecution]:
         return JobExecution.objects.filter(job__user=self.request.user)
@@ -35,6 +37,7 @@ class JobExecutionViewSet(viewsets.ModelViewSet):
 
 class ClusterViewSet(viewsets.ModelViewSet):
     serializer_class = ClusterSerializer
+    search_fields = ["name", "summary"]
 
     def get_queryset(self) -> QuerySet[Cluster]:
         return Cluster.objects.filter(user=self.request.user)
@@ -48,6 +51,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
 class NodeViewSet(viewsets.ModelViewSet):
     serializer_class = NodeSerializer
+    search_fields = ["hostname", "ip_address", "username"]
 
     def get_queryset(self) -> QuerySet[Node]:
         return Node.objects.filter(cluster__user=self.request.user)
