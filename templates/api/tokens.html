@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% load static lucide i18n %}
+
+{% block body %}
+<style>
+    .vs-code { background-color: #1e1e1e; color: #d4d4d4; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; }
+    .vs-keyword { color: #569CD6; }      /* Blue: import, def, var */
+    .vs-control { color: #C586C0; }      /* Purple: return, if, await */
+    .vs-func { color: #DCDCAA; }         /* Yellow: print, get, fetch */
+    .vs-string { color: #CE9178; }       /* Orange: "strings" */
+    .vs-type { color: #4EC9B0; }         /* Teal: Classes, Types */
+    .vs-comment { color: #6A9955; }      /* Green: Comments */
+    .vs-property { color: #9CDCFE; }     /* Light Blue: object.property */
+    .vs-number { color: #B5CEA8; }       /* Light Green: 123 */
+</style>
+
+<div class="p-6 max-w-7xl mx-auto space-y-6 animate-in fade-in duration-500 relative">
+    
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-base-200 rounded-xl">
+                {% lucide "key" class="w-8 h-8 text-[#42A5F5]" %}
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">{% trans "Access Tokens" %}</h1>
+                <p class="text-sm text-base-content/60">{% trans "Manage your API keys and learn how to integrate programmatically." %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast toast-end z-50">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-xs py-2 rounded-lg shadow-lg">
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-1 space-y-6">
+            <div class="card bg-base-100 shadow-lg border border-base-200">
+                <div class="card-body">
+                    <h2 class="card-title text-sm uppercase text-base-content/50 mb-4">{% trans "Your Personal Token" %}</h2>
+                    
+                    <div class="alert role-alert bg-blue-50/50 border-blue-100 text-blue-800 text-xs mb-4">
+                        {% lucide "info" class="w-4 h-4" %}
+                        <span>{% trans "Keep this token secret. It grants full access to your account." %}</span>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-bold">{% trans "Token Key" %}</span>
+                        </label>
+                        <div class="join w-full">
+                            <input type="password" 
+                                   id="api-token-input" 
+                                   value="{{ token.key }}" 
+                                   class="input input-bordered join-item w-full font-mono text-sm tracking-wider bg-base-200/50" 
+                                   readonly>
+                            
+                            <button class="btn join-item border-base-300 bg-base-100 hover:bg-base-200" 
+                                    onclick="toggleTokenVisibility()"
+                                    title="{% trans 'Show/Hide' %}">
+                                <span id="eye-icon">{% lucide "eye" class="w-4 h-4" %}</span>
+                                <span id="eye-off-icon" class="hidden">{% lucide "eye-off" class="w-4 h-4" %}</span>
+                            </button>
+                            
+                            <button class="btn join-item border-base-300 bg-base-100 hover:bg-base-200" 
+                                    onclick="copyToken()"
+                                    title="{% trans 'Copy' %}">
+                                <span id="copy-icon">{% lucide "copy" class="w-4 h-4" %}</span>
+                                <span id="check-icon" class="hidden text-green-500">{% lucide "check" class="w-4 h-4" %}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-base-200">
+                        <button onclick="rotate_modal.showModal()" class="btn btn-outline btn-error btn-sm w-full gap-2">
+                            {% lucide "refresh-cw" class="w-4 h-4" %}
+                            {% trans "Rotate Token" %}
+                        </button>
+                        
+                        <p id="token-last-rotated" class="text-[10px] text-center mt-2 opacity-50">
+                            {% trans "Last rotated:" %} {{ token.created|date:"M d, Y H:i" }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2">
+            <div class="card bg-base-100 shadow-lg border border-base-200 h-full">
+                
+                <div class="card-body p-0 flex flex-col">
+                    
+                    <div role="tablist" class="tabs tabs-bordered bg-base-200/30 rounded-t-2xl pt-2 px-2 flex-nowrap overflow-x-auto overflow-y-hidden">
+                        
+                        <button type="button" role="tab" class="tab tab-active h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="python" onclick="switchApiTab('python')">
+                            <span class="font-bold">Python</span>
+                        </button>
+
+                        <button type="button" role="tab" class="tab h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="js" onclick="switchApiTab('js')">
+                            <span class="font-bold">JavaScript</span>
+                        </button>
+
+                        <button type="button" role="tab" class="tab h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="csharp" onclick="switchApiTab('csharp')">
+                            <span class="font-bold">C#</span>
+                        </button>
+
+                        <button type="button" role="tab" class="tab h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="cpp" onclick="switchApiTab('cpp')">
+                            <span class="font-bold">C++</span>
+                        </button>
+
+                        <button type="button" role="tab" class="tab h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="c" onclick="switchApiTab('c')">
+                            <span class="font-bold">C</span>
+                        </button>
+
+                        <button type="button" role="tab" class="tab h-12 flex flex-row items-center justify-center gap-2 px-4 whitespace-nowrap api-tab-btn" data-tab="curl" onclick="switchApiTab('curl')">
+                            <span class="font-bold">cURL</span>
+                        </button>
+
+                    </div>
+
+                    <div class="bg-base-100 p-6 grow rounded-b-box border-t-0 relative">
+                        
+                        <div id="panel-python" class="api-tab-panel block mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-control">import</span> requests
+
+url = <span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>
+headers = {
+    <span class="vs-string">"Authorization"</span>: <span class="vs-string">"Token <span id="snippet-token-python" class="vs-string">{{ token.key }}</span>"</span>,
+    <span class="vs-string">"Content-Type"</span>: <span class="vs-string">"application/json"</span>
+}
+
+response = requests.<span class="vs-func">get</span>(url, headers=headers)
+<span class="vs-func">print</span>(response.<span class="vs-func">json</span>())</code></pre>
+                        </div>
+
+                        <div id="panel-js" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-keyword">const</span> url = <span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>;
+<span class="vs-keyword">const</span> headers = {
+    <span class="vs-property">"Authorization"</span>: <span class="vs-string">"Token <span id="snippet-token-js" class="vs-string">{{ token.key }}</span>"</span>,
+    <span class="vs-property">"Content-Type"</span>: <span class="vs-string">"application/json"</span>
+};
+
+<span class="vs-func">fetch</span>(url, { headers })
+    .<span class="vs-func">then</span>(res => res.<span class="vs-func">json</span>())
+    .<span class="vs-func">then</span>(data => console.<span class="vs-func">log</span>(data));</code></pre>
+                        </div>
+
+                        <div id="panel-csharp" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-keyword">using</span> System.Net.Http;
+<span class="vs-keyword">using</span> System.Net.Http.Headers;
+
+<span class="vs-keyword">var</span> client = <span class="vs-keyword">new</span> <span class="vs-type">HttpClient</span>();
+client.DefaultRequestHeaders.Authorization = 
+    <span class="vs-keyword">new</span> <span class="vs-type">AuthenticationHeaderValue</span>(<span class="vs-string">"Token"</span>, <span class="vs-string">"<span id="snippet-token-csharp" class="vs-string">{{ token.key }}</span>"</span>);
+
+<span class="vs-keyword">var</span> response = <span class="vs-control">await</span> client.<span class="vs-func">GetAsync</span>(<span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>);</code></pre>
+                        </div>
+
+                        <div id="panel-cpp" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-control">#include</span> <span class="vs-string">&lt;curl/curl.h&gt;</span>
+
+CURL *curl = <span class="vs-func">curl_easy_init</span>();
+<span class="vs-control">if</span>(curl) {
+  <span class="vs-func">curl_easy_setopt</span>(curl, CURLOPT_URL, <span class="vs-string">"https://{{ request.get_host }}..."</span>);
+  <span class="vs-func">curl_easy_setopt</span>(curl, CURLOPT_HTTPHEADER, 
+      <span class="vs-func">curl_slist_append</span>(NULL, <span class="vs-string">"Authorization: Token <span id="snippet-token-cpp" class="vs-string">{{ token.key }}</span>"</span>));
+  <span class="vs-func">curl_easy_perform</span>(curl);
+}</code></pre>
+                        </div>
+
+                        <div id="panel-c" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-control">#include</span> <span class="vs-string">&lt;curl/curl.h&gt;</span>
+
+<span class="vs-keyword">int</span> <span class="vs-func">main</span>(<span class="vs-keyword">void</span>) {
+  CURL *curl = <span class="vs-func">curl_easy_init</span>();
+  <span class="vs-control">if</span>(curl) {
+    <span class="vs-keyword">struct</span> <span class="vs-type">curl_slist</span> *headers = NULL;
+    headers = <span class="vs-func">curl_slist_append</span>(headers, <span class="vs-string">"Authorization: Token <span id="snippet-token-c" class="vs-string">{{ token.key }}</span>"</span>);
+    <span class="vs-func">curl_easy_perform</span>(curl);
+  }
+}</code></pre>
+                        </div>
+
+                        <div id="panel-curl" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden break-all whitespace-pre-wrap"><code>curl <span class="vs-keyword">-X GET</span> https://{{ request.get_host }}/api/v1/clusters/ \
+     <span class="vs-keyword">-H</span> <span class="vs-string">"Authorization: Token <span id="snippet-token-curl" class="vs-string">{{ token.key }}</span>"</span> \
+     <span class="vs-keyword">-H</span> <span class="vs-string">"Content-Type: application/json"</span></code></pre>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dialog id="rotate_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg text-error flex items-center gap-2">
+            {% lucide "triangle-alert" class="w-5 h-5" %}
+            {% trans "Rotate API Token?" %}
+        </h3>
+        <p class="py-4">
+            {% trans "This will immediately invalidate the current token. Applications using the old token will stop working until updated." %}
+        </p>
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn btn-ghost">{% trans "Cancel" %}</button>
+            </form>
+            <button hx-post="{% url 'api:rotate_token' %}"
+                    hx-swap="none"
+                    onclick="rotate_modal.close()"
+                    class="btn btn-error text-white">
+                {% trans "Yes, Rotate It" %}
+            </button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+{% partialdef oob_update %}
+    <input id="api-token-input" type="password" value="{{ token.key }}" 
+           class="input input-bordered join-item w-full font-mono text-sm tracking-wider bg-base-200/50" 
+           hx-swap-oob="true" readonly>
+
+    <p id="token-last-rotated" class="text-[10px] text-center mt-2 opacity-50 fade-in" hx-swap-oob="true">
+        {% trans "Last rotated:" %} {{ token.created|date:"M d, Y H:i" }}
+    </p>
+
+    <span id="snippet-token-python" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+    <span id="snippet-token-js" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+    <span id="snippet-token-csharp" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+    <span id="snippet-token-cpp" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+    <span id="snippet-token-c" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+    <span id="snippet-token-curl" hx-swap-oob="true" class="vs-string">{{ token.key }}</span>
+
+    <div id="toast-container" hx-swap-oob="afterbegin">
+        <div class="alert alert-success text-xs py-2 rounded-lg shadow-lg mb-2 animate-in fade-in slide-in-from-bottom-2">
+            {% lucide "check-circle" class="w-4 h-4" %}
+            <span>{% trans "Token rotated successfully!" %}</span>
+        </div>
+    </div>
+{% endpartialdef %}
+
+<script>
+    function toggleTokenVisibility() {
+        const input = document.getElementById("api-token-input");
+        const eyeIcon = document.getElementById("eye-icon");
+        const eyeOffIcon = document.getElementById("eye-off-icon");
+        
+        if (input.type === "password") {
+            input.type = "text";
+            eyeIcon.classList.add("hidden");
+            eyeOffIcon.classList.remove("hidden");
+        } else {
+            input.type = "password";
+            eyeIcon.classList.remove("hidden");
+            eyeOffIcon.classList.add("hidden");
+        }
+    }
+
+    function copyToken() {
+        const tokenVal = document.getElementById("api-token-input").value;
+        const copyIcon = document.getElementById("copy-icon");
+        const checkIcon = document.getElementById("check-icon");
+        
+        navigator.clipboard.writeText(tokenVal).then(() => {
+            copyIcon.classList.add("hidden");
+            checkIcon.classList.remove("hidden");
+            setTimeout(() => {
+                copyIcon.classList.remove("hidden");
+                checkIcon.classList.add("hidden");
+            }, 2000);
+        });
+    }
+
+    function switchApiTab(tabId) {
+        document.querySelectorAll('.api-tab-btn').forEach(btn => {
+            if (btn.dataset.tab === tabId) {
+                btn.classList.add('tab-active');
+            } else {
+                btn.classList.remove('tab-active');
+            }
+        });
+        
+        document.querySelectorAll('.api-tab-panel').forEach(panel => {
+            if (panel.id === 'panel-' + tabId) {
+                panel.classList.remove('hidden');
+                panel.classList.add('block');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('block');
+            }
+        });
+    }
+</script>
+{% endblock %}

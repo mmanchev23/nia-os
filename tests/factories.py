@@ -35,12 +35,13 @@ class NodeFactory(DjangoModelFactory):
     password = "encrypted_password_placeholder"
 
 
-class JobFactory(DjangoModelFactory):
+class ScheduledJobFactory(DjangoModelFactory):
     class Meta:
         model = ScheduledJob
 
     name = factory.Sequence(lambda n: f"Job {n}")
     user = factory.SubFactory(UserFactory)
+    node = factory.SubFactory(NodeFactory)
     command = 'echo "hello"'
 
 
@@ -48,8 +49,8 @@ class JobExecutionFactory(DjangoModelFactory):
     class Meta:
         model = JobExecution
 
-    job = factory.SubFactory(JobFactory)
-    node = factory.SubFactory(NodeFactory)
+    job = factory.SubFactory(ScheduledJobFactory)
+    node = factory.SelfAttribute("job.node")
 
     status = JobExecution.Status.SUCCESS
     exit_code = 0

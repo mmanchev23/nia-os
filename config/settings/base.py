@@ -21,7 +21,9 @@ from config.env import env, BASE_DIR
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY", default="django-insecure-please-change-me")
+SECRET_KEY = env.str(
+    "SECRET_KEY", default="6gw(10%wc6b*z%bcv(^rf=9rqtqkg_7si^1baqy3sz*goi+pnt"
+)
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])  # pyright: ignore[reportArgumentType]
@@ -43,6 +45,10 @@ THIRD_PARTY_APPS = [
     "unfold.contrib.filters",
     "unfold.contrib.forms",
     "unfold.contrib.inlines",
+    "adrf",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -51,6 +57,7 @@ LOCAL_APPS = [
     "apps.infrastructure",
     "apps.automation",
     "apps.monitoring",
+    "apps.api",
 ]
 
 INSTALLED_APPS = [
@@ -71,6 +78,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -178,9 +186,11 @@ SITE_ID = 1
 
 # Third-party app settings
 from config.plugins.allauth import *  # noqa
+from config.plugins.cors import *  # noqa
 from config.plugins.email import *  # noqa
 from config.plugins.fernet import *  # noqa
 from config.plugins.q2 import *  # noqa
+from config.plugins.rest import *  # noqa
 from config.plugins.tailwind import *  # noqa
 from config.plugins.unfold import *  # noqa
 from config.plugins.whitenoise import *  # noqa

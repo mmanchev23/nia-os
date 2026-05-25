@@ -54,18 +54,33 @@
 
             <div class="flex-1 overflow-y-auto px-4 space-y-6 py-2">
                 {% if request.user.is_authenticated %}
-                
-                <div class="space-y-1">
-                    <a href="{% url 'dashboard' %}" 
-                       class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
-                       {% if request.resolver_match.url_name == 'dashboard' %}
-                           bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
-                       {% else %}
-                           text-base-content/70 hover:bg-base-200 hover:pl-6
-                       {% endif %}">
-                        {% lucide "layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                        <span class="text-sm">{% trans "Dashboard" %}</span>
-                    </a>
+
+                {% if request.user.is_superuser %}
+                <div>
+                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "System" %}</div>
+                    <div class="space-y-1">
+                        <a href="{% url 'admin:index' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
+                            {% lucide "shield-check" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
+                            <span class="text-sm">{% trans "Admin Panel" %}</span>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div>
+                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "Monitoring" %}</div>
+                    <div class="space-y-1">
+                        <a href="{% url 'dashboard' %}" 
+                        class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
+                        {% if request.resolver_match.url_name == 'dashboard' %}
+                            bg-gradient-to-r from-[#42A5F5]/10 to-transparent text-[#42A5F5] font-bold border-l-4 border-[#42A5F5]
+                        {% else %}
+                            text-base-content/70 hover:bg-base-200 hover:pl-6
+                        {% endif %}">
+                            {% lucide "layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
+                            <span class="text-sm">{% trans "Live Dashboard" %}</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div>
@@ -79,7 +94,7 @@
                                text-base-content/70 hover:bg-base-200 hover:pl-6
                            {% endif %}">
                             {% lucide "boxes" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Clusters" %}</span>
+                            <span class="text-sm">{% trans "Resource Clusters" %}</span>
                         </a>
 
                         <a href="{% url 'nodes' %}" 
@@ -106,22 +121,26 @@
                                text-base-content/70 hover:bg-base-200 hover:pl-6
                            {% endif %}">
                             {% lucide "workflow" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Jobs & Tasks" %}</span>
+                            <span class="text-sm">{% trans "Jobs &amp; Tasks" %}</span>
                         </a>
                     </div>
                 </div>
 
-                {% if request.user.is_superuser %}
                 <div>
-                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "System" %}</div>
+                    <div class="px-4 text-[10px] font-extrabold text-base-content/30 uppercase tracking-widest mb-3">{% trans "API" %}</div>
                     <div class="space-y-1">
-                        <a href="{% url 'admin:index' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
-                            {% lucide "shield-check" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
-                            <span class="text-sm">{% trans "Admin Panel" %}</span>
+                        <a href="{% url 'api:api-root' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
+                            {% lucide "code-xml" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
+                            <span class="text-sm">{% trans "Version 1" %}</span>
+                        </a>
+                    </div>
+                    <div class="space-y-1">
+                        <a href="{% url 'api:tokens' %}" class="flex items-center gap-4 px-4 py-3 rounded-xl text-base-content/70 hover:bg-base-200 hover:pl-6 transition-all duration-200 group">
+                            {% lucide "key" class="w-5 h-5 group-hover:scale-110 transition-transform" %}
+                            <span class="text-sm">{% trans "Access Tokens" %}</span>
                         </a>
                     </div>
                 </div>
-                {% endif %}
 
                 {% endif %}
             </div>
@@ -139,7 +158,7 @@
 
                     {% get_current_language as LANGUAGE_CODE %}
                     {% get_available_languages as LANGUAGES %}
-                    
+
                     <div class="dropdown dropdown-top dropdown-center">
                         <div tabindex="0" role="button" class="btn btn-sm btn-ghost btn-circle text-base-content/70 hover:text-[#42A5F5]">
                             <span class="text-lg leading-none pt-0.5">

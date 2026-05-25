@@ -6,7 +6,7 @@ from apps.automation.services import JobService
 from apps.automation.models import ScheduledJob
 from apps.automation.dtos import JobDTO
 
-from tests.factories import ClusterFactory, NodeFactory, JobFactory
+from tests.factories import ClusterFactory, NodeFactory, ScheduledJobFactory
 
 
 pytestmark = pytest.mark.django_db
@@ -54,7 +54,7 @@ class TestJobService:
         assert job.schedule.schedule_type == "D"
 
     def test_update_job_schedule(self) -> None:
-        job = JobFactory(name="Old Job", command="echo 1")
+        job = ScheduledJobFactory(name="Old Job", command="echo 1")
         node = NodeFactory()
         dto = JobDTO(node.cluster.user, "Init", "echo 1", "O", "node", node.id)
         job = JobService.create(dto)
