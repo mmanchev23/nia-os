@@ -130,7 +130,7 @@
                         <div id="panel-python" class="api-tab-panel block mockup-code vs-code text-sm shadow-xl min-w-0">
 <pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-control">import</span> requests
 
-url = <span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>
+url = <span class="vs-string">"{{ host }}/api/v1/clusters/"</span>
 headers = {
     <span class="vs-string">"Authorization"</span>: <span class="vs-string">"Token <span id="snippet-token-python" class="vs-string">{{ token.key }}</span>"</span>,
     <span class="vs-string">"Content-Type"</span>: <span class="vs-string">"application/json"</span>
@@ -141,7 +141,7 @@ response = requests.<span class="vs-func">get</span>(url, headers=headers)
                         </div>
 
                         <div id="panel-js" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
-<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-keyword">const</span> url = <span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>;
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden"><code><span class="vs-keyword">const</span> url = <span class="vs-string">"{{ host }}/api/v1/clusters/"</span>;
 <span class="vs-keyword">const</span> headers = {
     <span class="vs-property">"Authorization"</span>: <span class="vs-string">"Token <span id="snippet-token-js" class="vs-string">{{ token.key }}</span>"</span>,
     <span class="vs-property">"Content-Type"</span>: <span class="vs-string">"application/json"</span>
@@ -160,7 +160,7 @@ response = requests.<span class="vs-func">get</span>(url, headers=headers)
 client.DefaultRequestHeaders.Authorization = 
     <span class="vs-keyword">new</span> <span class="vs-type">AuthenticationHeaderValue</span>(<span class="vs-string">"Token"</span>, <span class="vs-string">"<span id="snippet-token-csharp" class="vs-string">{{ token.key }}</span>"</span>);
 
-<span class="vs-keyword">var</span> response = <span class="vs-control">await</span> client.<span class="vs-func">GetAsync</span>(<span class="vs-string">"https://{{ request.get_host }}/api/v1/clusters/"</span>);</code></pre>
+<span class="vs-keyword">var</span> response = <span class="vs-control">await</span> client.<span class="vs-func">GetAsync</span>(<span class="vs-string">"{{ host }}/api/v1/clusters/"</span>);</code></pre>
                         </div>
 
                         <div id="panel-cpp" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
@@ -168,7 +168,7 @@ client.DefaultRequestHeaders.Authorization =
 
 CURL *curl = <span class="vs-func">curl_easy_init</span>();
 <span class="vs-control">if</span>(curl) {
-  <span class="vs-func">curl_easy_setopt</span>(curl, CURLOPT_URL, <span class="vs-string">"https://{{ request.get_host }}..."</span>);
+  <span class="vs-func">curl_easy_setopt</span>(curl, CURLOPT_URL, <span class="vs-string">"{{ host }}..."</span>);
   <span class="vs-func">curl_easy_setopt</span>(curl, CURLOPT_HTTPHEADER, 
       <span class="vs-func">curl_slist_append</span>(NULL, <span class="vs-string">"Authorization: Token <span id="snippet-token-cpp" class="vs-string">{{ token.key }}</span>"</span>));
   <span class="vs-func">curl_easy_perform</span>(curl);
@@ -189,7 +189,7 @@ CURL *curl = <span class="vs-func">curl_easy_init</span>();
                         </div>
 
                         <div id="panel-curl" class="api-tab-panel hidden mockup-code vs-code text-sm shadow-xl min-w-0">
-<pre class="px-6 py-4 pt-0 mb-0 before:hidden break-all whitespace-pre-wrap"><code>curl <span class="vs-keyword">-X GET</span> https://{{ request.get_host }}/api/v1/clusters/ \
+<pre class="px-6 py-4 pt-0 mb-0 before:hidden break-all whitespace-pre-wrap"><code>curl <span class="vs-keyword">-X GET</span> {{ host }}/api/v1/clusters/ \
      <span class="vs-keyword">-H</span> <span class="vs-string">"Authorization: Token <span id="snippet-token-curl" class="vs-string">{{ token.key }}</span>"</span> \
      <span class="vs-keyword">-H</span> <span class="vs-string">"Content-Type: application/json"</span></code></pre>
                         </div>

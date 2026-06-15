@@ -107,10 +107,11 @@
         </div>
 
         <div class="lg:col-span-1">
-            <div class="card bg-[#1e1e1e] text-gray-300 shadow-xl overflow-hidden">
+            <div class="card bg-base-100 shadow-lg border border-base-200 overflow-hidden">
                 <div class="card-body p-6">
-                    <div class="flex items-center gap-2 text-white mb-4">
-                        {% lucide "cloud-download" class="w-6 h-6 text-green-400" %}
+                    
+                    <div class="flex items-center gap-2 mb-4">
+                        {% lucide "cloud-download" class="w-6 h-6 text-[#42A5F5]" %}
                         <h3 class="card-title text-lg">{% trans "Agent Setup" %}</h3>
                     </div>
                     
@@ -119,15 +120,15 @@
                     </p>
 
                     <div class="relative group">
-                        <div class="mockup-code bg-black text-xs min-w-0 pr-12">
-                            <pre class="whitespace-pre-wrap break-all p-4 pt-0"><code id="install-cmd" class="text-green-400">{{ install_cmd }}</code></pre>
+                        <div class="font-mono text-xs bg-base-200 p-4 rounded-xl border border-base-300 whitespace-pre-wrap break-all pr-12">
+<code id="install-cmd" class="text-success">{{ install_cmd }}</code>
                         </div>
                         
-                        <button onclick="copyCommand()" 
-                                class="absolute top-2 right-2 btn btn-xs btn-square btn-ghost text-white opacity-50 hover:opacity-100 hover:bg-white/20 transition-all"
+                        <button onclick="copyCommand('install-cmd', this)" 
+                                class="absolute top-2 right-2 btn btn-xs btn-square btn-ghost opacity-50 hover:opacity-100 hover:bg-base-300 transition-all"
                                 title="{% trans 'Copy to clipboard' %}">
-                            <span id="copy-icon">{% lucide "copy" class="w-4 h-4" %}</span>
-                            <span id="check-icon" class="hidden text-green-400">{% lucide "check" class="w-4 h-4" %}</span>
+                            <span class="copy-icon">{% lucide "copy" class="w-4 h-4" %}</span>
+                            <span class="check-icon hidden text-success">{% lucide "check" class="w-4 h-4" %}</span>
                         </button>
                     </div>
 
@@ -135,6 +136,31 @@
                         {% lucide "info" class="w-4 h-4" %}
                         <span>{% trans "Standard Python libraries only. No pip required." %}</span>
                     </div>
+
+                    <div class="divider my-2"></div>
+
+                    <div class="flex items-center gap-2 mb-4">
+                        {% lucide "power-off" class="w-5 h-5 text-error" %}
+                        <h3 class="card-title text-lg">{% trans "Stop Agent" %}</h3>
+                    </div>
+                    
+                    <p class="text-sm opacity-80 mb-4">
+                        {% trans "Run this command to terminate the background monitoring process." %}
+                    </p>
+
+                    <div class="relative group">
+                        <div class="font-mono text-xs bg-base-200 p-4 rounded-xl border border-base-300 whitespace-pre-wrap break-all pr-12">
+<code id="kill-cmd" class="text-error">{{ remove_cmd }}</code>
+                        </div>
+                        
+                        <button onclick="copyCommand('kill-cmd', this)" 
+                                class="absolute top-2 right-2 btn btn-xs btn-square btn-ghost opacity-50 hover:opacity-100 hover:bg-base-300 transition-all"
+                                title="{% trans 'Copy to clipboard' %}">
+                            <span class="copy-icon">{% lucide "copy" class="w-4 h-4" %}</span>
+                            <span class="check-icon hidden text-success">{% lucide "check" class="w-4 h-4" %}</span>
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -143,10 +169,10 @@
 </div>
 
 <script>
-    function copyCommand() {
-        const cmdText = document.getElementById("install-cmd").innerText;
-        const copyIcon = document.getElementById("copy-icon");
-        const checkIcon = document.getElementById("check-icon");
+    function copyCommand(elementId, btn) {
+        const cmdText = document.getElementById(elementId).innerText;
+        const copyIcon = btn.querySelector('.copy-icon');
+        const checkIcon = btn.querySelector('.check-icon');
         
         navigator.clipboard.writeText(cmdText).then(() => {
             copyIcon.classList.add("hidden");

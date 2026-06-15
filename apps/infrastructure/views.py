@@ -247,9 +247,11 @@ def node(request: HttpRequest, node_id: UUID) -> HttpResponse:
     agent_url = f"{host}/static/agent.py"
     ingest_url = f"{host}/monitoring/api/ingest/"
     install_cmd = f"nohup bash -c 'curl -s {agent_url} | python3 - {ingest_url} {node.agent_key}' > /dev/null 2>&1 &"
+    remove_cmd = f'pkill -f "{host}/monitoring/api/ingest/"'
     context = {
         "node": node,
         "install_cmd": install_cmd,
+        "remove_cmd": remove_cmd,
     }
 
     return render(request, "infrastructure/node.html", context)

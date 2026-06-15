@@ -18,10 +18,12 @@ class TokenDashboardView(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         token, _ = Token.objects.get_or_create(user=request.user)
+        host = request.build_absolute_uri("/")[:-1]
 
         context = {
             "token": token,
             "request": request,
+            "host": host,
         }
 
         return render(request, self.template_name, context)
