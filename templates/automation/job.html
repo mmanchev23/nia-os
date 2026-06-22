@@ -113,7 +113,7 @@
                                                 {% endif %}
                                                 
                                                 {% if exec.stderr %}
-                                                    <div class="text-red-400 border-l-2 border-red-700 pl-2 mt-4">
+                                                    <div class="border-l-2 pl-2 mt-4 {% if 'WARNING' in exec.stderr %}text-yellow-500 border-yellow-600{% else %}text-red-400 border-red-700{% endif %}">
                                                         <div class="opacity-50 mb-1">STDERR ({% trans "Exit Code" %}: {{ exec.exit_code }})</div>
                                                         <pre class="whitespace-pre-wrap">{{ exec.stderr }}</pre>
                                                     </div>
