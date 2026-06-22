@@ -27,41 +27,6 @@
                         </p>
                     </div>
                 </div>
-
-                <div class="stats shadow w-full bg-base-100 border border-base-200">
-                    <div class="stat p-4">
-                        <div class="stat-title flex items-center gap-2">
-                            {% lucide "calendar" class="w-4 h-4" %} {% trans "Schedule" %}
-                        </div>
-                        <div class="stat-value text-lg">
-                            {% if job.schedule %}
-                                {{ job.schedule.get_schedule_type_display|default:job.schedule.schedule_type }}
-                            {% else %}
-                                {% trans "One-off Run" %}
-                            {% endif %}
-                        </div>
-                        <div class="stat-desc">
-                            {% if job.schedule.next_run %}
-                                {% blocktrans with next=job.schedule.next_run|date:"M d, H:i" %}Next: {{ next }}{% endblocktrans %}
-                            {% else %}
-                                {% trans "Not scheduled" %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="stat p-4">
-                        <div class="stat-title flex items-center gap-2">
-                            {% lucide "clock" class="w-4 h-4" %} {% trans "Last Run" %}
-                        </div>
-                        <div class="stat-value text-lg">
-                            {% if job.last_run_at %}
-                                {{ job.last_run_at|timesince }} {% trans "ago" %}
-                            {% else %}
-                                {% trans "Never" %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="w-full md:w-1/2">
