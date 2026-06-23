@@ -23,4 +23,9 @@ urlpatterns = [
     path("nodes/<uuid:node_id>/update/", views.node_update, name="node_update"),
     path("nodes/<uuid:node_id>/delete/", views.node_delete, name="node_delete"),
     path("nodes/<uuid:node_id>/terminal/", views.terminal, name="terminal"),
+    path(
+        "node_bulk_upload/<uuid:cluster_id>/",
+        views.node_bulk_upload,
+        name="node_bulk_upload",
+    ),
 ]

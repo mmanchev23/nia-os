@@ -1,3 +1,5 @@
+import json
+
 from uuid import UUID
 
 from django.http import HttpResponse
@@ -398,3 +400,50 @@ def terminal(request: HttpRequest, node_id: UUID) -> HttpResponse:
         return HttpResponse(status=404)
 
     return render(request, "infrastructure/terminal.html", {"node": node})
+
+
+@login_required
+def node_bulk_upload(request: HttpRequest, cluster_id: UUID) -> HttpResponse:
+    try:
+        cluster = ClusterService.get(cluster_id, request.user)
+    except Cluster.DoesNotExist:
+        messages.error(request, "The cluster is not found or you do not have access.")
+        return HttpResponse(status=404)
+
+    if request.method == "POST" and request.FILES.get("json_file"):
+        json_file = request.FILES["json_file"]
+
+        try:
+            data = json.load(json_file)
+            if not isinstance(data, list):
+                raise ValueError("The JSON file must contain a list of objects.")
+
+            created_count = 0
+            for item in data:
+                if isinstance(item, dict):
+                    node_dto = NodeDTO(
+                        cluster=cluster,
+                        hostname=item.get("hostname", ""),
+                        ip_address=item.get("ip_address", ""),
+                        port=item.get("port", 22),
+                        username=item.get("username", ""),
+                        password=item.get("password", ""),
+                    )
+                    NodeService.create(node_dto)
+                    created_count += 1
+
+            if created_count:
+                messages.success(request, f"Successfully added {created_count} nodes!")
+            else:
+                messages.warning(
+                    request, "The file does not contain valid nodes to add."
+                )
+
+        except json.JSONDecodeError:
+            messages.error(request, "Invalid JSON format.")
+        except Exception as e:
+            messages.error(
+                request, f"An error occurred while reading the file: {str(e)}"
+            )
+
+    return _render_node_table(request, cluster=cluster)
