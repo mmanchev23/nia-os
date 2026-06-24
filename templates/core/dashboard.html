@@ -178,10 +178,15 @@
                             <tr class="hover">
                                 <td class="font-medium">{{ job.name }}</td>
                                 <td>
-                                    {% if job.schedule.schedule_type == 'O' %}
-                                        <span class="badge badge-ghost badge-xs">{% trans "Once" %}</span>
-                                    {% elif job.schedule.schedule_type == 'I' %}
-                                        <span class="badge badge-info badge-xs text-white">{% blocktrans with min=job.schedule.minutes %}Every {{ min }}m{% endblocktrans %}</span>
+                                    {% if job.schedule %}
+                                        <div class="badge badge-info badge-outline gap-1 text-xs">
+                                            {% lucide "repeat" class="w-3 h-3" %}
+                                            {{ job.schedule.get_schedule_type_display|default:job.schedule.schedule_type }}
+                                        </div>
+                                    {% else %}
+                                        <div class="badge badge-ghost badge-outline gap-1 text-xs">
+                                            {% lucide "play" class="w-3 h-3" %} {% trans "One-off" %}
+                                        </div>
                                     {% endif %}
                                 </td>
                                 <td class="text-xs opacity-70">
