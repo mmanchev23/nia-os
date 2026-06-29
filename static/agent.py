@@ -6,7 +6,7 @@ import urllib.error
 import urllib.request
 
 
-DEFAULT_INTERVAL = 30
+DEFAULT_INTERVAL = 15
 
 
 def get_config() -> tuple[str, str, int]:
